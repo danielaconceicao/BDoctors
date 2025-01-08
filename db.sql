@@ -1,0 +1,26 @@
+-- TABELLA DOTTORI
+
+CREATE TABLE Dottori (
+     ID INT AI,
+     Nome VARCHAR(50) NOT NULL,
+     Cognome VARCHAR(50) NOT NULL,
+     Email VARCHAR(100) NOT NULL UNIQUE,
+     Specializzazione VARCHAR(255) NOT NULL,
+     Telefono INT NOT NULL,
+     Indirizzo VARCHAR(100) NOT NULL,
+     PRIMARY KEY (ID)
+);
+
+
+-- -- TABELLA RECENSIONI:
+CREATE TABLE Recensioni (
+    ID INT AI,
+    Nome VARCHAR(50) NOT NULL,
+    Cognome VARCHAR(50) NOT NULL,
+    Descrizione TEXT(500) NOT NULL,
+    Voto TINYINT NOT NULL,
+    DoctorID INT NOT NULL,
+    PRIMARY KEY (ID),
+    FOREIGN KEY (DoctorID) REFERENCES Dottori(ID)
+    ON DELETE CASCADE ON UPDATE CASCADE
+); 
