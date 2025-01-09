@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors')
 const server = express();
 
-const host = process.env.HOST || "localhost"
+const host = process.env.HOST || "http://localhost"
 const port = process.env.PORT || 3000
 
 server.use(cors())
