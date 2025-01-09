@@ -39,6 +39,8 @@ function store(req, res) {
 // Elimina un dottore
 function destroy(req, res) {
     const { id } = req.params;
+    console.log(id);
+
 
     if (!id) {
         return res.status(400).json({ error: 'ID del dottore è obbligatorio' });

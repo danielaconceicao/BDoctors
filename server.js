@@ -18,8 +18,6 @@ server.get("/", (req, res) => {
     res.status(200).json({ message: "Welcome to the server!" })
 })
 
-server.get('/', router)
-
 server.use("/", router)
 
 
