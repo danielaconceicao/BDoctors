@@ -1,12 +1,12 @@
 const db = require('../database/db');
-const { emailRegex } = require('../utils/helper');
+const { emailRegex, phoneRegex } = require('../utils/helper');
 
 // Recupera tutti i dottori
 function index(req, res) {
-    db.query('SELECT * FROM Dottori', (error, results) => {
+    db.query('SELECT * FROM doctors', (error, results) => {
         if (error) {
             console.error(error);
-            return res.status(500).json({ error: 'Errore nel recupero dei dati' });
+            return res.status(500).json({ error: 'Error retrieving doctors' });
         }
         res.json(results);
     });
@@ -14,36 +14,41 @@ function index(req, res) {
 
 // Aggiungi un nuovo dottore
 function store(req, res) {
-    const { Nome, Cognome, Email, Specializzazione, Telefono, Indirizzo } = req.body;
+    const { first_name, last_name, email, specialization, phone_number, address } = req.body;
 
     // Verifica che tutti i campi siano forniti
-    if (!Nome || !Cognome || !Email || !Specializzazione || !Telefono || !Indirizzo) {
-        return res.status(400).json({ error: 'Tutti i campi sono obbligatori' });
+    if (!first_name || !last_name || !email || !specialization || !phone_number || !address) {
+        return res.status(400).json({ error: 'All fields are required' });
     }
 
-    // Verifica che Nome e Cognome abbiano almeno 3 caratteri
-    if (Nome.length < 3 || Cognome.length < 3) {
-        return res.status(400).json({ error: 'Nome e Cognome devono avere almeno 3 caratteri' });
+    // Verifica che first_name e last_name abbiano almeno 3 caratteri
+    if (first_name.length < 3 || last_name.length < 3) {
+        return res.status(400).json({ error: 'First name and last name must be at least 3 characters' });
     }
 
-    // Verifica validità dell'Email
-    if (!emailRegex.test(Email)) {
-        return res.status(400).json({ error: 'Email non valida' });
+    // Verifica validità dell'email
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({ error: 'Invalid email format' });
+    }
+
+    // Verifica che il numero di telefono contenga solo numeri e/o "+"
+    if (!phoneRegex.test(phone_number)) {
+        return res.status(400).json({ error: 'Phone number can only contain numbers and the "+" character' });
     }
 
     // Query per aggiungere il dottore
     db.query(
-        'INSERT INTO Dottori (Nome, Cognome, Email, Specializzazione, Telefono, Indirizzo) VALUES (?, ?, ?, ?, ?, ?)',
-        [Nome, Cognome, Email, Specializzazione, Telefono, Indirizzo],
+        'INSERT INTO doctors (first_name, last_name, email, specialization, phone_number, address) VALUES (?, ?, ?, ?, ?, ?)',
+        [first_name, last_name, email, specialization, phone_number, address],
         (error, results) => {
             if (error) {
                 console.error(error);
                 if (error.code === 'ER_DUP_ENTRY') {
-                    return res.status(400).json({ error: 'Email già in uso' });
+                    return res.status(400).json({ error: 'Email already in use' });
                 }
-                return res.status(500).json({ error: 'Errore durante l\'inserimento del dottore' });
+                return res.status(500).json({ error: 'Error adding doctor' });
             }
-            res.status(201).json({ message: 'Dottore aggiunto con successo', id: results.insertId });
+            res.status(201).json({ message: 'Doctor added successfully', id: results.insertId });
         }
     );
 }
@@ -51,29 +56,27 @@ function store(req, res) {
 // Elimina un dottore
 function destroy(req, res) {
     const { id } = req.params;
-    // console.log(id);
 
     if (!id) {
-        return res.status(400).json({ error: 'ID del dottore è obbligatorio' });
+        return res.status(400).json({ error: 'Doctor ID is required' });
     }
 
-    db.query('DELETE FROM Dottori WHERE ID = ?', [id], (error, results) => {
+    db.query('DELETE FROM doctors WHERE id = ?', [id], (error, results) => {
         if (error) {
             console.error(error);
-            return res.status(500).json({ error: 'Errore durante l\'eliminazione del dottore' });
+            return res.status(500).json({ error: 'Error deleting doctor' });
         }
 
         if (results.affectedRows === 0) {
-            return res.status(404).json({ error: 'Dottore non trovato' });
+            return res.status(404).json({ error: 'Doctor not found' });
         }
 
-        res.json({ message: 'Dottore eliminato con successo' });
+        res.json({ message: 'Doctor deleted successfully' });
     });
 }
-
 
 module.exports = {
     index,
     store,
-    destroy
-}
+    destroy,
+};
