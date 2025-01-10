@@ -13,14 +13,14 @@ const getReviews = function (req, res) {
 }
 
 const postReview = function (req, res) {
-    const { first_name, last_name, description, rating, DoctorID } = req.body
+    const { first_name, last_name, description, rating, doctor_id } = req.body
 
-    if (!first_name || !last_name || !description || !rating || !DoctorID) {
+    if (!first_name || !last_name || !description || !rating || !doctor_id) {
         return res.status(400).send('Tutti i campi sono obbligatori')
     }
-    const sql = 'INSERT INTO reviews (first_name, last_name, description, rating, DoctorID) VALUES (?,?,?,?,?)'
+    const sql = 'INSERT INTO reviews (first_name, last_name, description, rating, doctor_id) VALUES (?,?,?,?,?)'
 
-    db.query(sql, [first_name, last_name, description, rating, DoctorID], function (err) {
+    db.query(sql, [first_name, last_name, description, rating, doctor_id], function (err) {
         if (err) {
             console.error('Errore nel salvataggio della recensione', err)
         } else {
