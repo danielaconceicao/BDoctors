@@ -3,7 +3,7 @@ const db = require('../database/db')
 
 const getReviews = function (req, res) {
 
-    db.query('SELECT * FROM recensioni', function (err, results) {
+    db.query('SELECT * FROM reviews', function (err, results) {
         if (err) {
             console.error('Errore nel recupero delle recensioni', err)
         } else {
@@ -13,14 +13,14 @@ const getReviews = function (req, res) {
 }
 
 const postReview = function (req, res) {
-    const { Nome, Cognome, Descrizione, Voto, DoctorID } = req.body
+    const { first_name, last_name, description, rate, DoctorID } = req.body
 
-    if (!Nome || !Cognome || !Descrizione || !Voto || !DoctorID) {
+    if (!first_name || !last_name || !description || !rate || !DoctorID) {
         return res.status(400).send('Tutti i campi sono obbligatori')
     }
-    const sql = 'INSERT INTO recensioni (Nome, Cognome, Descrizione, Voto, DoctorID) VALUES (?,?,?,?,?)'
+    const sql = 'INSERT INTO reviews (first_name, last_name, description, rate, DoctorID) VALUES (?,?,?,?,?)'
 
-    db.query(sql, [Nome, Cognome, Descrizione, Voto, DoctorID], function (err) {
+    db.query(sql, [first_name, last_name, description, rate, DoctorID], function (err) {
         if (err) {
             console.error('Errore nel salvataggio della recensione', err)
         } else {
@@ -30,9 +30,9 @@ const postReview = function (req, res) {
 }
 
 const getReviewById = function (req, res) {
-    const id = req.params.id
+    const id = req.params
 
-    const sql = 'SELECT * FROM recensioni WHERE id = ?'
+    const sql = 'SELECT * FROM reviews WHERE ID = ?'
 
     db.query(sql, [id], function (err, results) {
         if (err) {
@@ -45,8 +45,8 @@ const getReviewById = function (req, res) {
 
 
 const deleteReviewById = function (req, res) {
-    const id = req.params.id
-    const sql = 'DELETE FROM recensioni WHERE id =?'
+    const id = req.params
+    const sql = 'DELETE FROM reviews WHERE ID =?'
     db.query(sql, [id], function (err) {
         if (err) {
             console.error('Errore nel cancellazione della recensione', id, err)
