@@ -11,7 +11,6 @@ router.delete("/doctors/:id", doctorsController.destroy); // Delete a doctor
 
 
 // Review routes
-
 router.get("/reviews", reviewController.getReviews)
 router.get("/reviews/:id", reviewController.getReviewById)
 router.post("/reviews", reviewController.postReview)
