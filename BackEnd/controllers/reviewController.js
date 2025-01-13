@@ -22,7 +22,7 @@ const postReview = function (req, res) {
 
 
     if (!first_name || !last_name || !description || !rating || !doctor_id) {
-        return res.status(400).send('Tutti i campi sono obbligatori')
+        return res.status(400).json({ error: 'Tutti i campi sono obbligatori' })
     }
 
 
@@ -31,7 +31,7 @@ const postReview = function (req, res) {
     }
 
     if (!ratingRegex.test(rating)) {
-        return res.status(401).send('Il voto deve essere un carattere da 1 a 5')
+        return res.status(401).json({ error: 'Il voto deve essere un carattere da 1 a 5' })
     }
 
     // verifica che il dottore associato alla recensione sia presente nel database
@@ -43,7 +43,7 @@ const postReview = function (req, res) {
         if (err) {
             console.error('Errore nel salvataggio della recensione', err)
         } else {
-            res.status(200).send('Recensione salvata con successo')
+            res.status(200).json({ message: 'Recensione salvata con successo' })
         }
     })
 }
@@ -81,7 +81,7 @@ const deleteReviewById = function (req, res) {
             return res.status(404).json({ error: 'Recensione non trovata' });
         }
 
-        res.status(200).send('Recensione cancellata con successo');
+        res.status(200).json({ message: 'Recensione cancellata con successo' });
     });
 };
 
