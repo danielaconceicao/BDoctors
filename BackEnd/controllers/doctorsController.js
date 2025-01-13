@@ -3,7 +3,7 @@ const { emailRegex, phoneRegex } = require('../utils/helper');
 
 // Recupera tutti i dottori
 function index(req, res) {
-    db.query('SELECT * FROM doctors', (error, results) => {
+    db.query('SELECT d.ID AS doctor_id, d.first_name, d.last_name, d.email, d.phone_number, d.address, GROUP_CONCAT(s.specialization_name ORDER BY s.specialization_name) AS specializzazioni FROM doctors d JOIN doctor_specializations ds ON d.ID = ds.doctor_id JOIN specializations s ON ds.specialization_id = s.id GROUP BY d.ID', (error, results) => {
         if (error) {
             console.error(error);
             return res.status(500).json({ error: 'Error retrieving doctors' });
@@ -14,11 +14,11 @@ function index(req, res) {
 
 // Aggiungi un nuovo dottore
 function store(req, res) {
-    const { first_name, last_name, email, specialization, phone_number, address } = req.body;
+    const { first_name, last_name, email, phone_number, address, specializations } = req.body;
 
     // Verifica che tutti i campi siano forniti
-    if (!first_name || !last_name || !email || !specialization || !phone_number || !address) {
-        return res.status(400).json({ error: 'All fields are required' });
+    if (!first_name || !last_name || !email || !phone_number || !address || !specializations) {
+        return res.status(400).json({ error: 'All fields, including specializations, are required' });
     }
 
     // Verifica che first_name e last_name abbiano almeno 3 caratteri
@@ -36,22 +36,39 @@ function store(req, res) {
         return res.status(400).json({ error: 'Phone number can only contain numbers and the "+" character' });
     }
 
+    // Verifica che le specializzazioni siano un array e contengano almeno un elemento
+    if (!Array.isArray(specializations) || specializations.length === 0) {
+        return res.status(400).json({ error: 'Specializations must be a non-empty array' });
+    }
+
     // Query per aggiungere il dottore
-    db.query(
-        'INSERT INTO doctors (first_name, last_name, email, specialization, phone_number, address) VALUES (?, ?, ?, ?, ?, ?)',
-        [first_name, last_name, email, specialization, phone_number, address],
-        (error, results) => {
-            if (error) {
-                console.error(error);
-                if (error.code === 'ER_DUP_ENTRY') {
-                    return res.status(400).json({ error: 'Email already in use' });
-                }
-                return res.status(500).json({ error: 'Error adding doctor' });
+    const doctorQuery = 'INSERT INTO doctors (first_name, last_name, email, phone_number, address) VALUES (?, ?, ?, ?, ?)';
+    db.query(doctorQuery, [first_name, last_name, email, phone_number, address], (error, results) => {
+        if (error) {
+            console.error(error);
+            if (error.code === 'ER_DUP_ENTRY') {
+                return res.status(400).json({ error: 'Email already in use' });
             }
-            res.status(201).json({ message: 'Doctor added successfully', id: results.insertId });
+            return res.status(500).json({ error: 'Error adding doctor' });
         }
-    );
+
+        const doctorId = results.insertId;
+
+        // Associa le specializzazioni al dottore
+        const specializationQuery = 'INSERT INTO doctor_specializations (doctor_id, specialization_id) VALUES ?';
+        const specializationValues = specializations.map(specId => [doctorId, specId]);
+
+        db.query(specializationQuery, [specializationValues], (specError) => {
+            if (specError) {
+                console.error(specError);
+                return res.status(500).json({ error: 'Error associating specializations to doctor' });
+            }
+
+            res.status(201).json({ message: 'Doctor added successfully with specializations', id: doctorId });
+        });
+    });
 }
+
 
 // Elimina un dottore
 function destroy(req, res) {
@@ -61,19 +78,29 @@ function destroy(req, res) {
         return res.status(400).json({ error: 'Doctor ID is required' });
     }
 
-    db.query('DELETE FROM doctors WHERE id = ?', [id], (error, results) => {
+    // Rimuovi prima le associazioni del dottore nella tabella doctor_specializations
+    db.query('DELETE FROM doctor_specializations WHERE doctor_id = ?', [id], (error) => {
         if (error) {
             console.error(error);
-            return res.status(500).json({ error: 'Error deleting doctor' });
+            return res.status(500).json({ error: 'Error deleting doctor specializations' });
         }
 
-        if (results.affectedRows === 0) {
-            return res.status(404).json({ error: 'Doctor not found' });
-        }
+        // Una volta eliminate le associazioni, elimina il dottore
+        db.query('DELETE FROM doctors WHERE id = ?', [id], (error, results) => {
+            if (error) {
+                console.error(error);
+                return res.status(500).json({ error: 'Error deleting doctor' });
+            }
 
-        res.json({ message: 'Doctor deleted successfully' });
+            if (results.affectedRows === 0) {
+                return res.status(404).json({ error: 'Doctor not found' });
+            }
+
+            res.json({ message: 'Doctor deleted successfully' });
+        });
     });
 }
+
 
 module.exports = {
     index,

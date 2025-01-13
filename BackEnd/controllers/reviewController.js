@@ -6,9 +6,9 @@ const getReviews = function (req, res) {
 
     db.query('SELECT * FROM reviews', function (err, results) {
         if (err) {
-            console.error('Errore nel recupero delle recensioni', err)
+            console.error('Error retrieving reviews', err)
         } else if (results.affectedRows === 0) {
-            return res.status(404).json({ error: 'Recensione non trovata' });
+            return res.status(404).json({ error: 'Review not found' });
         } else {
             res.json(results)
         }
@@ -19,19 +19,16 @@ const getReviews = function (req, res) {
 const postReview = function (req, res) {
     const { first_name, last_name, description, rating, doctor_id } = req.body
 
-
-
     if (!first_name || !last_name || !description || !rating || !doctor_id) {
-        return res.status(400).json({ error: 'Tutti i campi sono obbligatori' })
+        return res.status(400).json({ error: 'All fields are required' })
     }
 
-
     if (!nameRegex.test(first_name) || !nameRegex.test(last_name)) {
-        return res.status(401).json({ error: 'Il campo prevede una parola composta da soli caratteri alfabetici, lunga almeno 3 caratteri di cui il primo deve essere maiuscolo.' });
+        return res.status(401).json({ error: 'The name must consist only of alphabetic characters, at least 3 characters long, with the first letter capitalized.' });
     }
 
     if (!ratingRegex.test(rating)) {
-        return res.status(401).json({ error: 'Il voto deve essere un carattere da 1 a 5' })
+        return res.status(401).json({ error: 'The rating must be a character from 1 to 5' })
     }
 
     // verifica che il dottore associato alla recensione sia presente nel database
@@ -41,29 +38,29 @@ const postReview = function (req, res) {
 
     db.query(sql, [first_name, last_name, description, rating, doctor_id], function (err) {
         if (err) {
-            console.error('Errore nel salvataggio della recensione', err)
+            console.error('Error saving the review', err)
         } else {
-            res.status(200).json({ message: 'Recensione salvata con successo' })
+            res.status(200).json({ message: 'Review successfully saved' })
         }
     })
 }
 
 // recupera una recensione specifica per ID
 const getReviewById = function (req, res) {
-    const id = req.params
+    const { id } = req.params;
 
-    const sql = 'SELECT * FROM reviews WHERE ID = ?'
-
+    const sql = 'SELECT * FROM reviews WHERE doctor_id = ?';  // Filtra per doctor_id
 
     db.query(sql, [id], function (err, results) {
         if (err) {
-            console.error('Errore nel recupero della recensione', id, err)
-        } else if (results.affectedRows === 0) {
-            return res.status(404).json({ error: 'Recensione non trovata' });
+            console.error('Error retrieving the review', id, err);
+            return res.status(500).json({ error: 'Error retrieving the review' });
+        } else if (results.length === 0) {
+            return res.status(404).json({ error: 'Review not found' });
         } else {
-            res.json(results)
+            res.json(results);
         }
-    })
+    });
 }
 
 // cancella una recensione specifica per ID
@@ -73,24 +70,21 @@ const deleteReviewById = function (req, res) {
 
     db.query(sql, [id], function (err, result) {
         if (err) {
-            console.error('Errore nella cancellazione della recensione', id, err);
-            return res.status(500).json({ message: 'Errore nella cancellazione della recensione' });
+            console.error('Error deleting the review', id, err);
+            return res.status(500).json({ message: 'Error deleting the review' });
         }
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Recensione non trovata' });
+            return res.status(404).json({ error: 'Review not found' });
         }
 
-        res.status(200).json({ message: 'Recensione cancellata con successo' });
+        res.status(200).json({ message: 'Review successfully deleted' });
     });
 };
-
-
 
 module.exports = {
     getReviews,
     postReview,
     getReviewById,
     deleteReviewById
-
 }
