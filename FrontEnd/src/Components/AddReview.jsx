@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useGlobalContext } from "../GlobalContext/GlobalContext";
+import { useGlobalContext } from "../Context/GlobalContext";
 
 const AddReview = () => {
 

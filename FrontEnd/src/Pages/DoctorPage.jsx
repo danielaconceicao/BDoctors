@@ -1,4 +1,4 @@
-import { useGlobalContext } from "./Context/GlobalContext";
+import { useGlobalContext } from "../Context/GlobalContext";
 import AddReview from "../Components/AddReview";
 
 export default function DoctorPage() {

@@ -1,4 +1,4 @@
-import style from '../styles/AdvancedSearchPage.css';
+import style from '../styles/AdvancedSearchPage.module.css';
 
 export default function AdvancedSearchPage() {
 
