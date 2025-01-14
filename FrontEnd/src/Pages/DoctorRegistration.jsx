@@ -12,7 +12,7 @@ export default function DoctorRegistration(){
     function handleFormSubmit(e){
         e.preventDefault();
 
-        const doctorData = {first_name: firstName, last_name: lastName, email, phone_number: phone, address};
+        const doctorData = {first_name: firstName, last_name: lastName, email: email, phone_number: phone, address: address};
         const bdoctors = 'http://localhost:3000/doctors';
 
         fetch(bdoctors, {
