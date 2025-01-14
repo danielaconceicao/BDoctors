@@ -1,31 +1,29 @@
-import { useEffect } from "react";
 import { useGlobalContext } from "../GlobalContext/GlobalContext";
 
 export default function Home() {
-    const { data: doctors, loading, error, fetchData } = useGlobalContext();
-
-    useEffect(() => {
-        fetchData("/doctors");
-    }, [fetchData]);
+    const { specializations, loading, error } = useGlobalContext();
 
     return (
-        <>
-            <h1>Lista dei Dottori</h1>
+        <div>
+            <h1>Specializzazioni</h1>
+
             {loading && <p>Caricamento in corso...</p>}
             {error && <p>Errore: {error}</p>}
-            {!loading && !error && (
-                <ul>
-                    {doctors.map((doctor) => (
-                        <li key={doctor.doctor_id}>
-                            <h3>{doctor.first_name} {doctor.last_name}</h3>
-                            <p>Email: {doctor.email}</p>
-                            <p>Telefono: {doctor.phone_number}</p>
-                            <p>Indirizzo: {doctor.address}</p>
-                            <p>Specializzazioni: {doctor.specializations}</p>
-                        </li>
-                    ))}
-                </ul>
+
+            {!loading && !error && specializations.length === 0 && (
+                <p>Nessuna specializzazione disponibile.</p>
             )}
-        </>
+
+            {!loading && !error && specializations.length > 0 && (
+                <div className="cards-container">
+                    {specializations.map(specialization => (
+                        <div className="card" key={specialization.id}>
+                            <h3>{specialization.specialization_name}</h3>
+                            <p>{specialization.description}</p>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
     );
 }

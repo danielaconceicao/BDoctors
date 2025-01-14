@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, BrowserRouter } from 'react-rou
 import { GlobalContext } from '../GlobalContext/GlobalContext'
 import DefaultLayout from '../Pages/DefaultLayout'
 import Home from '../Pages/Home'
+import AdvancedSearchPage from '../Pages/AdvancedSearchPage'
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
           <Routes>
             <Route element={<DefaultLayout />} >
               <Route index element={<Home />} />
+              <Route path="/AdvancedSearchPage" element={<AdvancedSearchPage />} />
             </Route>
           </Routes>
         </BrowserRouter>
