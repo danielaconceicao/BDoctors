@@ -8,6 +8,7 @@ export function GlobalContext({ children }) {
     const [filteredDoctors, setFilteredDoctors] = useState([]); // Medici filtrati
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [doctor, setDoctor] = useState(null)
 
     // console.log(doctors);
     // console.log(specializations);
@@ -72,6 +73,7 @@ export function GlobalContext({ children }) {
         error,
         fetchDoctors,
         fetchSpecializations,
+        setDoctor
     };
 
     return (
