@@ -1,23 +1,11 @@
 import { useGlobalContext } from "../Context/GlobalContext";
 import AddReview from "../Components/AddReview";
+import "../i118";
 
 export default function DoctorPage() {
 
     const { doctors } = useGlobalContext();
-
-    /* traduzione delle specializzazioni  */
-    const specializationTranslations = {
-        "Cardiology": "Cardiologia",
-        "Dermatology": "Dermatologia",
-        "Pediatrics": "Pediatria",
-        "Neurology": "Neurologia",
-        "Orthopedics": "Ortopedia",
-        "Ophthalmology": "Oftalmologia",
-        "Oncology": "Oncologia",
-        "Psychiatry": "Psichiatria",
-        "Radiology": "Radiologia",
-        "Anesthesiology": "Anestesiologia"
-    };
+    const { t } = useTranslation();
 
     return (
         <>
