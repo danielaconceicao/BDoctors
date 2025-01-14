@@ -1,6 +1,6 @@
 import { useGlobalContext } from "../Context/GlobalContext";
 import { useTranslation } from "react-i18next";
-import "../src/i118";
+import "../i118";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 

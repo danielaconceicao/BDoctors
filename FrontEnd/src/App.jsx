@@ -1,8 +1,8 @@
 import './App.css'
 import { BrowserRouter as Router, Route, Routes, BrowserRouter } from 'react-router-dom'
-import { GlobalContext } from '../Context/GlobalContext'
-import DefaultLayout from '../Pages/DefaultLayout'
-import Home from '../Pages/Home'
+import { GlobalContext } from './Context/GlobalContext'
+import DefaultLayout from './Pages/DefaultLayout'
+import Home from './Pages/Home'
 
 
 
