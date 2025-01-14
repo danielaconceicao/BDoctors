@@ -3,7 +3,7 @@ const { emailRegex, phoneRegex } = require('../utils/helper');
 
 // Recupera tutti i dottori
 function index(req, res) {
-    db.query('SELECT d.ID AS doctor_id, d.first_name, d.last_name, d.email, d.phone_number, d.address, GROUP_CONCAT(s.specialization_name ORDER BY s.specialization_name) AS specializzazioni FROM doctors d JOIN doctor_specializations ds ON d.ID = ds.doctor_id JOIN specializations s ON ds.specialization_id = s.id GROUP BY d.ID', (error, results) => {
+    db.query('SELECT d.ID AS doctor_id, d.first_name, d.last_name, d.email, d.phone_number, d.address, GROUP_CONCAT(s.specialization_name ORDER BY s.specialization_name) AS specializations FROM doctors d JOIN doctor_specializations ds ON d.ID = ds.doctor_id JOIN specializations s ON ds.specialization_id = s.id GROUP BY d.ID', (error, results) => {
         if (error) {
             console.error(error);
             return res.status(500).json({ error: 'Error retrieving doctors' });
