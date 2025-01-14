@@ -1,7 +1,29 @@
-import { useGlobalContext } from "../GlobalContext/GlobalContext";
+import { useGlobalContext } from "../Context/GlobalContext";
+import { useTranslation } from "react-i18next";
+import "../src/i118";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
-    const { specializations, loading, error } = useGlobalContext();
+    const { specializations, doctors, setFilteredDoctors, loading, error } = useGlobalContext();
+    const { t } = useTranslation();
+    const [selectedSpecialization, setSelectedSpecialization] = useState(null);
+    const navigate = useNavigate();
+
+
+    const handleCardClick = (e) => {
+        const specializationName = e.currentTarget.getAttribute('data-specialization-name');
+        setSelectedSpecialization(specializationName);
+
+        // Filtra i dottori in base alla specializzazione selezionata
+        const filtered = doctors.filter(doctor => {
+            return doctor.specializations.split(',').includes(specializationName);
+        });
+
+        setFilteredDoctors(filtered); // Aggiorna lo stato con i dottori filtrati
+        // console.log('Dottori filtrati:', filtered);
+        navigate('/AdvancedSearchPage'); // Naviga alla pagina dei dottori filtrati
+    };
 
     return (
         <div>
@@ -17,13 +39,20 @@ export default function Home() {
             {!loading && !error && specializations.length > 0 && (
                 <div className="cards-container">
                     {specializations.map(specialization => (
-                        <div className="card" key={specialization.id}>
-                            <h3>{specialization.specialization_name}</h3>
+                        <div
+                            className="card"
+                            key={specialization.id}
+                            data-specialization-name={specialization.specialization_name}
+                            onClick={handleCardClick} // Aggiunto evento click
+                        >
+                            <h3>{t(specialization.specialization_name)}</h3>
                             <p>{specialization.description}</p>
                         </div>
                     ))}
                 </div>
             )}
+
+
         </div>
     );
 }

@@ -9,9 +9,9 @@ export function GlobalContext({ children }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    console.log(doctors);
-    console.log(specializations);
-    console.log(filteredDoctors);
+    // console.log(doctors);
+    // console.log(specializations);
+    // console.log(filteredDoctors);
 
 
 
