@@ -6,12 +6,14 @@ export function GlobalContext({ children }) {
     const [specializations, setSpecializations] = useState([]); // Specializzazioni
     const [doctors, setDoctors] = useState([]); // Tutti i dottori
     const [filteredDoctors, setFilteredDoctors] = useState([]); // Medici filtrati
+    const [reviews, setReviews] = useState([]); // Recensioni
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     // console.log(doctors);
     // console.log(specializations);
     // console.log(filteredDoctors);
+    // console.log(reviews);
 
 
 
@@ -56,22 +58,48 @@ export function GlobalContext({ children }) {
         }
     }, [fetchData]);
 
+    // Funzione per recuperare tutte le recensioni
+    const fetchReviews = useCallback(async () => {
+        try {
+            const data = await fetchData(`/reviews`);
+            setReviews(data);
+        } catch (err) {
+            console.error("Error fetching reviews:", err);
+        }
+    }, [fetchData]);
+
+    // Funzione per recuperare recensioni per ID del dottore
+    const fetchReviewByDoctorId = useCallback(async (doctorId) => {
+        try {
+            const data = await fetchData(`/reviews/${doctorId}`);
+            return data; // Restituisce i dati al chiamante
+        } catch (err) {
+            console.error(`Error fetching reviews for doctor ID ${doctorId}:`, err);
+            return null; // Restituisce null in caso di errore
+        }
+    }, [fetchData]);
+
+
     // Effettua il fetch iniziale
     useEffect(() => {
         fetchDoctors();
         fetchSpecializations();
-    }, [fetchDoctors, fetchSpecializations]);
+        fetchReviews();
+    }, [fetchDoctors, fetchSpecializations, fetchReviews]);
 
     // Valore fornito al contesto
     const value = {
+        loading,
+        error,
         doctors,
         specializations,
         filteredDoctors,
+        reviews,
         setFilteredDoctors,
-        loading,
-        error,
         fetchDoctors,
         fetchSpecializations,
+        fetchReviews,
+        fetchReviewByDoctorId
     };
 
     return (
