@@ -1,7 +1,7 @@
 import { useGlobalContext } from "../GlobalContext/GlobalContext";
-import AddReview from "./AddReview";
+import AddReview from "../Components/AddReview";
 
-export default function Doctors() {
+export default function DoctorPage() {
 
     const { doctors } = useGlobalContext();
 

@@ -3,7 +3,9 @@ import { BrowserRouter as Router, Route, Routes, BrowserRouter } from 'react-rou
 import { GlobalContext } from './Context/GlobalContext'
 import DefaultLayout from './Pages/DefaultLayout'
 import Home from './Pages/Home'
-
+import AdvancedSearchPage from './Pages/AdvancedSearchPage'
+import DoctorRegistration from './Pages/DoctorRegistration'
+import DoctorPage from './Pages/DoctorPage'
 
 
 function App() {
@@ -15,7 +17,9 @@ function App() {
           <Routes>
             <Route element={<DefaultLayout />} >
               <Route index element={<Home />} />
-
+              <Route path="/AdvancedSearch" element={<AdvancedSearchPage />} />
+              <Route path="/DoctorRegistration" element={<DoctorRegistration />} />
+              <Route path="/DoctorPage" element={<DoctorPage />} />
             </Route>
           </Routes>
         </BrowserRouter>
