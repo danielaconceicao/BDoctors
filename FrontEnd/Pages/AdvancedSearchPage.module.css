@@ -1,0 +1,9 @@
+.doctor {
+    display: flex;
+    align-items: center;
+
+}
+
+p {
+    margin: 0rem 1rem;
+}
