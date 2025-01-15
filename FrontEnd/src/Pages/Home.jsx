@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import "../i118";
 import { useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
+import FeaturedDoctorsCarousel from "../Components/FeaturedDoctorsCarousel";
 
 export default function Home() {
     const { specializations, doctors, setFilteredDoctors, loading, error } = useGlobalContext();
@@ -59,8 +60,9 @@ export default function Home() {
 
 
                 </div>
+                <h2>I Nostri Dottori in Evidenza</h2>
+                <FeaturedDoctorsCarousel />
             </div>
-
 
         </div>
     );
