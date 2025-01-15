@@ -1,14 +1,15 @@
 import style from '../styles/AdvancedSearchPage.module.css'
 import { useGlobalContext } from '../Context/GlobalContext.jsx'
-// import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from 'react-router-dom';
-// import "../i118.js";
+import "../i118.js";
 
 
 export default function AdvancedSearchPage() {
 
 
     const { filteredDoctors, setDoctor } = useGlobalContext()
+    const { t } = useTranslation();
 
     const navigate = useNavigate();
 
@@ -60,7 +61,7 @@ export default function AdvancedSearchPage() {
                         <p>Email: {doctor.email}</p>
                         <p>Tel: {doctor.phone_number}</p>
                         <p>Indirizzo: {doctor.address}</p>
-                        <p>Specializzazione: {doctor.specializations}</p>
+                        <p>Specializzazione: {doctor.specializations.split(",").map((spec) => t(spec.trim())).join(", ")}</p>
 
                     </div>))}
 
