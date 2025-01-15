@@ -6,9 +6,9 @@ import { useNavigate, NavLink } from "react-router-dom";
 import FeaturedDoctorsCarousel from "../Components/FeaturedDoctorsCarousel";
 
 export default function Home() {
-    const { specializations, doctors, setFilteredDoctors, loading, error } = useGlobalContext();
+    const { specializations, doctors, setFilteredDoctors, loading, error, setSelectedSpecialization } = useGlobalContext();
     const { t } = useTranslation();
-    const [selectedSpecialization, setSelectedSpecialization] = useState(null);
+
     const navigate = useNavigate();
 
 

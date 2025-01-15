@@ -11,6 +11,7 @@ export function GlobalContext({ children }) {
     const [error, setError] = useState(null);
     const [doctor, setDoctor] = useState(null)
     const [doctorReviews, setDoctorReviews] = useState([]);
+    const [selectedSpecialization, setSelectedSpecialization] = useState(null);
 
 
 
@@ -94,7 +95,7 @@ export function GlobalContext({ children }) {
 
 
     // Valore fornito al contesto
-    const value = {
+    const values = {
         loading,
         error,
         doctors,
@@ -108,11 +109,13 @@ export function GlobalContext({ children }) {
         fetchReviews,
         fetchReviewByDoctorId,
         setDoctor,
-        doctorReviews
+        doctorReviews,
+        selectedSpecialization,
+        setSelectedSpecialization
     };
 
     return (
-        <Context.Provider value={value}>
+        <Context.Provider value={values}>
             {children}
         </Context.Provider>
     );

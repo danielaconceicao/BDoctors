@@ -1,11 +1,14 @@
 .doctor {
     display: flex;
+
     align-items: center;
     margin: 1rem 0rem;
-    border: 1px solid black;
+    border: 2px solid rgb(183, 183, 184);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     flex-grow: 1;
     padding: 1rem;
+    transition: transform 0.3s;
 
 }
 
@@ -17,6 +20,114 @@
     p {
         margin: 0rem .5rem;
         width: calc(100% / 6);
-        border: 1px solid black;
+
+    }
+
+
+}
+
+.doctor:hover {
+    background-color: lightgray;
+    cursor: pointer;
+    transform: translateY(-10px);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+/* media queries */
+
+@media (max-width: 1100px) {
+    .px1100_p {
+        display: none;
+        width: calc(100% / 3);
+        margin: 0rem .3rem;
+    }
+
+    .doctor {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 1rem 0rem;
+        border: 2px solid rgb(183, 183, 184);
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        flex-grow: 1;
+        padding: 1rem;
+        transition: transform 0.3s;
+
+    }
+}
+
+
+@media (max-width: 768px) {
+    .px576_p {
+        display: none;
+        width: calc(100% / 2);
+        margin: 0rem 0rem;
+    }
+
+    .doctor {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin: 1rem 0rem;
+        border: 2px solid rgb(183, 183, 184);
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        flex-grow: 1;
+        padding: 1rem;
+        transition: transform 0.3s;
+
+    }
+}
+
+
+@media (max-width: 576px) {
+    .px576_p {
+        display: none;
+        width: calc(100% / 2);
+        margin: 0rem 0rem;
+    }
+
+    .doctor {
+        display: flex;
+        justify-content: space-around;
+
+        margin: 1rem 0rem;
+        border: 2px solid rgb(183, 183, 184);
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        flex-grow: 1;
+        padding: 1rem;
+        transition: transform 0.3s;
+
+    }
+}
+
+
+@media (max-width: 425px) {
+    .px576_p {
+        display: none;
+        width: calc(100% / 2);
+        margin: 0rem 0rem;
+    }
+
+    .doctor {
+        display: flex;
+        justify-content: start;
+
+        margin: 1rem 0rem;
+        border: 2px solid rgb(183, 183, 184);
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        flex-grow: 1;
+        padding: 1rem;
+        transition: transform 0.3s;
+
+        p {
+            margin: 0rem .5rem;
+            ;
+        }
+
     }
 }
