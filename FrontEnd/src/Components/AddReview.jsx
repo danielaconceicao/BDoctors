@@ -34,6 +34,19 @@ const AddReview = () => {
             alert('Per favore compila tutti i campi richiesti!');
             return;
         }
+        if (
+            formData.first_name.length < 3 ||
+            formData.last_name.length < 3 ||
+            !/^[A-Z]/.test(formData.first_name) ||
+            !/^[A-Z]/.test(formData.last_name)
+        ) {
+            alert('Il nome e il cognome devono avere almeno 3 caratteri e la prima lettera deve essere maiuscola!');
+            return;
+        }
+        if (formData.rating < 1 || formData.rating > 5) {
+            alert('Il voto deve essere compreso tra 1 e 5!');
+            return
+        }
 
         // Conversione del  rating in numero
         const formDataToSend = {
@@ -95,6 +108,7 @@ const AddReview = () => {
                         value={formData.first_name}
                         onChange={handleChange}
                         className="form-control"
+                        placeholder='Il nome prevede almeno 3 caratteri di cui il primo maiuscolo'
                         required
                     />
                 </div>
@@ -107,6 +121,7 @@ const AddReview = () => {
                         value={formData.last_name}
                         onChange={handleChange}
                         className="form-control"
+                        placeholder='Il cognome prevede almeno 3 caratteri di cui il primo maiuscolo'
                         required
                     />
                 </div>
@@ -134,6 +149,7 @@ const AddReview = () => {
                         min="1"
                         max="5"
                         required
+                        placeholder='Il voto prevede un valore compreso tra 1 e 5'
                     />
                 </div>
                 <div className="form-group mb-4">

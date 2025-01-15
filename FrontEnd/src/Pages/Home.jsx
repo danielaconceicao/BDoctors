@@ -32,7 +32,8 @@ export default function Home() {
             <div className="container">
                 <div className="d-flex justify-content-between">
                     <h1>Specializzazioni</h1>
-                    <NavLink to="/DoctorRegistration" className="register_btn">SEI UN DOTTORE? REGISTRATI QUI</NavLink>
+                    <NavLink to="/DoctorRegistration" className="register_btn d-none d-md-block">SEI UN DOTTORE? REGISTRATI QUI</NavLink>
+                    <NavLink to="/DoctorRegistration" className="register_btn d-md-none"><i className="bi bi-plus-circle"></i></NavLink>
 
                 </div>
                 <div className="row">
