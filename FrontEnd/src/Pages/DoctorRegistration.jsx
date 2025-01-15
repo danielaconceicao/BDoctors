@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
 import BackButton from '../Components/BackButton';
 import { useNavigate } from 'react-router-dom';
+import "../i118";
+import { useTranslation } from "react-i18next";
 
 export default function DoctorRegistration() {
 
+    const { t } = useTranslation();
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -48,7 +51,7 @@ export default function DoctorRegistration() {
             body: JSON.stringify(doctorData),
         })
             .then((res) => {
-                if(!res.ok){
+                if (!res.ok) {
                     return res.json().then((error) => {
                         throw new Error(error.message);
                     });
@@ -105,9 +108,9 @@ export default function DoctorRegistration() {
                             <label className='pb-3'>Specializzazione</label>
                             {specializations.map((spec) => (
                                 <div key={spec.id} className="form-check">
-                                    <input type="checkbox" id={`specialization-${spec.id}`} value={spec.id}className="form-check-input" checked={selectedSpecializations.includes(spec.id)} onChange={() => handleCheckboxChange(spec.id)}/>
+                                    <input type="checkbox" id={`specialization-${spec.id}`} value={spec.id} className="form-check-input" checked={selectedSpecializations.includes(spec.id)} onChange={() => handleCheckboxChange(spec.id)} />
                                     <label htmlFor={`specialization-${spec.id}`} className="form-check-label">
-                                        {spec.specialization_name}
+                                        {t(spec.specialization_name)}
                                     </label>
                                 </div>
                             ))}
