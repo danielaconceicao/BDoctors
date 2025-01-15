@@ -24,32 +24,33 @@ export default function DoctorPage() {
 
             <div className="container-sm">
                 <h1 className="text-center mb-4">Dottore</h1>
-
-                <div className="card mx-auto border border-2 border-secondary rounded p-3" style={{ width: "28rem" }}>
-                    <div className="card-body">
-                        <h4 className="card-title text-center ">
-                            <strong className="text-decoration-underline">
-                                {doctor.first_name} {doctor.last_name}
-                            </strong>
-
-                        </h4>
-                        <ul className="list-unstyled">
-                            <li><strong>Email:</strong> {doctor.email}</li>
-                            <li><strong>Telefono:</strong> {doctor.phone_number}</li>
-                            <li><strong>Indirizzo:</strong> {doctor.address}</li>
-                            <li>
-                                <strong>{t('Specializzazioni')}:</strong>
-                                <ul>
-                                    {doctor.specializations.split(',').map((spec, index) => (
-                                        <li key={index}>
-                                            {t(spec.trim()) || spec.trim()}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </li>
-                        </ul>
+                <div className="container d-flex justify-content-center mt-4">
+                    <div className="card border border-2 border-secondary rounded p-3" style={{ maxWidth: "28rem", width: "100%" }}>
+                        <div className="card-body">
+                            <h4 className="card-title text-center">
+                                <strong className="text-decoration-underline">
+                                    {doctor.first_name} {doctor.last_name}
+                                </strong>
+                            </h4>
+                            <ul className="list-unstyled">
+                                <li><strong>Email:</strong> {doctor.email}</li>
+                                <li><strong>Telefono:</strong> {doctor.phone_number}</li>
+                                <li><strong>Indirizzo:</strong> {doctor.address}</li>
+                                <li>
+                                    <strong>{t('Specializzazioni')}:</strong>
+                                    <ul>
+                                        {doctor.specializations.split(',').map((spec, index) => (
+                                            <li key={index}>
+                                                {t(spec.trim()) || spec.trim()}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
+
 
                 {/* componente per aggiungere review */}
                 <AddReview />
