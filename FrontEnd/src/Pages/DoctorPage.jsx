@@ -1,10 +1,18 @@
 import { useGlobalContext } from "../Context/GlobalContext";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 import AddReview from "../Components/AddReview";
 import "../i118";
+import ShowReviewsByDoctorId from "../Components/ShowReviewsByDoctorId";
+import AverageRating from "../Components/AverageRating";
 
 export default function DoctorPage() {
 
+    /* recupero id per le review */
+    const { doctorId } = useParams();
+    /* API per la lista di tutti i dottori  */
     const { doctors } = useGlobalContext();
+    /* traslate */
     const { t } = useTranslation();
 
     return (
@@ -19,23 +27,25 @@ export default function DoctorPage() {
                             <li>Telefono: {doctor.phone_number}</li>
                             <li>Indirizzo: {doctor.address}</li>
                             <li>
-                                Specializzazioni:
+                                {t('Specializzazioni')}:
                                 <ul>
-                                    {(doctor.specializzazioni || "")
-                                        .split(',')
-                                        .map((spec, index) => (
-                                            <li key={index}>
-                                                {specializationTranslations[spec.trim()] || spec}
-                                            </li>
-                                        ))}
+                                    {doctor.specializations.split(',').map((spec, index) => (
+                                        <li key={index}>
+                                            {t(spec.trim()) || spec.trim()}
+                                        </li>
+                                    ))}
                                 </ul>
                             </li>
                         </ul>
                     </li>
                 ))}
             </ul>
-
+            {/* componente per aggiungere review */}
             <AddReview />
+            {/* componente per mostrare le recensioni per ID dottore */}
+            <ShowReviewsByDoctorId doctorId={doctorId} />
+            {/* compononete per calcolcare la media di rating di un dottore  */}
+            <AverageRating doctorId={doctorId} />
         </>
     );
 }
