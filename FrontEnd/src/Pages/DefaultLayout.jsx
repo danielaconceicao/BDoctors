@@ -13,7 +13,7 @@ export default function DefaultLayout() {
             <main>
                 <Outlet />
             </main>
-            <footer className="d-flex justify-content-between align-items-center bg-dark text-white p-4">
+            <footer className="d-flex justify-content-between align-items-center bg-dark text-white p-4 mt-3">
                 <h2>Bdoctors Footer</h2>
             </footer >
         </>
