@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import BackButton from '../Components/BackButton';
 import { useNavigate } from 'react-router-dom';
 
 export default function DoctorRegistration() {
@@ -105,7 +104,7 @@ export default function DoctorRegistration() {
                             <label className='pb-3'>Specializzazione</label>
                             {specializations.map((spec) => (
                                 <div key={spec.id} className="form-check">
-                                    <input type="checkbox" id={`specialization-${spec.id}`} value={spec.id}className="form-check-input" checked={selectedSpecializations.includes(spec.id)} onChange={() => handleCheckboxChange(spec.id)}/>
+                                    <input type="checkbox" id={`specialization-${spec.id}`} value={spec.id}className="form-check-input" checked={selectedSpecializations.includes(spec.id)} onChange={() => handleCheckboxChange(spec.id)} required/>
                                     <label htmlFor={`specialization-${spec.id}`} className="form-check-label">
                                         {spec.specialization_name}
                                     </label>
