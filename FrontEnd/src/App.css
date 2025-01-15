@@ -5,7 +5,7 @@
     padding: 20px;
 }
 
-.card {
+.card_custom {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -14,18 +14,21 @@
     transition: transform 0.2s ease-in-out;
 }
 
-.card:hover,
-.register_btn:hover {
+.card_custom:hover {
     transform: translateY(-5px);
     cursor: pointer;
 }
 
-.card h3 {
+.register_btn:hover {
+    cursor: pointer;
+}
+
+.card_custom h3 {
     font-size: 1.5em;
     margin-bottom: 10px;
 }
 
-.card p {
+.card_custom p {
     font-size: 1em;
     color: #555;
 }
