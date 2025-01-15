@@ -1,14 +1,15 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useGlobalContext } from '../Context/GlobalContext';
+import DoctorPage from '../Pages/DoctorPage';
 
 const AddReview = () => {
-    const { doctor } = useGlobalContext();
+    const { doctor, fetchReviews } = useGlobalContext();
     const [formData, setFormData] = useState({
         first_name: '',
         last_name: '',
         description: '',
         rating: '',
-        doctor_id: doctor ? doctor.doctor_id : null,
+        doctor_id: doctor.doctor_id
     });
 
     useEffect(() => {
@@ -34,7 +35,7 @@ const AddReview = () => {
             return;
         }
 
-        // Converti rating in numero
+        // Conversione del  rating in numero
         const formDataToSend = {
             ...formData,
             rating: Number(formData.rating),
@@ -59,13 +60,24 @@ const AddReview = () => {
             .then((data) => {
                 console.log('Risposta del server:', data);
                 alert('Recensione inviata con successo!');
-                // Aggiorna le recensioni nel contesto globale
-                addReview(data);
+
+
+                fetchReviews();
             })
             .catch((error) => {
                 console.error('Errore durante l\'invio della recensione:', error);
-                alert('Si è verificato un errore durante l\'invio della recensione. Riprova più tardi.');
             });
+
+        /* reset del form */
+        setFormData({
+            first_name: '',
+            last_name: '',
+            description: '',
+            rating: '',
+            doctor_id: doctor.doctor_id
+        });
+
+
     };
 
     return (
@@ -141,7 +153,6 @@ const AddReview = () => {
                 <button type="submit" className="btn btn-primary mt-3">Invia Recensione</button>
             </form>
         </div>
-
     );
 };
 
