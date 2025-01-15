@@ -12,7 +12,7 @@ router.delete('/doctors/:id', doctorsController.destroy); // Delete a doctor
 
 // Review routes
 router.get('/reviews', reviewController.getReviews); // List all reviews
-router.get('/reviews/:id', reviewController.getReviewById); // Get a specific review by ID
+router.get('/reviews/:id', reviewController.getReviewById); // Get reviews of a specific doctor
 router.post('/reviews', reviewController.postReview); // Add a new review
 router.delete('/reviews/:id', reviewController.deleteReviewById); // Delete a specific review by ID
 
