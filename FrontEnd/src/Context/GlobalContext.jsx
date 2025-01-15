@@ -24,7 +24,7 @@ export function GlobalContext({ children }) {
 
 
     // Funzione generica per le chiamate API
-    const fetchData = useCallback(async (endpoint) => {
+    const fetchData = async (endpoint) => {
         setLoading(true);
         setError(null);
 
@@ -41,48 +41,48 @@ export function GlobalContext({ children }) {
         } finally {
             setLoading(false);
         }
-    }, []);
+    }
 
     // Funzione per recuperare tutti i dottori
-    const fetchDoctors = useCallback(async () => {
+    const fetchDoctors = async () => {
         try {
             const data = await fetchData("/doctors");
             setDoctors(data);
         } catch (err) {
             console.error("Error fetching doctors:", err);
         }
-    }, [fetchData]);
+    }
 
     // Funzione per recuperare tutte le specializzazioni
-    const fetchSpecializations = useCallback(async () => {
+    const fetchSpecializations = async () => {
         try {
             const data = await fetchData("/specializations");
             setSpecializations(data);
         } catch (err) {
             console.error("Error fetching specializations:", err);
         }
-    }, [fetchData]);
+    }
 
     // Funzione per recuperare tutte le recensioni
-    const fetchReviews = useCallback(async () => {
+    const fetchReviews = async () => {
         try {
             const data = await fetchData(`/reviews`);
             setReviews(data);
         } catch (err) {
             console.error("Error fetching reviews:", err);
         }
-    }, [fetchData]);
+    }
 
     // Funzione per recuperare recensioni per ID del dottore
-    const fetchReviewByDoctorId = useCallback(async (doctorId) => {
-        try {
-            const data = await fetchData(`/reviews/${doctorId}`);
-            setDoctorReviews(data); // Restituisce i dati al chiamante
-        } catch (err) {
-            console.error(`Error fetching reviews for doctor ID ${doctorId}:`, err);
-            return null; // Restituisce null in caso di errore
-        }
-    }, [fetchData]);
+    // const fetchReviewByDoctorId = async (doctorId) => {
+    //     try {
+    //         const data = await fetchData(`/reviews/${doctorId}`);
+    //         setDoctorReviews(data); // Restituisce i dati al chiamante
+    //     } catch (err) {
+    //         console.error(`Error fetching reviews for doctor ID ${doctorId}:`, err);
+    //         return; // Restituisce null in caso di errore
+    //     }
+    // }
 
 
 
@@ -91,7 +91,7 @@ export function GlobalContext({ children }) {
         fetchDoctors();
         fetchSpecializations();
         fetchReviews();
-    }, [fetchDoctors, fetchSpecializations, fetchReviews]);
+    }, []);
 
 
     // Valore fornito al contesto
@@ -107,11 +107,11 @@ export function GlobalContext({ children }) {
         fetchDoctors,
         fetchSpecializations,
         fetchReviews,
-        fetchReviewByDoctorId,
         setDoctor,
         doctorReviews,
         selectedSpecialization,
-        setSelectedSpecialization
+        setSelectedSpecialization,
+        setDoctorReviews
     };
 
     return (

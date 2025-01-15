@@ -2,33 +2,51 @@ import React, { useState, useEffect } from "react";
 import { useGlobalContext } from "../Context/GlobalContext";
 
 export default function ShowReviewsByDoctorId() {
-    const { fetchReviewByDoctorId, doctor, doctorReviews } = useGlobalContext();
+    const { doctor, doctorReviews, setDoctorReviews, setDoctor } = useGlobalContext();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    //console.log(parseInt(doctor.doctor_id));
+
+    const fetchReviewByDoctorId = async () => {
+
+        try {
+            const response = await fetch(`http://localhost:3000/reviews/${doctor.doctor_id}`)
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+            }
+
+            const data = await response.json()
+            console.log(data)
+
+            setDoctorReviews(data)
+
+        } catch (err) {
+            console.error(`Error fetching reviews for doctor ID ${doctor.doctor_id}:`, err);
+            setDoctorReviews([])
+        }
+    };
 
     useEffect(() => {
 
-        fetchReviewByDoctorId(doctor.doctor_id);
+        fetchReviewByDoctorId();
 
-    }, [doctor])
+    }, [doctor]);
 
 
     //console.log(doctorReviews);
 
 
-    if (loading) {
-        return <p>Caricamento recensioni...</p>;
-    }
+    // if (loading) {
+    //     return <p>Caricamento recensioni...</p>;
+    // }
 
-    if (error) {
-        return <p>Errore: {error}</p>;
-    }
+    // if (error) {
+    //     return <p>Errore: {error}</p>;
+    // }
 
     return (
         <div className="container-sm mt-4">
             <h1 className="text-center mb-4">Recensioni</h1>
-            {doctorReviews.length > 0 ? (
+            {doctorReviews && doctorReviews.length > 0 ? (
                 <ul className="list-group gap-3">
                     {doctorReviews.map((review) => (
                         <li key={review.id} className="list-group-item border border-2 border-secondary rounded p-3">
