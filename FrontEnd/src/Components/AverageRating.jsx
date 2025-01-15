@@ -1,49 +1,73 @@
-import { useEffect, useState } from "react";
-import { useGlobalContext } from "../Context/GlobalContext";
+import React, { useEffect, useState } from 'react';
+import { useGlobalContext } from '../Context/GlobalContext';
 
-export default function AverageRating({ doctorId }) {
-    const { fetchReviewByDoctorId } = useGlobalContext();
-    const [averageRating, setAverageRating] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+const AverageRating = ({ doctorId }) => {
+    const { fetchReviewByDoctorId, doctorReviews, loading, error } = useGlobalContext();
+    const [averageRating, setAverageRating] = useState(0);
+    const [calculationError, setCalculationError] = useState(null);
 
     useEffect(() => {
-        const calculateAverageRating = async () => {
-            setLoading(true);
+        const fetchReviews = async () => {
             try {
-                const reviews = await fetchReviewByDoctorId(doctorId);
-
-                if (reviews && reviews.length > 0) {
-                    const totalRating = reviews.reduce((sum, review) => sum + parseFloat(review.rating), 0);
-                    const avg = totalRating / reviews.length;
-                    setAverageRating(avg.toFixed(2));
-                } else {
-                    setAverageRating(0);
-                }
+                //console.log(`Fetching reviews for doctor ID: ${doctorId}`);
+                await fetchReviewByDoctorId(doctorId);
             } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
+                //console.error('Error fetching reviews:', err);
+                setCalculationError('Failed to fetch reviews');
             }
         };
 
         if (doctorId) {
-            calculateAverageRating();
+            fetchReviews();
         }
     }, [fetchReviewByDoctorId, doctorId]);
 
+    useEffect(() => {
+        const calculateAverageRating = () => {
+            try {
+                console.log('Fetched reviews:', doctorReviews);
+
+                if (doctorReviews.length > 0) {
+                    const totalRating = doctorReviews.reduce((acc, review) => acc + review.rating, 0);
+                    const avgRating = (totalRating / doctorReviews.length).toFixed(2);
+                    //console.log('Total rating:', totalRating);
+                    //console.log('Average rating:', avgRating);
+                    setAverageRating(avgRating);
+                } else {
+                    console.log('No reviews found for this doctor.');
+                    setAverageRating(0);
+                }
+            } catch (err) {
+                //console.error('Error calculating average rating:', err);
+                setCalculationError('Failed to calculate average rating');
+            }
+        };
+
+        if (doctorReviews.length > 0) {
+            calculateAverageRating();
+        }
+    }, [doctorReviews]);
+
     if (loading) {
-        return <p>Calcolo della media in corso...</p>;
+        return <div>Caricamento...</div>;
     }
 
     if (error) {
-        return <p>Errore: {error}</p>;
+        return <div>{error}</div>;
+    }
+
+    if (calculationError) {
+        return <div>{calculationError}</div>;
     }
 
     return (
-        <div>
-            <h2>Media dei Voti</h2>
-            <p>{averageRating !== null ? averageRating : "N/A"}</p>
+        <div className="d-flex container mt-4 ">
+            <div className="card p-3 bg-primary text-white" style={{ width: "18rem" }}>
+                <h3 className="text-center">Voto Medio: {averageRating}</h3>
+            </div>
         </div>
+
     );
-}
+};
+
+export default AverageRating;

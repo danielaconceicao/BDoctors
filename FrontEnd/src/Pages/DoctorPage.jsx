@@ -12,42 +12,48 @@ export default function DoctorPage() {
     const { doctorId } = useParams();
     /* API per la lista di tutti i dottori  */
     const { doctor } = useGlobalContext();
-    console.log(doctor);
+    //console.log(doctor);
 
     /* traslate */
     const { t } = useTranslation();
 
     return (
-        <>
-            <h1>Dottori</h1>
-            <ul>
+        <section className="doctor-page d-flex justify-content-center align-items-center min-vh-100">
+            <div className="container-sm">
+                <h1 className="text-center mb-4">Dottore</h1>
 
-                <li key={doctor.id}>
-                    <strong>{doctor.first_name} {doctor.last_name}</strong>
-                    <ul>
-                        <li>Email: {doctor.email}</li>
-                        <li>Telefono: {doctor.phone_number}</li>
-                        <li>Indirizzo: {doctor.address}</li>
-                        <li>
-                            {t('Specializzazioni')}:
-                            <ul>
-                                {doctor.specializations.split(',').map((spec, index) => (
-                                    <li key={index}>
-                                        {t(spec.trim()) || spec.trim()}
-                                    </li>
-                                ))}
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
+                <div className="card mx-auto" style={{ width: "28rem" }}>
+                    <div className="card-body">
+                        <h5 className="card-title text-center">
+                            {doctor.first_name} {doctor.last_name}
+                        </h5>
+                        <ul className="list-unstyled">
+                            <li><strong>Email:</strong> {doctor.email}</li>
+                            <li><strong>Telefono:</strong> {doctor.phone_number}</li>
+                            <li><strong>Indirizzo:</strong> {doctor.address}</li>
+                            <li>
+                                <strong>{t('Specializzazioni')}:</strong>
+                                <ul>
+                                    {doctor.specializations.split(',').map((spec, index) => (
+                                        <li key={index}>
+                                            {t(spec.trim()) || spec.trim()}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 
-            </ul>
-            {/* componente per aggiungere review */}
-            <AddReview />
-            {/* componente per mostrare le recensioni per ID dottore */}
-            <ShowReviewsByDoctorId doctorId={doctorId} />
-            {/* compononete per calcolcare la media di rating di un dottore  */}
-            <AverageRating doctorId={doctorId} />
-        </>
+                {/* componente per aggiungere review */}
+                <AddReview />
+
+                {/* componente per mostrare le recensioni per ID dottore */}
+                <ShowReviewsByDoctorId doctorId={doctorId} />
+
+                {/* componente per calcolare la media di rating di un dottore */}
+                <AverageRating doctorId={doctorId} />
+            </div>
+        </section>
     );
 }
