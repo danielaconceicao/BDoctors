@@ -54,7 +54,7 @@ const AddReview = () => {
             rating: Number(formData.rating),
         };
 
-        console.log('Dati inviati:', formDataToSend);
+        // console.log('Dati inviati:', formDataToSend);
 
         fetch('http://localhost:3000/reviews', {
             method: 'POST',
@@ -64,14 +64,14 @@ const AddReview = () => {
             body: JSON.stringify(formDataToSend),
         })
             .then((response) => {
-                console.log('Response status:', response.status);
+                //console.log('Response status:', response.status);
                 if (!response.ok) {
                     return response.text().then(text => { throw new Error(text) });
                 }
                 return response.json();
             })
             .then((data) => {
-                console.log('Risposta del server:', data);
+                //console.log('Risposta del server:', data);
                 alert('Recensione inviata con successo!');
                 fetchReviews();
                 setTimeout(() => {
