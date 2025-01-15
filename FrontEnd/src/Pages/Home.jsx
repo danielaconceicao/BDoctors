@@ -51,7 +51,7 @@ export default function Home() {
                                     onClick={handleCardClick} // Aggiunto evento click
                                 >
                                     <h3>{t(specialization.specialization_name)}</h3>
-                                    <p>{specialization.description}</p>
+                                    {/* <p>{specialization.description}</p> */}
                                 </div>
                             ))}
                         </div>

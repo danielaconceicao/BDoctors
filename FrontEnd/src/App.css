@@ -17,6 +17,7 @@
 .card:hover,
 .register_btn:hover {
     transform: translateY(-5px);
+    cursor: pointer;
 }
 
 .card h3 {
