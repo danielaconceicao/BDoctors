@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useGlobalContext } from "../Context/GlobalContext";
 import styles from "../styles/FeaturedDoctorsCarousel.module.css";
+import "../i118";
+import { useTranslation } from "react-i18next";
 
 const FeaturedDoctorsCarousel = () => {
     const { doctors, reviews, fetchReviewByDoctorId } = useGlobalContext();
     const [featuredDoctors, setFeaturedDoctors] = useState([]);
     const [currentDoctorIndex, setCurrentDoctorIndex] = useState(0);
+    const { t } = useTranslation();
 
     // Calcola la media delle recensioni per ogni dottore
     useEffect(() => {
@@ -70,7 +73,14 @@ const FeaturedDoctorsCarousel = () => {
             <div className={styles.card}>
                 <h3>{currentDoctor.first_name} {currentDoctor.last_name}</h3>
                 <p className="col-12">Media voti: {currentDoctor.averageRating.toFixed(1)}</p>
-                <p className="col-12">Specializzazioni: {currentDoctor.specializations}</p>
+                <p className="col-12">
+                    Specializzazioni:{" "}
+                    {currentDoctor.specializations
+                        .split(",") // Dividi la stringa in un array
+                        .map((spec) => t(spec.trim())) // Traduci ogni specializzazione
+                        .join(", ")} {/* Unisci gli elementi tradotti */}
+                </p>
+
                 <p className="col-12">Contatto: {currentDoctor.phone_number}</p>
                 <p className="col-12">Email: {currentDoctor.email}</p>
             </div>
