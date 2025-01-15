@@ -15,16 +15,13 @@ export default function AdvancedSearchPage() {
     const [searchText, setSearchText] = useState('')
     const [filterOption, setFilterOption] = useState('')
 
-
-    console.log(filteredDoctors);
-
     // Funzione per gestire il click sul dottore
     function handleDoctorsDetails(e) {
         const doctotId = e.currentTarget.getAttribute('data-selected-doctor')
-        console.log(doctotId);
+        // console.log(doctotId);
 
         const selectedDoctor = filteredDoctors.find(doctor => parseInt(doctor.doctor_id) === parseInt(doctotId))
-        console.log(selectedDoctor);
+        // console.log(selectedDoctor);
 
         setDoctor(selectedDoctor);
         navigate('/DoctorPage');
