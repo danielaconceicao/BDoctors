@@ -5,7 +5,7 @@ export default function ShowReviewsByDoctorId() {
     const { fetchReviewByDoctorId, doctor, doctorReviews } = useGlobalContext();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    console.log(parseInt(doctor.doctor_id));
+    //console.log(parseInt(doctor.doctor_id));
 
     useEffect(() => {
 
@@ -14,7 +14,7 @@ export default function ShowReviewsByDoctorId() {
     }, [doctor])
 
 
-    console.log(doctorReviews);
+    //console.log(doctorReviews);
 
 
     if (loading) {
@@ -26,25 +26,26 @@ export default function ShowReviewsByDoctorId() {
     }
 
     return (
-        <div>
-            <h1>Recensioni</h1>
+        <div className="container-sm mt-4 ">
+            <h1 className="text-center mb-4">Recensioni</h1>
             {doctorReviews.length > 0 ? (
-                <ul>
+                <ul className="list-group gap-3">
                     {doctorReviews.map((review) => (
-                        <li key={review.id}>
+                        <li key={review.id} className="list-group-item">
                             <strong>
                                 {review.first_name} {review.last_name}
                             </strong>
-                            <ul>
-                                <li>Descrizione: {review.description}</li>
-                                <li>Rating: {review.rating}</li>
+                            <ul className="list-unstyled mt-2">
+                                <li><strong>Descrizione:</strong> {review.description}</li>
+                                <li><strong>Voto:</strong> {review.rating}</li>
                             </ul>
                         </li>
                     ))}
                 </ul>
             ) : (
-                <p>Nessuna recensione disponibile per questo dottore.</p>
+                <p className="text-center">Nessuna recensione disponibile per questo dottore.</p>
             )}
         </div>
+
     );
 }
