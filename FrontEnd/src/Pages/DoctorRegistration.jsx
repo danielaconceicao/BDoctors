@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import BackButton from '../Components/BackButton'
 
 export default function DoctorRegistration() {
 
@@ -9,12 +10,13 @@ export default function DoctorRegistration() {
     const [address, setAddress] = useState('');
     const [specializations, setSpecializations] = useState([]);
     const [selectedSpecializations, setSelectedSpecializations] = useState([]);
+    const [successMessage, setSuccessMessage] = useState('');
 
+    /* prendendo tutte le specializzazioni */
     useEffect(() => {
         fetch('http://localhost:3000/specializations')
             .then(res => res.json())
             .then(data => {
-                console.log(data)
                 setSpecializations(data)
             })
             .catch((error) => { console.error(error) });
@@ -23,13 +25,12 @@ export default function DoctorRegistration() {
 
     function handleCheckboxChange(specId) {
         if (selectedSpecializations.includes(specId)) {
-            // Desmarca a especialização
             setSelectedSpecializations(selectedSpecializations.filter((id) => id !== specId));
         } else {
-            // Marca a especialização
             setSelectedSpecializations([...selectedSpecializations, specId]);
         }
     }
+
 
     function handleFormSubmit(e) {
         e.preventDefault();
@@ -47,7 +48,7 @@ export default function DoctorRegistration() {
             .then((res) => {
                 if(!res.ok){
                     return res.json().then((error) => {
-                        throw new Error(error.message || 'Errore durante la registrazione del medico');
+                        throw new Error(error.message);
                     });
                 }
                 return res.json();
@@ -55,12 +56,17 @@ export default function DoctorRegistration() {
             .then(data => {
                 console.log(data);
 
+                setSuccessMessage('Medico registrato con successo')
                 setFirstName('');
                 setLastName('');
                 setEmail('');
                 setPhone('');
                 setAddress('');
                 setSelectedSpecializations([]);
+
+                setTimeout(() => {
+                    setSuccessMessage('')
+                }, 30000)
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -73,6 +79,9 @@ export default function DoctorRegistration() {
         <div className="container">
             <div id="form-card" className="card">
                 <div className="card-body">
+
+                    {successMessage && <div>{successMessage}<i className="bi bi-clipboard2-check"></i></div>}
+
                     <form onSubmit={handleFormSubmit}>
                         <div className="mb-3">
                             <label htmlFor="name">Nome</label>
@@ -112,7 +121,8 @@ export default function DoctorRegistration() {
                         </div>
 
                         <div className="mb-3">
-                            <button type="submit" className="btn btn-primary">Inviare</button>
+                            <button type="submit" className="btn btn-primary">Inviare <i className="bi bi-send"></i></button>
+                            <BackButton />
                         </div>
                     </form>
                 </div>
