@@ -1,13 +1,13 @@
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function BackButton(){
+export default function BackButton() {
     const navigate = useNavigate();
 
-    function handleNavigate(){
-        navigate(-1)
+    function handleNavigate() {
+        navigate('/')
     }
 
-    return(
+    return (
         <button onClick={handleNavigate} className="btn btn-primary mx-3">Home <i className="bi bi-house"></i> </button>
     )
 }
