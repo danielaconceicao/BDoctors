@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useGlobalContext } from '../Context/GlobalContext';
-
+import { useNavigate } from 'react-router-dom';
 
 const AddReview = () => {
     const { doctor, fetchReviews } = useGlobalContext();
@@ -11,7 +11,7 @@ const AddReview = () => {
         rating: '',
         doctor_id: doctor.doctor_id
     });
-
+    const navigate = useNavigate();
     useEffect(() => {
         if (doctor) {
             setFormData((prevFormData) => ({
@@ -60,9 +60,8 @@ const AddReview = () => {
             .then((data) => {
                 console.log('Risposta del server:', data);
                 alert('Recensione inviata con successo!');
-
-
                 fetchReviews();
+                navigate('/');
             })
             .catch((error) => {
                 console.error('Errore durante l\'invio della recensione:', error);
