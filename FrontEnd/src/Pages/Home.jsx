@@ -28,12 +28,13 @@ export default function Home() {
 
     return (
         <div>
-            <div className="d-flex justify-content-between">
-                <h1>Specializzazioni</h1>
-                <NavLink to="/DoctorRegistration" className="register_btn">SEI UN DOTTORE? REGISTRATI QUI</NavLink>
 
-            </div>
             <div className="container">
+                <div className="d-flex justify-content-between">
+                    <h1>Specializzazioni</h1>
+                    <NavLink to="/DoctorRegistration" className="register_btn">SEI UN DOTTORE? REGISTRATI QUI</NavLink>
+
+                </div>
                 <div className="row">
                     {loading && <p>Caricamento in corso...</p>}
                     {error && <p>Errore: {error}</p>}
