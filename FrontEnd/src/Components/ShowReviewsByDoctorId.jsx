@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useGlobalContext } from "../Context/GlobalContext";
 
 export default function ShowReviewsByDoctorId() {
-    const { doctor, doctorReviews, setDoctorReviews, setDoctor } = useGlobalContext();
+    const { doctor, doctorReviews, setDoctorReviews, setAverageRating } = useGlobalContext();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -22,6 +22,8 @@ export default function ShowReviewsByDoctorId() {
         } catch (err) {
             console.error(`Error fetching reviews for doctor ID ${doctor.doctor_id}:`, err);
             setDoctorReviews([])
+            setAverageRating('N/A');
+
         }
     };
 

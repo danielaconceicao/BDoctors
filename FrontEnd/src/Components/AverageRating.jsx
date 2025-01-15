@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useGlobalContext } from '../Context/GlobalContext';
 
 const AverageRating = ({ doctorId }) => {
-    const { fetchReviewByDoctorId, doctorReviews, loading, error } = useGlobalContext();
-    const [averageRating, setAverageRating] = useState(0);
+    const { fetchReviewByDoctorId, doctorReviews, loading, error, averageRating, setAverageRating } = useGlobalContext();
+
     const [calculationError, setCalculationError] = useState(null);
 
     useEffect(() => {

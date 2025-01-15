@@ -12,6 +12,7 @@ export function GlobalContext({ children }) {
     const [doctor, setDoctor] = useState(null)
     const [doctorReviews, setDoctorReviews] = useState([]);
     const [selectedSpecialization, setSelectedSpecialization] = useState(null);
+    const [averageRating, setAverageRating] = useState(0);
 
 
 
@@ -111,7 +112,9 @@ export function GlobalContext({ children }) {
         doctorReviews,
         selectedSpecialization,
         setSelectedSpecialization,
-        setDoctorReviews
+        setDoctorReviews,
+        setAverageRating,
+        averageRating
     };
 
     return (
