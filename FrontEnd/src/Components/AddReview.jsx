@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useGlobalContext } from '../Context/GlobalContext';
-import DoctorPage from '../Pages/DoctorPage';
+
 
 const AddReview = () => {
     const { doctor, fetchReviews } = useGlobalContext();
