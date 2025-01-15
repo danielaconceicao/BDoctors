@@ -61,7 +61,7 @@ const AverageRating = ({ doctorId }) => {
     }
 
     return (
-        <div className="d-flex container mt-4 ">
+        <div className="d-flex container mt-4 mb-5">
             <div className="card p-2 bg-primary text-white" style={{ width: "8rem", height: "2rem" }}>
                 <h6 className="text-center" style={{ fontSize: "12px" }}>Voto Medio: {averageRating}</h6>
             </div>
