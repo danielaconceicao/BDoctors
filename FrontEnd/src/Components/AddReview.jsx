@@ -61,7 +61,10 @@ const AddReview = () => {
                 console.log('Risposta del server:', data);
                 alert('Recensione inviata con successo!');
                 fetchReviews();
-                navigate('/');
+                setTimeout(() => {
+                    alert('Recensione aggiunta con successo, stai per essere renderizzato alla pagina iniziale...');
+                    navigate('/');
+                }, 3000);
             })
             .catch((error) => {
                 console.error('Errore durante l\'invio della recensione:', error);
