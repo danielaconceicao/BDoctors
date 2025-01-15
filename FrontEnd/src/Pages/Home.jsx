@@ -2,7 +2,7 @@ import { useGlobalContext } from "../Context/GlobalContext";
 import { useTranslation } from "react-i18next";
 import "../i118";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 
 export default function Home() {
     const { specializations, doctors, setFilteredDoctors, loading, error } = useGlobalContext();
@@ -27,30 +27,39 @@ export default function Home() {
 
     return (
         <div>
-            <h1>Specializzazioni</h1>
+            <div className="d-flex justify-content-between">
+                <h1>Specializzazioni</h1>
+                <NavLink to="/DoctorRegistration" className="register_btn">SEI UN DOTTORE? REGISTRATI QUI</NavLink>
 
-            {loading && <p>Caricamento in corso...</p>}
-            {error && <p>Errore: {error}</p>}
+            </div>
+            <div className="container">
+                <div className="row">
+                    {loading && <p>Caricamento in corso...</p>}
+                    {error && <p>Errore: {error}</p>}
 
-            {!loading && !error && specializations.length === 0 && (
-                <p>Nessuna specializzazione disponibile.</p>
-            )}
+                    {!loading && !error && specializations.length === 0 && (
+                        <p>Nessuna specializzazione disponibile.</p>
+                    )}
 
-            {!loading && !error && specializations.length > 0 && (
-                <div className="cards-container">
-                    {specializations.map(specialization => (
-                        <div
-                            className="card"
-                            key={specialization.id}
-                            data-specialization-name={specialization.specialization_name}
-                            onClick={handleCardClick} // Aggiunto evento click
-                        >
-                            <h3>{t(specialization.specialization_name)}</h3>
-                            <p>{specialization.description}</p>
+                    {!loading && !error && specializations.length > 0 && (
+                        <div className="cards-container">
+                            {specializations.map(specialization => (
+                                <div
+                                    className="card"
+                                    key={specialization.id}
+                                    data-specialization-name={specialization.specialization_name}
+                                    onClick={handleCardClick} // Aggiunto evento click
+                                >
+                                    <h3>{t(specialization.specialization_name)}</h3>
+                                    <p>{specialization.description}</p>
+                                </div>
+                            ))}
                         </div>
-                    ))}
+                    )}
+
+
                 </div>
-            )}
+            </div>
 
 
         </div>
