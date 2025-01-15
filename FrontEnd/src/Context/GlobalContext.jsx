@@ -96,6 +96,7 @@ export function GlobalContext({ children }) {
         specializations,
         filteredDoctors,
         reviews,
+        doctor,
         setFilteredDoctors,
         fetchDoctors,
         fetchSpecializations,
