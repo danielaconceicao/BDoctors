@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import BackButton from '../Components/BackButton'
+import BackButton from '../Components/BackButton';
+import { useNavigate } from 'react-router-dom';
 
 export default function DoctorRegistration() {
 
@@ -11,6 +12,7 @@ export default function DoctorRegistration() {
     const [specializations, setSpecializations] = useState([]);
     const [selectedSpecializations, setSelectedSpecializations] = useState([]);
     const [successMessage, setSuccessMessage] = useState('');
+    const navigate = useNavigate();
 
     /* prendendo tutte le specializzazioni */
     useEffect(() => {
@@ -56,7 +58,7 @@ export default function DoctorRegistration() {
             .then(data => {
                 console.log(data);
 
-                setSuccessMessage('Medico registrato con successo')
+                setSuccessMessage('Medico registrato con successo');
                 setFirstName('');
                 setLastName('');
                 setEmail('');
@@ -65,8 +67,9 @@ export default function DoctorRegistration() {
                 setSelectedSpecializations([]);
 
                 setTimeout(() => {
-                    setSuccessMessage('')
-                }, 30000)
+                    setSuccessMessage('');
+                    navigate(-1);
+                }, 10000);
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -122,7 +125,6 @@ export default function DoctorRegistration() {
 
                         <div className="mb-3">
                             <button type="submit" className="btn btn-primary">Inviare <i className="bi bi-send"></i></button>
-                            <BackButton />
                         </div>
                     </form>
                 </div>
