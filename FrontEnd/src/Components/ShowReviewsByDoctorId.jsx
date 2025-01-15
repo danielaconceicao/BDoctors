@@ -1,30 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useGlobalContext } from "../Context/GlobalContext";
 
-export default function ShowReviewsByDoctorId({ doctorId }) {
-    const { fetchReviewByDoctorId } = useGlobalContext();
-    const [reviews, setReviews] = useState([]);
+export default function ShowReviewsByDoctorId() {
+    const { fetchReviewByDoctorId, doctor, doctorReviews } = useGlobalContext();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    console.log(parseInt(doctor.doctor_id));
 
     useEffect(() => {
-        const fetchReviews = async () => {
-            setLoading(true);
-            setError(null);
-            try {
-                const data = await fetchReviewByDoctorId(doctorId);
-                setReviews(data || []);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
 
-        if (doctorId) {
-            fetchReviews();
-        }
-    }, [doctorId, fetchReviewByDoctorId]);
+        fetchReviewByDoctorId(doctor.doctor_id);
+
+    }, [doctor])
+
+
+    console.log(doctorReviews);
+
 
     if (loading) {
         return <p>Caricamento recensioni...</p>;
@@ -37,9 +28,9 @@ export default function ShowReviewsByDoctorId({ doctorId }) {
     return (
         <div>
             <h1>Recensioni</h1>
-            {reviews.length > 0 ? (
+            {doctorReviews.length > 0 ? (
                 <ul>
-                    {reviews.map((review) => (
+                    {doctorReviews.map((review) => (
                         <li key={review.id}>
                             <strong>
                                 {review.first_name} {review.last_name}

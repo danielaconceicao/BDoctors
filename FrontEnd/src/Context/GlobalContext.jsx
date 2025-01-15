@@ -10,6 +10,9 @@ export function GlobalContext({ children }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [doctor, setDoctor] = useState(null)
+    const [doctorReviews, setDoctorReviews] = useState([]);
+
+
 
     // console.log(doctors);
     // console.log(specializations);
@@ -73,12 +76,13 @@ export function GlobalContext({ children }) {
     const fetchReviewByDoctorId = useCallback(async (doctorId) => {
         try {
             const data = await fetchData(`/reviews/${doctorId}`);
-            return data; // Restituisce i dati al chiamante
+            setDoctorReviews(data); // Restituisce i dati al chiamante
         } catch (err) {
             console.error(`Error fetching reviews for doctor ID ${doctorId}:`, err);
             return null; // Restituisce null in caso di errore
         }
     }, [fetchData]);
+
 
 
     // Effettua il fetch iniziale
@@ -88,6 +92,7 @@ export function GlobalContext({ children }) {
         fetchReviews();
     }, [fetchDoctors, fetchSpecializations, fetchReviews]);
 
+
     // Valore fornito al contesto
     const value = {
         loading,
@@ -96,12 +101,14 @@ export function GlobalContext({ children }) {
         specializations,
         filteredDoctors,
         reviews,
+        doctor,
         setFilteredDoctors,
         fetchDoctors,
         fetchSpecializations,
         fetchReviews,
         fetchReviewByDoctorId,
-        setDoctor
+        setDoctor,
+        doctorReviews
     };
 
     return (
