@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom"
 import BackButton from "../Components/BackButton";
+import style from "../styles/DefaultLayout.module.css"
 
 export default function DefaultLayout() {
     return (

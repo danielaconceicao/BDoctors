@@ -1,0 +1,17 @@
+header {
+    height: 10vh;
+}
+
+main {
+    height: 80vh;
+    overflow-y: auto;
+
+
+}
+
+footer {
+    height: 10vh;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
