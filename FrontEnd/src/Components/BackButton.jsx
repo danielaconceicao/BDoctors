@@ -1,13 +1,12 @@
-import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default function BackButton() {
-    const navigate = useNavigate();
 
-    function handleNavigate() {
-        navigate('/')
-    }
 
     return (
-        <button onClick={handleNavigate} className="btn btn-primary mx-3">Home <i className="bi bi-house"></i> </button>
+        <>
+            <NavLink to={"/"} className="btn btn-primary mx-3 d-none d-md-block">Home</NavLink>
+            <NavLink to={"/"} className="btn btn-primary mx-3 d-md-none"><i className="bi bi-house-fill"></i></NavLink>
+        </>
     )
 }
