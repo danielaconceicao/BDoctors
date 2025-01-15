@@ -18,11 +18,11 @@ export default function AdvancedSearchPage() {
         const doctotId = e.currentTarget.getAttribute('data-selected-doctor')
         console.log(doctotId);
 
-        // const selectedDoctor = filteredDoctors.find(doctor => parseInt(doctor.doctor_id) === parseInt(doctotId))
-        // console.log(selectedDoctor);
+        const selectedDoctor = filteredDoctors.find(doctor => parseInt(doctor.doctor_id) === parseInt(doctotId))
+        console.log(selectedDoctor);
 
-        setDoctor(parseInt(doctotId))
-        // navigate('/DoctorPage')
+        setDoctor(selectedDoctor)
+        navigate('/DoctorPage')
 
     }
 
@@ -42,7 +42,7 @@ export default function AdvancedSearchPage() {
                         <option value="3">Indirizzo</option>
                     </select>
                     <button type='submit' className='btn btn-dark'>Filtra</button>
-                    <button onClick={navigate('/')} className='btn btn-secondary mx-2'>Home</button>
+                    <button className='btn btn-secondary mx-2'>Home</button>
                 </form>
 
                 {filteredDoctors?.map((doctor, index) => (
