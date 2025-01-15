@@ -18,10 +18,10 @@ export default function AdvancedSearchPage() {
         const doctotId = e.currentTarget.getAttribute('data-selected-doctor')
         console.log(doctotId);
 
-        const selectedDoctor = filteredDoctors.find(doctor => parseInt(doctor.doctor_id) === parseInt(doctotId))
-        console.log(selectedDoctor);
+        // const selectedDoctor = filteredDoctors.find(doctor => parseInt(doctor.doctor_id) === parseInt(doctotId))
+        // console.log(selectedDoctor);
 
-        setDoctor(selectedDoctor)
+        setDoctor(parseInt(doctotId))
         // navigate('/DoctorPage')
 
     }
