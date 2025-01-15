@@ -72,7 +72,7 @@ export default function DoctorRegistration() {
                 setTimeout(() => {
                     setSuccessMessage('');
                     navigate(-1);
-                }, 10000);
+                }, 5000);
             })
             .catch((error) => {
                 console.error('Error:', error);
