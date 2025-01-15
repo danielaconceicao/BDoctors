@@ -25,7 +25,7 @@ const AverageRating = ({ doctorId }) => {
     useEffect(() => {
         const calculateAverageRating = () => {
             try {
-                console.log('Fetched reviews:', doctorReviews);
+                //console.log('Fetched reviews:', doctorReviews);
 
                 if (doctorReviews.length > 0) {
                     const totalRating = doctorReviews.reduce((acc, review) => acc + review.rating, 0);
@@ -34,7 +34,7 @@ const AverageRating = ({ doctorId }) => {
                     //console.log('Average rating:', avgRating);
                     setAverageRating(avgRating);
                 } else {
-                    console.log('No reviews found for this doctor.');
+                    //console.log('No reviews found for this doctor.');
                     setAverageRating(0);
                 }
             } catch (err) {
@@ -62,10 +62,11 @@ const AverageRating = ({ doctorId }) => {
 
     return (
         <div className="d-flex container mt-4 ">
-            <div className="card p-3 bg-primary text-white" style={{ width: "18rem" }}>
-                <h3 className="text-center">Voto Medio: {averageRating}</h3>
+            <div className="card p-2 bg-primary text-white" style={{ width: "8rem", height: "2rem" }}>
+                <h6 className="text-center" style={{ fontSize: "12px" }}>Voto Medio: {averageRating}</h6>
             </div>
         </div>
+
 
     );
 };

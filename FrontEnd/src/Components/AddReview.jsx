@@ -69,8 +69,8 @@ const AddReview = () => {
     };
 
     return (
-        <div className='container'>
-            <h2 className='mt-3 mb-4 text-center'>Lascia una recensione</h2>
+        <div className="container border border-2 border-secondary rounded p-4 mt-4">
+            <h2 className="mt-3 mb-4 text-center">Lascia una recensione</h2>
             <form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
                 <div className="form-group">
                     <label htmlFor="first_name">Nome:</label>
@@ -141,6 +141,7 @@ const AddReview = () => {
                 <button type="submit" className="btn btn-primary mt-3">Invia Recensione</button>
             </form>
         </div>
+
     );
 };
 
