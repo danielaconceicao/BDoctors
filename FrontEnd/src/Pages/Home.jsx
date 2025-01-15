@@ -47,7 +47,7 @@ export default function Home() {
                         <div className="cards-container">
                             {specializations.map(specialization => (
                                 <div
-                                    className="card"
+                                    className="card_custom"
                                     key={specialization.id}
                                     data-specialization-name={specialization.specialization_name}
                                     onClick={handleCardClick} // Aggiunto evento click

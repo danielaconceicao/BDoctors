@@ -83,7 +83,7 @@ export default function DoctorRegistration() {
 
     return (
         <div className="container">
-            <div id="form-card" className="card">
+            <div id="form-card" className="card mb-5">
                 <div className="card-body">
 
                     {successMessage && <div>{successMessage}<i className="bi bi-clipboard2-check"></i></div>}
