@@ -34,6 +34,16 @@ export default function AdvancedSearchPage() {
         <>
             <div className={style.dev_container}>
                 <h3>Filtra la ricerca</h3>
+                <form className='d-flex'>
+                    <select className="form-select mx-2" aria-label="Default select example">
+                        <option selected>Filtra per...</option>
+                        <option value="1">Nome</option>
+                        <option value="2">Cognome</option>
+                        <option value="3">Indirizzo</option>
+                    </select>
+                    <button type='submit' className='btn btn-dark'>Filtra</button>
+                    <button onClick={navigate('/')} className='btn btn-secondary mx-2'>Home</button>
+                </form>
 
                 {filteredDoctors?.map((doctor, index) => (
 
