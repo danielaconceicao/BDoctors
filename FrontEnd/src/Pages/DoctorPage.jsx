@@ -6,6 +6,7 @@ import "../i118";
 import ShowReviewsByDoctorId from "../Components/ShowReviewsByDoctorId";
 import AverageRating from "../Components/AverageRating";
 
+
 export default function DoctorPage() {
 
     /* recupero id per le review */
@@ -18,15 +19,20 @@ export default function DoctorPage() {
     const { t } = useTranslation();
 
     return (
+
         <section className="doctor-page d-flex justify-content-center align-items-center min-vh-100">
+
             <div className="container-sm">
                 <h1 className="text-center mb-4">Dottore</h1>
 
-                <div className="card mx-auto" style={{ width: "28rem" }}>
+                <div className="card mx-auto border border-2 border-secondary rounded p-3" style={{ width: "28rem" }}>
                     <div className="card-body">
-                        <h5 className="card-title text-center">
-                            {doctor.first_name} {doctor.last_name}
-                        </h5>
+                        <h4 className="card-title text-center ">
+                            <strong className="text-decoration-underline">
+                                {doctor.first_name} {doctor.last_name}
+                            </strong>
+
+                        </h4>
                         <ul className="list-unstyled">
                             <li><strong>Email:</strong> {doctor.email}</li>
                             <li><strong>Telefono:</strong> {doctor.phone_number}</li>
