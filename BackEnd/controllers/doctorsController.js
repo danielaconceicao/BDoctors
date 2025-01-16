@@ -69,6 +69,31 @@ function store(req, res) {
     });
 }
 
+// Calcola la media dei voti di un dottore
+function getAverageRating(req, res) {
+    const doctorId = req.params.id;
+
+    if (!doctorId) {
+        return res.status(400).json({ error: 'Doctor ID is required' });
+    }
+
+    // Query per ottenere le recensioni di un dottore
+    const sql = 'SELECT AVG(rating) AS average_rating FROM reviews WHERE doctor_id = ?';
+
+    db.query(sql, [doctorId], (error, results) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).json({ error: 'Error calculating average rating' });
+        }
+
+        // Se non ci sono recensioni, restituiamo un messaggio che indichi l'assenza di valutazioni
+        if (results[0].average_rating === null) {
+            return res.status(404).json({ error: 'No reviews found for this doctor' });
+        }
+
+        res.json({ doctor_id: doctorId, average_rating: parseFloat(results[0].average_rating.toFixed(2)) });
+    });
+}
 
 // Elimina un dottore
 function destroy(req, res) {
@@ -105,5 +130,6 @@ function destroy(req, res) {
 module.exports = {
     index,
     store,
+    getAverageRating,
     destroy,
 };
