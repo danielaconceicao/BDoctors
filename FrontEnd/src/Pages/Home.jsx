@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import "../i118";
 import { useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
-import FeaturedDoctorsCarousel from "../Components/FeaturedDoctorsCarousel";
+import FeaturedDoctorsCards from "../Components/FeaturedDoctorsCards";
 
 export default function Home() {
     const { specializations, doctors, setFilteredDoctors, loading, error, setSelectedSpecialization } = useGlobalContext();
@@ -62,8 +62,8 @@ export default function Home() {
 
 
                 </div>
-                <h2>I Nostri Dottori in Evidenza</h2>
-                <FeaturedDoctorsCarousel />
+                <h2 className="mt-3 mb-3">I Nostri Dottori in Evidenza</h2>
+                <FeaturedDoctorsCards />
             </div>
 
         </div>
