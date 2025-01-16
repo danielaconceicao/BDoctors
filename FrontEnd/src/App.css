@@ -41,3 +41,11 @@
     color: white;
     transition: transform 0.2s ease-in-out;
 }
+
+
+.vote_button,
+.submit_review_button,
+.home_button {
+
+    background-color: #5f3cb0 !important;
+}

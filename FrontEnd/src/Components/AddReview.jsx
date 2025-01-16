@@ -168,7 +168,7 @@ const AddReview = () => {
                         </option>
                     </select>
                 </div>
-                <button type="submit" className="btn btn-primary mt-3">Invia Recensione</button>
+                <button type="submit" className="btn mt-3 text-white submit_review_button">Invia Recensione</button>
             </form>
         </div>
     );
