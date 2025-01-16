@@ -34,7 +34,7 @@ const postReview = function (req, res) {
     // verifica che il dottore associato alla recensione sia presente nel database
     verifyDoctorId(doctor_id, req, res)
 
-    const sql = 'INSERT INTO reviews (first_name, last_name, description, rating, doctor_id) VALUES (?,?,?,?,?)'
+    const sql = 'INSERT INTO reviews (first_name, last_name, description, rating, doctor_id,date) VALUES (?,?,?,?,?, CURDATE())'
 
     db.query(sql, [first_name, last_name, description, rating, doctor_id], function (err) {
         if (err) {
