@@ -76,21 +76,16 @@ const AddReview = () => {
             .then((data) => {
                 fetchReviews();
                 showAlert('Recensione inviata con successo!', 'success');
+
+                // Ricarica la pagina dopo 2 secondi
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
             })
             .catch((error) => {
                 showAlert(`Errore durante l'invio della recensione: ${error.message}`, 'danger');
             });
-
-        setFormData({
-            first_name: '',
-            last_name: '',
-            description: '',
-            rating: '',
-            doctor_id: doctor.doctor_id || '',
-        });
-        location.reload();
-    };
-
+    }
     return (
         <div className="container border border-2 border-secondary rounded p-4 mt-4 ">
             <h2 className="mt-3 mb-4 text-center">Lascia una recensione</h2>
