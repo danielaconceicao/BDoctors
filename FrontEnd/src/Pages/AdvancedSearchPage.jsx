@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 
 export default function AdvancedSearchPage() {
 
-    const { filteredDoctors, setFilteredDoctors, setDoctor, selectedSpecialization } = useGlobalContext()
+    const { filteredDoctors, setFilteredDoctors } = useGlobalContext()
     const { t } = useTranslation()
     const navigate = useNavigate()
     const { specialization } = useParams()
@@ -37,14 +37,11 @@ export default function AdvancedSearchPage() {
 
     // Funzione per gestire il click sul dottore
     function handleDoctorsDetails(e) {
-        const doctotId = e.currentTarget.getAttribute('data-selected-doctor')
-        // console.log(doctotId);
+        const doctorName = e.currentTarget.getAttribute('data-selected-name')
+        const doctorSurname = e.currentTarget.getAttribute('data-selected-surname')
+        const doctor_id = e.currentTarget.getAttribute('data-selected-doctor_id')
 
-        const selectedDoctor = filteredDoctors.find(doctor => parseInt(doctor.doctor_id) === parseInt(doctotId))
-        // console.log(selectedDoctor);
-
-        setDoctor(selectedDoctor);
-        navigate('/DoctorPage');
+        navigate(`/DoctorPage/${doctorName}${doctorSurname}/${doctor_id}`)
     }
 
     // Funzione per gestire la selezione del filtro
@@ -80,10 +77,7 @@ export default function AdvancedSearchPage() {
     }
 
 
-    function maxLenght(params) {
-        return params.slice(0, 20) + "...";
 
-    }
 
     return (
         <>
@@ -111,23 +105,26 @@ export default function AdvancedSearchPage() {
 
                 </form>
 
-                <h4>{t(selectedSpecialization)}</h4>
+                <h4>{t(specialization)}</h4>
 
                 {filterDoctors().map((doctor, index) => (
                     <div
                         key={index}
                         className={`${style.doctor} `}
                         onClick={handleDoctorsDetails}
-                        data-selected-doctor={doctor.doctor_id}
+                        data-selected-name={doctor.first_name}
+                        data-selected-surname={doctor.last_name}
+                        data-selected-doctor_id={doctor.doctor_id}
+
                     >
                         <img src="https://picsum.photos/60/90" alt="ProfileImg" />
                         <p className=''>
                             <strong>Nome: </strong> {doctor.first_name}
                         </p>
                         <p><strong>Cognome: </strong> {doctor.last_name}</p>
-                        <p className={style.px576_p}><strong>Email: </strong> {doctor.email}</p>
-                        <p className={style.px1100_p}><strong>Tel: </strong> {doctor.phone_number}</p>
-                        <p className={style.px1100_p}><strong>Indirizzo: </strong> {maxLenght(doctor.address)}</p>
+
+
+
                     </div>
                 ))}
             </div>
