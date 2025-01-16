@@ -89,7 +89,6 @@ export default function DoctorPage() {
                         </div>
                     </div>
                 </div>
-
                 <AddReview />
                 <ShowReviewsByDoctorId doctorId={doctor_id} />
             </div>
