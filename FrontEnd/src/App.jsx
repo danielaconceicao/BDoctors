@@ -17,7 +17,7 @@ function App() {
           <Routes>
             <Route element={<DefaultLayout />} >
               <Route index element={<Home />} />
-              <Route path="/AdvancedSearchPage" element={<AdvancedSearchPage />} />
+              <Route path="/AdvancedSearchPage/:specialization" element={<AdvancedSearchPage />} />
               <Route path="/DoctorRegistration" element={<DoctorRegistration />} />
               <Route path="/DoctorPage" element={<DoctorPage />} />
             </Route>

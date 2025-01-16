@@ -4,16 +4,36 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from 'react-router-dom';
 import "../i118.js";
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export default function AdvancedSearchPage() {
 
-    const { filteredDoctors, setDoctor, selectedSpecialization } = useGlobalContext()
+    const { filteredDoctors, setFilteredDoctors, setDoctor, selectedSpecialization } = useGlobalContext()
     const { t } = useTranslation()
     const navigate = useNavigate()
+    const { specialization } = useParams()
 
     // Stati per selezione del filtro e input di ricerca
     const [searchText, setSearchText] = useState('')
     const [filterOption, setFilterOption] = useState('')
+
+
+    async function getDoctorBySpecializations() {
+        try {
+            const response = await fetch(`http://localhost:3000/doctors/specializations/${specialization}`)
+            const data = await response.json()
+            setFilteredDoctors(data)
+        } catch (error) {
+            console.error("Errore nel recupero dei dati", error)
+        }
+    }
+
+
+    useEffect(() => {
+        getDoctorBySpecializations()
+    }, [])
+
 
     // Funzione per gestire il click sul dottore
     function handleDoctorsDetails(e) {
