@@ -91,7 +91,16 @@ function getAverageRating(req, res) {
             return res.status(404).json({ error: 'No reviews found for this doctor' });
         }
 
-        res.json({ doctor_id: doctorId, average_rating: parseFloat(results[0].average_rating.toFixed(2)) });
+        // Assicuriamoci che average_rating sia un numero
+        const averageRating = parseFloat(results[0].average_rating);
+
+        // Verifica se la conversione ha avuto successo
+        if (isNaN(averageRating)) {
+            return res.status(500).json({ error: 'Invalid average rating value' });
+        }
+
+        // Applica toFixed per limitare a 2 decimali
+        res.json({ doctor_id: doctorId, average_rating: averageRating.toFixed(2) });
     });
 }
 
