@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useGlobalContext } from '../Context/GlobalContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,9 +9,11 @@ const AddReview = () => {
         last_name: '',
         description: '',
         rating: '',
-        doctor_id: doctor.doctor_id
+        doctor_id: doctor.doctor_id || '',
     });
+    const [alert, setAlert] = useState({ show: false, message: '', type: '' });
     const navigate = useNavigate();
+
     useEffect(() => {
         if (doctor) {
             setFormData((prevFormData) => ({
@@ -26,12 +28,16 @@ const AddReview = () => {
         setFormData({ ...formData, [name]: value });
     };
 
+    const showAlert = (message, type) => {
+        setAlert({ show: true, message, type });
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Controllo per campi vuoti
+        // Validazione campi
         if (!formData.first_name || !formData.last_name || !formData.description || !formData.rating) {
-            alert('Per favore compila tutti i campi richiesti!');
+            showAlert('Per favore compila tutti i campi richiesti!', 'danger');
             return;
         }
         if (
@@ -40,21 +46,18 @@ const AddReview = () => {
             !/^[A-Z]/.test(formData.first_name) ||
             !/^[A-Z]/.test(formData.last_name)
         ) {
-            alert('Il nome e il cognome devono avere almeno 3 caratteri e la prima lettera deve essere maiuscola!');
+            showAlert('Il nome e il cognome devono avere almeno 3 caratteri e la prima lettera deve essere maiuscola!', 'danger');
             return;
         }
         if (formData.rating < 1 || formData.rating > 5) {
-            alert('Il voto deve essere compreso tra 1 e 5!');
-            return
+            showAlert('Il voto deve essere compreso tra 1 e 5!', 'danger');
+            return;
         }
 
-        // Conversione del  rating in numero
         const formDataToSend = {
             ...formData,
             rating: Number(formData.rating),
         };
-
-        console.log('Dati inviati:', formDataToSend);
 
         fetch('http://localhost:3000/reviews', {
             method: 'POST',
@@ -64,35 +67,29 @@ const AddReview = () => {
             body: JSON.stringify(formDataToSend),
         })
             .then((response) => {
-                console.log('Response status:', response.status);
                 if (!response.ok) {
-                    return response.text().then(text => { throw new Error(text) });
+                    return response.text().then((text) => { throw new Error(text); });
                 }
                 return response.json();
             })
-            .then((data) => {
-                console.log('Risposta del server:', data);
-                alert('Recensione inviata con successo!');
+            .then(() => {
+                showAlert('Recensione inviata con successo!', 'success');
                 fetchReviews();
                 setTimeout(() => {
-                    alert('Recensione aggiunta con successo, stai per essere renderizzato alla pagina iniziale...');
                     navigate('/');
                 }, 3000);
             })
             .catch((error) => {
-                console.error('Errore durante l\'invio della recensione:', error);
+                showAlert(`Errore durante l'invio della recensione: ${error.message}`, 'danger');
             });
 
-        /* reset del form */
         setFormData({
             first_name: '',
             last_name: '',
             description: '',
             rating: '',
-            doctor_id: doctor.doctor_id
+            doctor_id: doctor.doctor_id || '',
         });
-
-
     };
 
     return (
@@ -108,7 +105,7 @@ const AddReview = () => {
                         value={formData.first_name}
                         onChange={handleChange}
                         className="form-control"
-                        placeholder='Il nome prevede almeno 3 caratteri di cui il primo maiuscolo'
+                        placeholder="Il nome prevede almeno 3 caratteri di cui il primo maiuscolo"
                         required
                     />
                 </div>
@@ -121,7 +118,7 @@ const AddReview = () => {
                         value={formData.last_name}
                         onChange={handleChange}
                         className="form-control"
-                        placeholder='Il cognome prevede almeno 3 caratteri di cui il primo maiuscolo'
+                        placeholder="Il cognome prevede almeno 3 caratteri di cui il primo maiuscolo"
                         required
                     />
                 </div>
@@ -149,25 +146,22 @@ const AddReview = () => {
                         min="1"
                         max="5"
                         required
-                        placeholder='Il voto prevede un valore compreso tra 1 e 5'
                     />
                 </div>
-                <div className="form-group mb-4">
-                    <label htmlFor="doctor_id">Dottore:</label>
-                    <select
-                        name="doctor_id"
-                        id="doctor_id"
-                        value={formData.doctor_id}
-                        onChange={handleChange}
-                        className="form-select"
-                        required
-                    >
-                        <option value="">Seleziona il Dottore</option>
-                        <option key={doctor.id} value={doctor.doctor_id}>
-                            {doctor.first_name} {doctor.last_name}
-                        </option>
-                    </select>
-                </div>
+
+                {/*Boostrap Toast */}
+                {alert.show && (
+                    <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
+                        {alert.message}
+                        <button
+                            type="button"
+                            className="btn-close"
+                            aria-label="Close"
+                            onClick={() => setAlert({ show: false, message: '', type: '' })}
+                        ></button>
+                    </div>
+                )}
+
                 <button type="submit" className="btn btn-primary mt-3">Invia Recensione</button>
             </form>
         </div>
