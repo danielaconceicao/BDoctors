@@ -127,7 +127,7 @@ export default function DoctorRegistration() {
                         </div>
 
                         <div className="mb-3">
-                            <button type="submit" className="btn btn-primary">Inviare <i className="bi bi-send"></i></button>
+                            <button type="submit" className="btn button_registration_form">Inviare <i className="bi bi-send"></i></button>
                         </div>
                     </form>
                 </div>
