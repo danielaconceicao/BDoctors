@@ -3,29 +3,34 @@ import { useGlobalContext } from "../Context/GlobalContext";
 import styles from "../styles/FeaturedDoctorsCarousel.module.css";
 import "../i118";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const FeaturedDoctorsCarousel = () => {
-    const { doctors, reviews, fetchReviewByDoctorId } = useGlobalContext();
+    const { doctors, setDoctor, reviews } = useGlobalContext();
     const [featuredDoctors, setFeaturedDoctors] = useState([]);
     const [currentDoctorIndex, setCurrentDoctorIndex] = useState(0);
+    const [isPaused, setIsPaused] = useState(false);
+    const navigate = useNavigate();
     const { t } = useTranslation();
 
-    // Calcola la media delle recensioni per ogni dottore
-    useEffect(() => {
-        const calculateAverageRatings = async () => {
-            const doctorRatings = await Promise.all(
-                doctors.map(async (doctor) => {
-                    const doctorReviews = reviews.filter((review) => review.doctor_id === doctor.doctor_id);
-                    const averageRating =
-                        doctorReviews.reduce((sum, review) => sum + review.rating, 0) /
-                        (doctorReviews.length || 1); // Evita divisione per 0
-                    return { ...doctor, averageRating };
-                })
-            );
 
-            // Ordina i dottori in base alla media dei voti
+
+    // Calcola la media delle recensioni e ordina i dottori
+    useEffect(() => {
+        const calculateAverageRatings = () => {
+            const doctorRatings = doctors.map((doctor) => {
+                const doctorReviews = reviews.filter(
+                    (review) => review.doctor_id === doctor.doctor_id
+                );
+                const averageRating =
+                    doctorReviews.reduce((sum, review) => sum + review.rating, 0) /
+                    (doctorReviews.length || 1); // Evita divisione per 0
+                return { ...doctor, averageRating };
+            });
+
+            // Ordina i dottori per rating e mostra i top 5
             const sortedDoctors = doctorRatings.sort((a, b) => b.averageRating - a.averageRating);
-            setFeaturedDoctors(sortedDoctors.slice(0, 5)); // Mostra solo i top 5
+            setFeaturedDoctors(sortedDoctors.slice(0, 5));
         };
 
         calculateAverageRatings();
@@ -33,16 +38,24 @@ const FeaturedDoctorsCarousel = () => {
 
     // Cambia automaticamente il dottore visualizzato ogni 6 secondi
     useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentDoctorIndex((prevIndex) =>
-                (prevIndex + 1) % featuredDoctors.length
-            );
-        }, 6000);
+        if (!isPaused && doctors.length > 1) {
+            const interval = setInterval(() => {
+                setCurrentDoctorIndex((prevIndex) =>
+                    (prevIndex + 1) % doctors.length
+                );
+            }, 3000);
+            return () => clearInterval(interval);
+        }
+    }, [isPaused, doctors.length]);
 
-        return () => clearInterval(interval);
-    }, [featuredDoctors]);
 
-    // Funzioni per cambiare manualmente dottore
+    // Gestisce il click su un dottore e naviga ai suoi dettagli
+    const handleDoctorClick = (doctor) => {
+        setDoctor(doctor); // Salva il dottore selezionato nel contesto
+        navigate("/DoctorPage"); // Naviga alla pagina del dottore
+    };
+
+    // Cambia manualmente dottore
     const handleNext = () => {
         setCurrentDoctorIndex((prevIndex) =>
             (prevIndex + 1) % featuredDoctors.length
@@ -55,35 +68,43 @@ const FeaturedDoctorsCarousel = () => {
         );
     };
 
-    if (featuredDoctors.length === 0) {
-        return <p>Caricamento dottori in evidenza...</p>;
-    }
+    if (doctors.length === 0) return null; // Nessun dottore, nessun carosello
 
-    const currentDoctor = featuredDoctors[currentDoctorIndex];
+    const currentDoctor = doctors[currentDoctorIndex];
 
     return (
-        <div className={styles.carousel}>
-            {/* Frecce visibili solo su desktop */}
+        <div
+            className={styles.carousel}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+        >
+            {/* Frecce di navigazione */}
             <button
                 className={`${styles.arrow} ${styles.leftArrow}`}
                 onClick={handlePrev}
             >
                 &lt;
             </button>
-            <div className={styles.card}>
+
+            {/* Card del dottore attuale */}
+            <div
+                className={styles.card}
+                onClick={() => handleDoctorClick(currentDoctor)}
+            >
                 <h3>{currentDoctor.first_name} {currentDoctor.last_name}</h3>
-                <p className="col-12">Media voti: {currentDoctor.averageRating.toFixed(1)}</p>
-                <p className="col-12">
+                <p>Media voti: {isNaN(currentDoctor.averageRating) ? "N/A" : currentDoctor.averageRating.toFixed(1)}</p>
+                <p>
                     Specializzazioni:{" "}
                     {currentDoctor.specializations
-                        .split(",") // Dividi la stringa in un array
-                        .map((spec) => t(spec.trim())) // Traduci ogni specializzazione
-                        .join(", ")} {/* Unisci gli elementi tradotti */}
+                        .split(",")
+                        .map((spec) => t(spec.trim()))
+                        .join(", ")}
                 </p>
-
-                <p className="col-12">Contatto: {currentDoctor.phone_number}</p>
-                <p className="col-12">Email: {currentDoctor.email}</p>
+                <p>Contatto: {currentDoctor.phone_number}</p>
+                <p>Email: {currentDoctor.email}</p>
             </div>
+
+            {/* Freccia destra */}
             <button
                 className={`${styles.arrow} ${styles.rightArrow}`}
                 onClick={handleNext}
