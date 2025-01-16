@@ -42,11 +42,12 @@ export default function AdvancedSearchPage() {
 
     // Funzione per gestire il click sul dottore
     function handleDoctorsDetails(e) {
-        const doctorName = e.currentTarget.getAttribute('data-selected-name')
-        const doctorSurname = e.currentTarget.getAttribute('data-selected-surname')
+        //const doctorName = e.currentTarget.getAttribute('data-selected-name')
+        //const doctorSurname = e.currentTarget.getAttribute('data-selected-surname')
         const doctor_id = e.currentTarget.getAttribute('data-selected-doctor_id')
 
-        navigate(`/DoctorPage/${doctorName}${doctorSurname}/${doctor_id}`)
+        // navigate(`/DoctorPage/${doctorName}${doctorSurname}/${doctor_id}`)
+        navigate(`/DoctorPage/${doctor_id}`);
     }
 
     // Funzione per gestire la selezione del filtro

@@ -1,27 +1,40 @@
-import { useGlobalContext } from "../Context/GlobalContext";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
 import AddReview from "../Components/AddReview";
-import "../i118";
 import ShowReviewsByDoctorId from "../Components/ShowReviewsByDoctorId";
 import AverageRating from "../Components/AverageRating";
-
+import "../i118";
 
 export default function DoctorPage() {
-
-    /* recupero id per le review */
     const { doctorId } = useParams();
-    /* API per la lista di tutti i dottori  */
-    const { doctor } = useGlobalContext();
-    //console.log(doctor);
+    const navigate = useNavigate();
+    console.log(doctorId);
 
-    /* traslate */
+    const { doctors, setDoctors } = useState(null);
     const { t } = useTranslation();
+    //console.log(doctors);
+
+    async function getDoctor() {
+        try {
+            const response = await fetch(`http://localhost:3000/doctors/${doctorId}`);
+            const data = await response.json()
+            console.log(data);
+
+        } catch (error) {
+            console.error("Errore nel recupero dei dati", error)
+        }
+    }
+
+    useEffect(() => {
+        getDoctor();
+    }, [])
+
+
 
     return (
-
-        <section className="doctor-page d-flex justify-content-center align-items-center min-vh-100">
-
+        <>
+            {/* <section className="doctor-page d-flex justify-content-center align-items-center min-vh-100">
             <div className="container-sm">
                 <h1 className="text-center mb-4">Dottore</h1>
                 <div className="container d-flex justify-content-center mt-4">
@@ -51,16 +64,11 @@ export default function DoctorPage() {
                     </div>
                 </div>
 
-
-                {/* componente per aggiungere review */}
                 <AddReview />
-
-                {/* componente per mostrare le recensioni per ID dottore */}
                 <ShowReviewsByDoctorId doctorId={doctorId} />
-
-                {/* componente per calcolare la media di rating di un dottore */}
                 <AverageRating doctorId={doctorId} />
             </div>
-        </section>
+        </section> */}
+        </>
     );
 }
