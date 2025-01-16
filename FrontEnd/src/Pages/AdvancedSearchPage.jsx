@@ -3,9 +3,8 @@ import { useGlobalContext } from '../Context/GlobalContext.jsx'
 import { useTranslation } from "react-i18next";
 import { useNavigate } from 'react-router-dom';
 import "../i118.js";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
 
 export default function AdvancedSearchPage() {
 
@@ -17,8 +16,9 @@ export default function AdvancedSearchPage() {
     // Stati per selezione del filtro e input di ricerca
     const [searchText, setSearchText] = useState('')
     const [filterOption, setFilterOption] = useState('')
+    const [ratings, setRatings] = useState({}) // Stato per i rating dei dottori
 
-
+    // Funzione per recuperare i dottori per specializzazione
     async function getDoctorBySpecializations() {
         try {
             const response = await fetch(`http://localhost:3000/doctors/specializations/${specialization}`)
@@ -29,11 +29,16 @@ export default function AdvancedSearchPage() {
         }
     }
 
-
-    useEffect(() => {
-        getDoctorBySpecializations()
-    }, [])
-
+    // Funzione per recuperare il rating di un dottore
+    async function getDoctorRating(id) {
+        try {
+            const response = await fetch(`http://localhost:3000/doctors/${id}/average-rating`)
+            const data = await response.json()
+            return data.average_rating
+        } catch (error) {
+            console.error("Errore nel recupero dei dati", error)
+        }
+    }
 
     // Funzione per gestire il click sul dottore
     function handleDoctorsDetails(e) {
@@ -76,58 +81,68 @@ export default function AdvancedSearchPage() {
         });
     }
 
+    // Effettua il recupero dei dottori e dei loro rating
+    useEffect(() => {
+        getDoctorBySpecializations()
+    }, [specialization])
 
+    useEffect(() => {
+        // Recupera i rating dei dottori quando i dottori vengono filtrati o aggiornati
+        const fetchRatings = async () => {
+            const newRatings = {}
+            for (const doctor of filteredDoctors) {
+                const rating = await getDoctorRating(doctor.doctor_id)
+                newRatings[doctor.doctor_id] = rating
+            }
+            setRatings(newRatings)
+        }
 
+        if (filteredDoctors.length > 0) {
+            fetchRatings()
+        }
+    }, [filteredDoctors]) // Ricarica i rating ogni volta che i dottori vengono aggiornati
 
     return (
-        <>
-            <div className={`container-sm container-md container-lg container-xl container-xxl ${style.dev_container}`}>
-                <h3>Filtra la ricerca</h3>
-                <form className='d-flex' onSubmit={(e) => e.preventDefault()}>
-                    <select
-                        className="form-select mx-2"
-                        aria-label="Default select example"
-                        onChange={handleFilterChange}
-                        value={filterOption}
-                    >
-                        <option value="">Filtra per...</option>
-                        <option value="1">Nome</option>
-                        <option value="2">Cognome</option>
-                        <option value="3">Indirizzo</option>
-                    </select>
-                    <input
-                        type="text"
-                        className="form-control mx-2"
-                        placeholder="Cerca..."
-                        value={searchText}
-                        onChange={handleSearchTextChange}
-                    />
+        <div className={`container-sm container-md container-lg container-xl container-xxl ${style.dev_container}`}>
+            <h3>Filtra la ricerca</h3>
+            <form className='d-flex' onSubmit={(e) => e.preventDefault()}>
+                <select
+                    className="form-select mx-2"
+                    aria-label="Default select example"
+                    onChange={handleFilterChange}
+                    value={filterOption}
+                >
+                    <option value="">Filtra per...</option>
+                    <option value="1">Nome</option>
+                    <option value="2">Cognome</option>
+                    <option value="3">Indirizzo</option>
+                </select>
+                <input
+                    type="text"
+                    className="form-control mx-2"
+                    placeholder="Cerca..."
+                    value={searchText}
+                    onChange={handleSearchTextChange}
+                />
+            </form>
 
-                </form>
+            <h4>{t(specialization)}</h4>
 
-                <h4>{t(specialization)}</h4>
-
-                {filterDoctors().map((doctor, index) => (
-                    <div
-                        key={index}
-                        className={`${style.doctor} `}
-                        onClick={handleDoctorsDetails}
-                        data-selected-name={doctor.first_name}
-                        data-selected-surname={doctor.last_name}
-                        data-selected-doctor_id={doctor.doctor_id}
-
-                    >
-                        <img src="https://picsum.photos/60/90" alt="ProfileImg" />
-                        <p className=''>
-                            <strong>Nome: </strong> {doctor.first_name}
-                        </p>
-                        <p><strong>Cognome: </strong> {doctor.last_name}</p>
-
-
-
-                    </div>
-                ))}
-            </div>
-        </>
+            {filterDoctors().map((doctor, index) => (
+                <div
+                    key={index}
+                    className={`${style.doctor} `}
+                    onClick={handleDoctorsDetails}
+                    data-selected-name={doctor.first_name}
+                    data-selected-surname={doctor.last_name}
+                    data-selected-doctor_id={doctor.doctor_id}
+                >
+                    <img src="https://picsum.photos/60/90" alt="ProfileImg" />
+                    <p><strong>Nome: </strong> {doctor.first_name}</p>
+                    <p><strong>Cognome: </strong> {doctor.last_name}</p>
+                    <p><strong>Rating: </strong> {ratings[doctor.doctor_id] ? ratings[doctor.doctor_id] : 'No rating'}</p>
+                </div>
+            ))}
+        </div>
     );
 }
