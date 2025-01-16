@@ -60,7 +60,7 @@ export default function DoctorRegistration() {
             .then(data => {
                 console.log(data);
 
-                setSuccessMessage('Medico registrato con successo');
+                setSuccessMessage('Medico registrato con successo. Verrai reindirizzato alla pagina principale');
                 setFirstName('');
                 setLastName('');
                 setEmail('');
@@ -71,7 +71,7 @@ export default function DoctorRegistration() {
                 setTimeout(() => {
                     setSuccessMessage('');
                     navigate(-1);
-                }, 2000);
+                }, 5000);
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -82,29 +82,29 @@ export default function DoctorRegistration() {
 
     return (
         <div className="container">
+            <h1 className='py-3'> Registro dottore</h1>
+            <p><i className="bi bi-info-circle-fill"></i>  I campi contrassegnati con un asterisco(*) sono obbligatori</p>
             <div id="form-card" className="card mb-5">
                 <div className="card-body">
 
-                    {successMessage && <div>{successMessage}<i className="bi bi-clipboard2-check"></i></div>}
-
                     <form onSubmit={handleFormSubmit}>
                         <div className="mb-3">
-                            <label htmlFor="name">Nome</label>
+                            <label htmlFor="name">Nome*</label>
                             <input name="name" id="name" type="text" className="form-control" placeholder="il tuo nome. es: Raqueline" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
                         </div>
 
                         <div className="mb-3">
-                            <label htmlFor="name">Cognome</label>
+                            <label htmlFor="name">Cognome*</label>
                             <input name="lastName" id="lastName" type="text" className="form-control" placeholder="il tuo cognome. es: Rapariga" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
                         </div>
 
                         <div className="mb-3">
-                            <label htmlFor="exampleInputEmail1" className="form-label">Email</label>
-                            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder='latuaemail@email.com' value={email} onChange={(e) => setEmail(e.target.value)} required />
+                            <label htmlFor="exampleInputEmail1" className="form-label">Email*</label>
+                            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder='la tua email. es: latuaemail@email.com' value={email} onChange={(e) => setEmail(e.target.value)} required />
                         </div>
 
                         <div className="form-group">
-                            <label className='pb-3'>Specializzazione</label>
+                            <label className='pb-3'>Specializzazione*</label>
                             {specializations.map((specialization) => (
                                 <div key={specialization.id} className="form-check">
                                     <input type="checkbox" id={`specialization-${specialization.id}`} value={specialization.id} className="form-check-input" checked={selectedSpecializations.includes(specialization.id)} onChange={() => handleCheckboxChange(specialization.id)} />
@@ -116,17 +116,19 @@ export default function DoctorRegistration() {
                         </div>
 
                         <div className="form-outline mb-3 pt-3">
-                            <label className="form-label" htmlFor="typePhone">Numero di telefono</label>
-                            <input type="tel" id="typePhone" className="form-control" placeholder='345678912' value={phone} onChange={(e) => setPhone(e.target.value)} required />
+                            <label className="form-label" htmlFor="typePhone">Numero di telefono*</label>
+                            <input type="tel" id="typePhone" className="form-control" placeholder='il tuo numero di telefono. es: 345678912' value={phone} onChange={(e) => setPhone(e.target.value)} required />
                         </div>
 
                         <div className="mb-3">
-                            <label htmlFor="inputAddress" className="form-label">Indirizzo</label>
-                            <input type="text" className="form-control" id="inputAddress" placeholder="via piemonte, 5, MI" value={address} onChange={(e) => setAddress(e.target.value)} required />
+                            <label htmlFor="inputAddress" className="form-label">Indirizzo*</label>
+                            <input type="text" className="form-control" id="inputAddress" placeholder=" es: via piemonte, 5, MI" value={address} onChange={(e) => setAddress(e.target.value)} required />
                         </div>
 
                         <div className="mb-3">
-                            <button type="submit" className="btn button_registration_form">Inviare <i className="bi bi-send"></i></button>
+                            <button type="submit" className="btn button_registration_form">Salva <i className="bi bi-floppy"></i></button>
+
+                            <p className='pt-3 fw-bolder'>{successMessage && <div><i style={{color:'green', fontSize: '2rem'}} className="bi bi-check-lg check-form"></i> {successMessage}</div>}</p> 
                         </div>
                     </form>
                 </div>
