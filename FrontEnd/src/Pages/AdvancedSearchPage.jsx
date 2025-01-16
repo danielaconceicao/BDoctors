@@ -37,14 +37,10 @@ export default function AdvancedSearchPage() {
 
     // Funzione per gestire il click sul dottore
     function handleDoctorsDetails(e) {
-        const doctotId = e.currentTarget.getAttribute('data-selected-doctor')
-        // console.log(doctotId);
+        const doctorName = e.currentTarget.getAttribute('data-selected-name')
+        const doctorSurname = e.currentTarget.getAttribute('data-selected-surname')
 
-        const selectedDoctor = filteredDoctors.find(doctor => parseInt(doctor.doctor_id) === parseInt(doctotId))
-        // console.log(selectedDoctor);
-
-        setDoctor(selectedDoctor);
-        navigate('/DoctorPage');
+        navigate(`/DoctorPage/${doctorName}${doctorSurname}`)
     }
 
     // Funzione per gestire la selezione del filtro
@@ -118,7 +114,9 @@ export default function AdvancedSearchPage() {
                         key={index}
                         className={`${style.doctor} `}
                         onClick={handleDoctorsDetails}
-                        data-selected-doctor={doctor.doctor_id}
+                        data-selected-name={doctor.first_name}
+                        data-selected-surname={doctor.last_name}
+
                     >
                         <img src="https://picsum.photos/60/90" alt="ProfileImg" />
                         <p className=''>
