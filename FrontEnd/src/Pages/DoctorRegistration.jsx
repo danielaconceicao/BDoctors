@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../i118";
 import { useTranslation } from "react-i18next";
+import { emailRegex, phoneRegex, nameRegex } from "../utils/helper";
 
 export default function DoctorRegistration() {
-
     const { t } = useTranslation();
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -13,20 +13,21 @@ export default function DoctorRegistration() {
     const [address, setAddress] = useState('');
     const [specializations, setSpecializations] = useState([]);
     const [selectedSpecializations, setSelectedSpecializations] = useState([]);
+    const [curriculum, setCurriculum] = useState(''); // Nuovo stato per curriculum
+    const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [emailExists, setEmailExists] = useState(false);
     const navigate = useNavigate();
 
-    /* prendendo tutte le specializzazioni */
+    // Fetch delle specializzazioni dal server
     useEffect(() => {
         fetch('http://localhost:3000/specializations')
             .then(res => res.json())
-            .then(data => {
-                setSpecializations(data)
-            })
-            .catch((error) => { console.error(error) });
+            .then(data => setSpecializations(data))
+            .catch(error => console.error(error));
     }, []);
 
-
+    // Funzione per gestire la selezione delle specializzazioni
     function handleCheckboxChange(specId) {
         if (selectedSpecializations.includes(specId)) {
             setSelectedSpecializations(selectedSpecializations.filter((id) => id !== specId));
@@ -35,104 +36,154 @@ export default function DoctorRegistration() {
         }
     }
 
+    // Funzione per verificare se l'email è già in uso
+    async function checkEmailExistence(email) {
+        const response = await fetch('http://localhost:3000/doctors');
+        const doctors = await response.json();
+        const emailInUse = doctors.some(doctor => doctor.email === email);
+        setEmailExists(emailInUse);
+    }
 
+    // Funzione per gestire l'invio del form
     function handleFormSubmit(e) {
         e.preventDefault();
 
-        const doctorData = { first_name: firstName, last_name: lastName, email: email, phone_number: phone, address: address, specializations: selectedSpecializations };
-        const bdoctors = 'http://localhost:3000/doctors';
+        // Verifica se tutti i campi obbligatori sono compilati
+        if (!firstName || !lastName || !email || !phone || !address || selectedSpecializations.length === 0 || !curriculum) {
+            setErrorMessage('Tutti i campi sono obbligatori.');
+            return;
+        }
 
-        fetch(bdoctors, {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify(doctorData),
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    return res.json().then((error) => {
-                        throw new Error(error.message);
-                    });
-                }
-                return res.json();
+        // Validazione nome e cognome
+        if (!nameRegex.test(firstName)) {
+            setErrorMessage('Il nome deve iniziare con una lettera maiuscola e contenere almeno 3 lettere.');
+            return;
+        }
+        if (!nameRegex.test(lastName)) {
+            setErrorMessage('Il cognome deve iniziare con una lettera maiuscola e contenere almeno 3 lettere.');
+            return;
+        }
+
+        // Validazione email
+        if (!emailRegex.test(email)) {
+            setErrorMessage('Formato email non valido.');
+            return;
+        }
+
+        // Validazione telefono
+        if (!phoneRegex.test(phone)) {
+            setErrorMessage('Formato telefono non valido.');
+            return;
+        }
+
+        // Verifica che l'email non sia già in uso
+        checkEmailExistence(email).then(() => {
+            if (emailExists) {
+                setErrorMessage('L\'email è già in uso. Per favore, scegli un\'altra.');
+                return;
+            }
+
+            // Creazione dei dati per la registrazione
+            const doctorData = {
+                first_name: firstName,
+                last_name: lastName,
+                email: email,
+                phone_number: phone,
+                address: address,
+                specializations: selectedSpecializations,
+                curriculum: curriculum // Aggiungi curriculum ai dati
+            };
+
+            // Invio dei dati al server
+            fetch('http://localhost:3000/doctors', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(doctorData),
             })
-            .then(data => {
-                console.log(data);
-
-                setSuccessMessage('Medico registrato con successo. Verrai reindirizzato alla pagina principale');
-                setFirstName('');
-                setLastName('');
-                setEmail('');
-                setPhone('');
-                setAddress('');
-                setSelectedSpecializations([]);
-
-                setTimeout(() => {
-                    setSuccessMessage('');
-                    navigate(-1);
-                }, 5000);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                console.log('Errore durante la registrazione del medico');
-            });
+                .then((res) => res.json())
+                .then((data) => {
+                    setSuccessMessage('Medico registrato con successo! Verrai reindirizzato alla homepage...');
+                    setTimeout(() => {
+                        setSuccessMessage('');
+                        navigate('/');
+                    }, 2000);
+                })
+                .catch((error) => {
+                    console.error('Errore durante la registrazione:', error);
+                    setErrorMessage('Errore durante la registrazione del medico.');
+                });
+        });
     }
-
 
     return (
         <div className="container">
-            <h1 className='py-3'> Registro dottore</h1>
-            <p><i className="bi bi-info-circle-fill"></i>  I campi contrassegnati con un asterisco(*) sono obbligatori</p>
-            <div id="form-card" className="card mb-5">
-                <div className="card-body">
-
-                    <form onSubmit={handleFormSubmit}>
-                        <div className="mb-3">
-                            <label htmlFor="name">Nome*</label>
-                            <input name="name" id="name" type="text" className="form-control" placeholder="il tuo nome. es: Raqueline" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
-                        </div>
-
-                        <div className="mb-3">
-                            <label htmlFor="name">Cognome*</label>
-                            <input name="lastName" id="lastName" type="text" className="form-control" placeholder="il tuo cognome. es: Rapariga" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
-                        </div>
-
-                        <div className="mb-3">
-                            <label htmlFor="exampleInputEmail1" className="form-label">Email*</label>
-                            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder='la tua email. es: latuaemail@email.com' value={email} onChange={(e) => setEmail(e.target.value)} required />
-                        </div>
-
-                        <div className="form-group">
-                            <label className='pb-3'>Specializzazione*</label>
-                            {specializations.map((specialization) => (
-                                <div key={specialization.id} className="form-check">
-                                    <input type="checkbox" id={`specialization-${specialization.id}`} value={specialization.id} className="form-check-input" checked={selectedSpecializations.includes(specialization.id)} onChange={() => handleCheckboxChange(specialization.id)} />
-                                    <label htmlFor={`specialization-${specialization.id}`} className="form-check-label">
-                                        {t(specialization.specialization_name)}
-                                    </label>
-                                </div>
-                            ))}
-                        </div>
-
-                        <div className="form-outline mb-3 pt-3">
-                            <label className="form-label" htmlFor="typePhone">Numero di telefono*</label>
-                            <input type="tel" id="typePhone" className="form-control" placeholder='il tuo numero di telefono. es: 345678912' value={phone} onChange={(e) => setPhone(e.target.value)} required />
-                        </div>
-
-                        <div className="mb-3">
-                            <label htmlFor="inputAddress" className="form-label">Indirizzo*</label>
-                            <input type="text" className="form-control" id="inputAddress" placeholder=" es: via piemonte, 5, MI" value={address} onChange={(e) => setAddress(e.target.value)} required />
-                        </div>
-
-                        <div className="mb-3">
-                            <button type="submit" className="btn button_registration_form">Salva <i className="bi bi-floppy"></i></button>
-
-                            <p className='pt-3 fw-bolder'>{successMessage && <div><i style={{color:'green', fontSize: '2rem'}} className="bi bi-check-lg check-form"></i> {successMessage}</div>}</p> 
-                        </div>
-                    </form>
+            <h1 className='py-3'>{t('doctor_registration')}</h1>
+            <form onSubmit={handleFormSubmit}>
+                {/* Campo per il nome */}
+                <div className="mb-3">
+                    <label htmlFor="firstName">{t('Nome')}*</label>
+                    <input type="text" className="form-control" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
                 </div>
-            </div>
+
+                {/* Campo per il cognome */}
+                <div className="mb-3">
+                    <label htmlFor="lastName">{t('Cognome')}*</label>
+                    <input type="text" className="form-control" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
+                </div>
+
+                {/* Campo per l'email */}
+                <div className="mb-3">
+                    <label htmlFor="email">{t('Email')}*</label>
+                    <input type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                </div>
+
+                {/* Campo per il telefono */}
+                <div className="mb-3">
+                    <label htmlFor="phone">{t('Telefono')}*</label>
+                    <input type="tel" className="form-control" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+                </div>
+
+                {/* Campo per l'indirizzo */}
+                <div className="mb-3">
+                    <label htmlFor="address">{t('Indirizzo')}*</label>
+                    <input type="text" className="form-control" value={address} onChange={(e) => setAddress(e.target.value)} required />
+                </div>
+
+                {/* Sezione per la selezione delle specializzazioni */}
+                <div className="mb-3">
+                    <label>{t('specializations')}*</label>
+                    {specializations.map(spec => (
+                        <div key={spec.id}>
+                            <input
+                                type="checkbox"
+                                id={spec.id}
+                                checked={selectedSpecializations.includes(spec.id)}
+                                onChange={() => handleCheckboxChange(spec.id)}
+                            />
+                            <label htmlFor={spec.id}>{t(spec.specialization_name)}</label> {/* Tradurre il nome della specializzazione */}
+                        </div>
+                    ))}
+                </div>
+
+                {/* Campo per il curriculum */}
+                <div className="mb-3">
+                    <label htmlFor="curriculum">{t('Curriculum')}*</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        value={curriculum}
+                        onChange={(e) => setCurriculum(e.target.value)}
+                        required
+                    />
+                </div>
+
+                {/* Bottone di submit */}
+                <button type="submit" className="btn btn-primary">{t('register')}</button>
+            </form>
+
+            {/* Messaggi di errore e successo */}
+            {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+            {successMessage && <div className="alert alert-success">{successMessage}</div>}
         </div>
-    )
+    );
 }
