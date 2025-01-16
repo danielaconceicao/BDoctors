@@ -31,6 +31,7 @@ export default function ShowReviewsByDoctorId() {
 
         fetchReviewByDoctorId();
 
+
     }, [doctor]);
 
 
@@ -50,26 +51,29 @@ export default function ShowReviewsByDoctorId() {
             <h1 className="text-center mb-4">Recensioni</h1>
             {doctorReviews && doctorReviews.length > 0 ? (
                 <ul className="list-group gap-3">
-                    {doctorReviews.map((review) => (
-                        <li key={review.id} className="list-group-item border border-2 border-secondary rounded p-3">
-                            <h4>
-                                <strong className="text-decoration-underline">
-                                    {review.first_name} {review.last_name}
-                                </strong>
-                            </h4>
+                    {doctorReviews.map((review) => {
+                        const formattedDate = new Date(review.date).toLocaleDateString('it-IT'); // data formattata in italiano
+                        return (
+                            <li key={review.id} className="list-group-item border border-2 border-secondary rounded p-3">
+                                <h4>
+                                    <strong className="text-decoration-underline">
+                                        {review.first_name} {review.last_name}
+                                    </strong>
+                                </h4>
 
-                            <ul className="list-unstyled mt-2">
-                                <li><strong>Descrizione:</strong> {review.description}</li>
-                                <li><strong>Voto:</strong> {review.rating}</li>
-                            </ul>
-                        </li>
-                    ))}
+                                <ul className="list-unstyled mt-2">
+                                    <li><strong>Descrizione:</strong> {review.description}</li>
+                                    <li><strong>Voto:</strong> {review.rating}</li>
+                                    <li><strong>Data:</strong> {formattedDate}</li>
+                                </ul>
+                            </li>
+                        );
+                    })}
                 </ul>
             ) : (
                 <p className="text-center">Nessuna recensione disponibile per questo dottore.</p>
             )}
         </div>
-
-
     );
+
 }
