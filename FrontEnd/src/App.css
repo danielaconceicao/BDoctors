@@ -45,7 +45,10 @@
 
 .vote_button,
 .submit_review_button,
-.home_button {
+.home_button,
+.button_registration_form {
 
     background-color: #5f3cb0 !important;
+    color: white !important;
+    ;
 }
