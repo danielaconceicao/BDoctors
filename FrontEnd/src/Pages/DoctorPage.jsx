@@ -20,6 +20,8 @@ export default function DoctorPage() {
             const response = await fetch(`http://localhost:3000/doctors`);
             const data = await response.json();
             setDoctors(data);
+            console.log(data);
+
         } catch (error) {
             console.error("Errore nel recupero dei dati", error);
         }
@@ -30,6 +32,7 @@ export default function DoctorPage() {
         try {
             const response = await fetch(`http://localhost:3000/doctors/${id}/average-rating`);
             const data = await response.json();
+            //console.log(data);
             setRating(data.average_rating);
         } catch (error) {
             console.error("Errore nel recupero del rating", error);
@@ -84,6 +87,20 @@ export default function DoctorPage() {
                                             </li>
                                         ))}
                                     </ul>
+                                </li>
+                                <li>
+                                    {doctorid?.curriculum ? (
+                                        <a
+                                            href={doctorid.curriculum}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="btn btn-sm btn-primary mt-2"
+                                        >
+                                            Visualizza CV del dottore
+                                        </a>
+                                    ) : (
+                                        <p className="text-center text-muted">Curriculum non disponibile</p>
+                                    )}
                                 </li>
                             </ul>
                         </div>
