@@ -1,40 +1,64 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import AddReview from "../Components/AddReview";
 import ShowReviewsByDoctorId from "../Components/ShowReviewsByDoctorId";
-import AverageRating from "../Components/AverageRating";
 import "../i118";
+import { useGlobalContext } from "../Context/GlobalContext";
 
 export default function DoctorPage() {
     const { doctor_id } = useParams();
-    const navigate = useNavigate();
-    console.log(doctor_id);
-
-    const { doctors, setDoctors } = useState(null);
+    const [doctors, setDoctors] = useState(null);
+    const [doctorid, setDoctorid] = useState(null);
+    const [rating, setRating] = useState(null); // Stato per il rating del dottore corrente
     const { t } = useTranslation();
-    //console.log(doctors);
+    const { setDoctor } = useGlobalContext();
 
-    async function getDoctor() {
+    // Recupera la lista di dottori
+    async function getsDoctor() {
         try {
-            const response = await fetch(`http://localhost:3000/doctors/${doctorId}`);
-            const data = await response.json()
-            console.log(data);
-
+            const response = await fetch(`http://localhost:3000/doctors`);
+            const data = await response.json();
+            setDoctors(data);
         } catch (error) {
-            console.error("Errore nel recupero dei dati", error)
+            console.error("Errore nel recupero dei dati", error);
         }
     }
 
+    // Recupera il rating di un dottore
+    async function getDoctorRating(id) {
+        try {
+            const response = await fetch(`http://localhost:3000/doctors/${id}/average-rating`);
+            const data = await response.json();
+            setRating(data.average_rating);
+        } catch (error) {
+            console.error("Errore nel recupero del rating", error);
+        }
+    }
+
+    // Recupera i dottori al montaggio del componente
     useEffect(() => {
-        getDoctor();
-    }, [])
+        getsDoctor();
+    }, []);
 
+    // Trova il dottore corrente e aggiorna lo stato
+    useEffect(() => {
+        if (Array.isArray(doctors)) {
+            const doctor = doctors.find(doc => parseInt(doc.doctor_id) === parseInt(doctor_id));
+            setDoctorid(doctor);
+            setDoctor(doctor); // Aggiorna il contesto globale
+        }
+    }, [doctors, doctor_id]);
 
+    // Recupera il rating del dottore corrente
+    useEffect(() => {
+        if (doctorid) {
+            getDoctorRating(doctorid.doctor_id);
+        }
+    }, [doctorid]);
 
     return (
-        <>
-            {/* <section className="doctor-page d-flex justify-content-center align-items-center min-vh-100">
+        <section className="doctor-page d-flex justify-content-center align-items-center min-vh-100">
             <div className="container-sm">
                 <h1 className="text-center mb-4">Dottore</h1>
                 <div className="container d-flex justify-content-center mt-4">
@@ -42,17 +66,19 @@ export default function DoctorPage() {
                         <div className="card-body">
                             <h4 className="card-title text-center">
                                 <strong className="text-decoration-underline">
-                                    {doctor.first_name} {doctor.last_name}
+                                    {doctorid?.first_name} {doctorid?.last_name}
                                 </strong>
                             </h4>
                             <ul className="list-unstyled">
-                                <li><strong>Email:</strong> {doctor.email}</li>
-                                <li><strong>Telefono:</strong> {doctor.phone_number}</li>
-                                <li><strong>Indirizzo:</strong> {doctor.address}</li>
+                                <li><strong>Email:</strong> {doctorid?.email}</li>
+                                <li><strong>Telefono:</strong> {doctorid?.phone_number}</li>
+                                <li><strong>Indirizzo:</strong> {doctorid?.address}</li>
+                                {/* SISTEMARE */}
+                                <p><strong>Rating:</strong> {rating !== null ? rating : 'No rating'}</p>
                                 <li>
                                     <strong>{t('Specializzazioni')}:</strong>
                                     <ul>
-                                        {doctor.specializations.split(',').map((spec, index) => (
+                                        {doctorid?.specializations.split(',').map((spec, index) => (
                                             <li key={index}>
                                                 {t(spec.trim()) || spec.trim()}
                                             </li>
@@ -65,10 +91,8 @@ export default function DoctorPage() {
                 </div>
 
                 <AddReview />
-                <ShowReviewsByDoctorId doctorId={doctorId} />
-                <AverageRating doctorId={doctorId} />
+                <ShowReviewsByDoctorId doctorId={doctor_id} />
             </div>
-        </section> */}
-        </>
+        </section>
     );
 }
