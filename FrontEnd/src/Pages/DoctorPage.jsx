@@ -76,8 +76,18 @@ export default function DoctorPage() {
                                 <li><strong>Email:</strong> {doctorid?.email}</li>
                                 <li><strong>Telefono:</strong> {doctorid?.phone_number}</li>
                                 <li><strong>Indirizzo:</strong> {doctorid?.address}</li>
-                                {/* SISTEMARE */}
-                                <p><strong>Rating:</strong> {rating !== null ? rating : 'No rating'}</p>
+                                <li className="d-flex align-items-center">
+                                    <p className="mb-0 me-2">
+                                        <strong>Media Voti:</strong>
+                                    </p>
+                                    {[...Array(5)].map((_, index) => (
+                                        <span key={index} style={{ color: '#f39c12', fontSize: '20px' }}>
+                                            {index < rating ? '★' : '☆'}
+                                        </span>
+                                    ))}
+                                    {rating === null && <span>No rating</span>}
+                                </li>
+
                                 <li>
                                     <strong>{t('Specializzazioni')}:</strong>
                                     <ul>
@@ -99,7 +109,7 @@ export default function DoctorPage() {
                                             Visualizza CV del dottore
                                         </a>
                                     ) : (
-                                        <p className="text-center text-muted">Curriculum non disponibile</p>
+                                        <p className="text-center text-muted mt-2">Curriculum non disponibile per questo dottore</p>
                                     )}
                                 </li>
                             </ul>
