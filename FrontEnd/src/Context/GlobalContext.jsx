@@ -74,6 +74,16 @@ export function GlobalContext({ children }) {
         }
     }
 
+    // Aggiungi una funzione per recuperare la media dei voti di un dottore
+    const fetchAverageRating = async (doctorId) => {
+        try {
+            const data = await fetchData(`/doctors/${doctorId}/average-rating`);
+            setAverageRating(data.average_rating);  // Imposta la media dei voti
+        } catch (err) {
+            console.error(`Error fetching average rating for doctor ID ${doctorId}:`, err);
+        }
+    }
+
     // Funzione per recuperare recensioni per ID del dottore
     // const fetchReviewByDoctorId = async (doctorId) => {
     //     try {
@@ -114,7 +124,8 @@ export function GlobalContext({ children }) {
         setSelectedSpecialization,
         setDoctorReviews,
         setAverageRating,
-        averageRating
+        averageRating,
+        fetchAverageRating
     };
 
     return (

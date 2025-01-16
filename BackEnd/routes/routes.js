@@ -11,6 +11,7 @@ router.get('/doctors', doctorsController.index); // List all doctors
 router.post('/doctors', doctorsController.store); // Add new doctor with optional specializations
 router.delete('/doctors/:id', doctorsController.destroy); // Delete a doctor
 router.get('/doctors/specializations/:specialization', getDoctorBySpecializations.getDoctorBySpecializations)
+router.get('/doctors/:id/average-rating', doctorsController.getAverageRating); // Get average rating of a specific doctor
 
 // Review routes
 router.get('/reviews', reviewController.getReviews); // List all reviews
