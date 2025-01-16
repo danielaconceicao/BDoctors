@@ -4,13 +4,14 @@ import { useNavigate } from 'react-router-dom';
 
 const AddReview = () => {
     const { doctor, fetchReviews } = useGlobalContext();
+
     const [formData, setFormData] = useState({
         first_name: '',
         last_name: '',
         description: '',
         rating: '',
-        doctor_id: doctor.doctor_id || '',
     });
+
     const [alert, setAlert] = useState({ show: false, message: '', type: '' });
     const navigate = useNavigate();
 
@@ -77,11 +78,7 @@ const AddReview = () => {
             })
             .then((data) => {
                 //console.log('Risposta del server:', data);
-                alert('Recensione inviata con successo!');
                 fetchReviews();
-                setTimeout(() => {
-                    navigate('/');
-                }, 2000);
             })
             .catch((error) => {
                 showAlert(`Errore durante l'invio della recensione: ${error.message}`, 'danger');
