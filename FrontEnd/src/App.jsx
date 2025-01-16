@@ -19,7 +19,7 @@ function App() {
               <Route index element={<Home />} />
               <Route path="/AdvancedSearchPage/:specialization" element={<AdvancedSearchPage />} />
               <Route path="/DoctorRegistration" element={<DoctorRegistration />} />
-              <Route path="/DoctorPage/:doctor_id" element={<DoctorPage />} />
+              <Route path="/DoctorPage/:doctorName/:doctor_id" element={<DoctorPage />} />
             </Route>
           </Routes>
         </BrowserRouter>

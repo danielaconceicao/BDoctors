@@ -7,9 +7,9 @@ import AverageRating from "../Components/AverageRating";
 import "../i118";
 
 export default function DoctorPage() {
-    const { doctorId } = useParams();
+    const { doctor_id } = useParams();
     const navigate = useNavigate();
-    console.log(doctorId);
+    console.log(doctor_id);
 
     const { doctors, setDoctors } = useState(null);
     const { t } = useTranslation();
