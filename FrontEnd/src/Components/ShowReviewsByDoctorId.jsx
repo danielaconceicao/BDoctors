@@ -15,12 +15,12 @@ export default function ShowReviewsByDoctorId() {
             }
 
             const data = await response.json()
-            console.log(data)
+            //console.log(data)
 
             setDoctorReviews(data)
 
         } catch (err) {
-            console.error(`Error fetching reviews for doctor ID ${doctor.doctor_id}:`, err);
+            //console.error(`Error fetching reviews for doctor ID ${doctor.doctor_id}:`, err);
             setDoctorReviews([])
             setAverageRating('N/A');
 
