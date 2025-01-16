@@ -30,7 +30,7 @@ const AddReview = () => {
     };
 
     const showAlert = (message, type) => {
-        setAlert({ show: true, message, type });
+        setAlert({ show: true, message, type })
     };
 
     const handleSubmit = (e) => {
@@ -60,8 +60,6 @@ const AddReview = () => {
             rating: Number(formData.rating),
         };
 
-        // console.log('Dati inviati:', formDataToSend);
-
         fetch('http://localhost:3000/reviews', {
             method: 'POST',
             headers: {
@@ -70,15 +68,14 @@ const AddReview = () => {
             body: JSON.stringify(formDataToSend),
         })
             .then((response) => {
-                //console.log('Response status:', response.status);
                 if (!response.ok) {
                     return response.text().then((text) => { throw new Error(text); });
                 }
                 return response.json();
             })
             .then((data) => {
-                //console.log('Risposta del server:', data);
                 fetchReviews();
+                showAlert('Recensione inviata con successo!', 'success');
             })
             .catch((error) => {
                 showAlert(`Errore durante l'invio della recensione: ${error.message}`, 'danger');
@@ -91,10 +88,11 @@ const AddReview = () => {
             rating: '',
             doctor_id: doctor.doctor_id || '',
         });
+        location.reload();
     };
 
     return (
-        <div className="container border border-2 border-secondary rounded p-4 mt-4">
+        <div className="container border border-2 border-secondary rounded p-4 mt-4 ">
             <h2 className="mt-3 mb-4 text-center">Lascia una recensione</h2>
             <form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
                 <div className="form-group">
@@ -150,7 +148,7 @@ const AddReview = () => {
                     />
                 </div>
 
-                {/*Boostrap Toast */}
+                {/* Bootstrap Alert */}
                 {alert.show && (
                     <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
                         {alert.message}
@@ -163,7 +161,7 @@ const AddReview = () => {
                     </div>
                 )}
 
-                <button type="submit" className="btn btn-primary mt-3">Invia Recensione</button>
+                <button type="submit" className="btn btn-primary mt-3 ">Invia Recensione</button>
             </form>
         </div>
     );

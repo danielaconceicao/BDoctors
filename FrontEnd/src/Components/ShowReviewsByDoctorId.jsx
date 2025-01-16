@@ -47,7 +47,7 @@ export default function ShowReviewsByDoctorId() {
     // }
 
     return (
-        <div className="container-sm mt-4">
+        <div className="container-sm mt-4 mb-5">
             <h1 className="text-center mb-4">Recensioni</h1>
             {doctorReviews && doctorReviews.length > 0 ? (
                 <ul className="list-group gap-3">
