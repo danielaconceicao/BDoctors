@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import BackButton from '../Components/BackButton';
 import { useNavigate } from 'react-router-dom';
 import "../i118";
 import { useTranslation } from "react-i18next";
@@ -72,7 +71,7 @@ export default function DoctorRegistration() {
                 setTimeout(() => {
                     setSuccessMessage('');
                     navigate(-1);
-                }, 5000);
+                }, 2000);
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -106,11 +105,11 @@ export default function DoctorRegistration() {
 
                         <div className="form-group">
                             <label className='pb-3'>Specializzazione</label>
-                            {specializations.map((spec) => (
-                                <div key={spec.id} className="form-check">
-                                    <input type="checkbox" id={`specialization-${spec.id}`} value={spec.id} className="form-check-input" checked={selectedSpecializations.includes(spec.id)} onChange={() => handleCheckboxChange(spec.id)} />
-                                    <label htmlFor={`specialization-${spec.id}`} className="form-check-label">
-                                        {t(spec.specialization_name)}
+                            {specializations.map((specialization) => (
+                                <div key={specialization.id} className="form-check">
+                                    <input type="checkbox" id={`specialization-${specialization.id}`} value={specialization.id} className="form-check-input" checked={selectedSpecializations.includes(specialization.id)} onChange={() => handleCheckboxChange(specialization.id)} />
+                                    <label htmlFor={`specialization-${specialization.id}`} className="form-check-label">
+                                        {t(specialization.specialization_name)}
                                     </label>
                                 </div>
                             ))}
