@@ -109,7 +109,7 @@ export default function DoctorPage() {
                                             Visualizza CV del dottore
                                         </a>
                                     ) : (
-                                        <p className="text-center text-muted mt-2">Curriculum non disponibile per questo dottore</p>
+                                        <p className="text-center text-muted mt-2">Nessun Curriculum disponibile per questo dottore</p>
                                     )}
                                 </li>
                             </ul>
