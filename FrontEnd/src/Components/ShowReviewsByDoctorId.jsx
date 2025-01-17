@@ -57,29 +57,29 @@ export default function ShowReviewsByDoctorId() {
     }
 
     return (
-        <div className="container-sm mt-4 mb-5">
+        <div className="container-sm mt-4 mb-5 p-0">
             <h1 className="text-center mb-4">Recensioni</h1>
             {doctorReviews && doctorReviews.length > 0 ? (
                 <ul className="list-group gap-3">
                     {doctorReviews.map((review) => {
-                        const formattedDate = new Date(review.date).toLocaleDateString("it-IT"); // Data formattata in italiano
+                        const formattedDate = new Date(review.date).toLocaleDateString("it-IT");
                         return (
-                            <li key={review.id} className="list-group-item border border-2 border-secondary rounded p-3">
-                                <h4>
-                                    <strong className="text-decoration-underline">
-                                        {review.first_name} {review.last_name}
-                                    </strong>
-                                </h4>
-                                <ul className="list-unstyled mt-2">
-                                    <li><strong>Descrizione:</strong> {review.description}</li>
-                                    <li className="d-flex align-items-center">
-                                        <p className="mb-0 me-2">
-                                            <strong>Voto:</strong>
-                                        </p>
+                            <li key={review.id} className="list-group-item border border-1 border-secondary rounded p-3">
+                                <div className="d-flex justify-content-between">
+                                    <h4 className="mb-0">
+                                        <strong>
+                                            {review.first_name} {review.last_name}
+                                        </strong>
+                                    </h4>
+                                    <p className="mb-0"><strong>{formattedDate}</strong></p>
+                                </div>
+                                <div className="mt-4">
+                                    <div className="mb-2">
                                         {starRating(review.rating)}
-                                    </li>
-                                    <li><strong>Data:</strong> {formattedDate}</li>
-                                </ul>
+                                    </div>
+                                    <hr />
+                                    <p>{review.description}</p>
+                                </div>
                             </li>
                         );
                     })}

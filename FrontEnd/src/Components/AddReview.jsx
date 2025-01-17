@@ -87,7 +87,7 @@ const AddReview = () => {
             });
     }
     return (
-        <div className="container border border-2 border-secondary rounded p-4 mt-4 ">
+        <div className="container border border-1 border-secondary rounded p-4 mt-4 ">
             <h2 className="mt-3 mb-4 text-center">Lascia una recensione</h2>
             <form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
                 <div className="form-group">
@@ -129,7 +129,7 @@ const AddReview = () => {
                     ></textarea>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="rating">Voto (1-5):</label>
+                    <label htmlFor="rating">Voto:</label>
                     <input
                         type="number"
                         id="rating"
@@ -137,6 +137,7 @@ const AddReview = () => {
                         value={formData.rating}
                         onChange={handleChange}
                         className="form-control"
+                        placeholder='Il voto deve essere compreso tra 1 e 5'
                         min="1"
                         max="5"
                         required

@@ -77,17 +77,26 @@ export default function DoctorPage() {
             <div className="container-sm">
                 <h1 className="text-center mb-4">Dottore</h1>
                 <div className="container d-flex justify-content-center mt-4">
-                    <div className="card border border-2 border-secondary rounded p-3" style={{ maxWidth: "28rem", width: "100%" }}>
+                    <div className="card border border-1 border-secondary rounded p-3" style={{ maxWidth: "70%", width: "100%" }}>
                         <div className="card-body">
-                            <h4 className="card-title text-center">
-                                <strong className="text-decoration-underline">
-                                    {doctorid?.first_name} {doctorid?.last_name}
+                            <h4 className="card-title ">
+                                <strong>
+                                    Dott. {doctorid?.first_name} {doctorid?.last_name}
                                 </strong>
                             </h4>
                             <ul className="list-unstyled">
-                                <li><strong>Email:</strong> {doctorid?.email}</li>
-                                <li><strong>Telefono:</strong> {doctorid?.phone_number}</li>
-                                <li><strong>Indirizzo:</strong> {doctorid?.address}</li>
+                                <li>
+                                    <i className="bi bi-envelope-fill me-2"></i>
+                                    {doctorid?.email}
+                                </li>
+                                <li>
+                                    <i className="bi bi-telephone-fill me-2"></i>
+                                    {doctorid?.phone_number}
+                                </li>
+                                <li>
+                                    <i className="bi bi-geo-alt-fill me-2"></i>
+                                    {doctorid?.address}
+                                </li>
                                 <li className="d-flex align-items-center">
                                     <p className="mb-0 me-2">
                                         <strong>Media Voti:</strong>
