@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../i118";
 import { useTranslation } from "react-i18next";
-import { emailRegex, phoneRegex, nameRegex } from "../utils/helper";
+import { emailRegex, phoneRegex, nameRegex, secureUrlRegex } from "../utils/helper";
 
 export default function DoctorRegistration() {
     const { t } = useTranslation();
@@ -73,6 +73,11 @@ export default function DoctorRegistration() {
         // Validazione telefono
         if (!phoneRegex.test(phone)) {
             setErrorMessage('Formato telefono non valido.');
+            return;
+        }
+
+        if (!secureUrlRegex.test(curriculum)) {
+            setErrorMessage('Il curriculum deve essere un URL sicuro.');
             return;
         }
 
