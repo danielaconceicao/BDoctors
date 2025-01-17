@@ -101,6 +101,17 @@ export default function AdvancedSearchPage() {
         }
     }, [filteredDoctors]) // Ricarica i rating ogni volta che i dottori vengono aggiornati
 
+    function starRating(rating) {
+        if (rating) {
+            const starArray = []
+            for (let i = 0; i < Math.round(rating); i++) {
+                const star = <span key={i} className="bi bi-star-fill text-warning"></span>
+                starArray.push(star)
+            }
+            return starArray
+        }
+    }
+
     return (
         <div className={`container-sm container-md container-lg container-xl container-xxl ${style.dev_container}`}>
             <h3>Filtra la ricerca</h3>
@@ -140,7 +151,7 @@ export default function AdvancedSearchPage() {
                     <img src="https://picsum.photos/60/90" alt="ProfileImg" />
                     <p><strong>Nome: </strong> {doctor.first_name}</p>
                     <p><strong>Cognome: </strong> {doctor.last_name}</p>
-                    <p><strong>Rating: </strong> {ratings[doctor.doctor_id] ? ratings[doctor.doctor_id] : 'No rating'}</p>
+                    <p><strong>Rating: </strong> {ratings[doctor.doctor_id] ? starRating(ratings[doctor.doctor_id]) : 'No rating'}</p>
                 </div>
             ))}
         </div>
