@@ -32,7 +32,6 @@ export default function DoctorPage() {
         try {
             const response = await fetch(`http://localhost:3000/doctors/${id}/average-rating`);
             const data = await response.json();
-            //console.log(data);
             setRating(data.average_rating);
         } catch (error) {
             console.error("Errore nel recupero del rating", error);
@@ -60,6 +59,19 @@ export default function DoctorPage() {
         }
     }, [doctorid]);
 
+    // Funzione per generare le stelle
+    function starRating(rating) {
+        if (rating) {
+            const starArray = [];
+            for (let i = 0; i < Math.round(rating); i++) {
+                const star = <span key={i} className="bi bi-star-fill text-warning"></span>;
+                starArray.push(star);
+            }
+            return starArray;
+        }
+        return null;
+    }
+
     return (
         <section className="doctor-page d-flex justify-content-center align-items-center min-vh-100">
             <div className="container-sm">
@@ -80,11 +92,7 @@ export default function DoctorPage() {
                                     <p className="mb-0 me-2">
                                         <strong>Media Voti:</strong>
                                     </p>
-                                    {[...Array(5)].map((_, index) => (
-                                        <span key={index} style={{ color: '#f39c12', fontSize: '20px' }}>
-                                            {index < rating ? '★' : '☆'}
-                                        </span>
-                                    ))}
+                                    {starRating(rating)}
                                     {rating === null && <span>No rating</span>}
                                 </li>
 
