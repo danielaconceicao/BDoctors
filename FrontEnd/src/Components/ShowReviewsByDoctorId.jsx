@@ -80,7 +80,7 @@ export default function ShowReviewsByDoctorId() {
                                         {starRating(review.rating)}
                                     </div>
                                     <hr />
-                                    <p>{review.description}</p>
+                                    <p className="review-description">{review.description}</p>
                                 </div>
                             </li>
                         );
