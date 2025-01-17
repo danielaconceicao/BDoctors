@@ -163,7 +163,7 @@ export default function AdvancedSearchPage() {
                     <option value="Cardiology">Cardiologia</option>
                     <option value="Dermatology">Dermatologia</option>
                     <option value="Neurology">Neurologia</option>
-                    <option value="Oncologia">Oncologia</option>
+                    <option value="Oncology">Oncologia</option>
                     <option value="Ophthalmology">Oftalmologia</option>
                     <option value="Orthopedics">Ortopedia</option>
                     <option value="Pediatrics">Pediatria</option>
