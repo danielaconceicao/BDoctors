@@ -42,39 +42,39 @@ export default function DoctorRegistration() {
 
         // Verifica se tutti i campi obbligatori sono compilati
         if (!firstName || !lastName || !email || !phone || !address || selectedSpecializations.length === 0 || !curriculum) {
-            setErrorMessage('Tutti i campi sono obbligatori.');
+            setErrorWithMessage('Tutti i campi sono obbligatori.');
             scrollToMessage();
             return;
         }
 
         // Validazione nome e cognome
         if (!nameRegex.test(firstName)) {
-            setErrorMessage('Il nome deve iniziare con una lettera maiuscola e contenere almeno 3 lettere.');
+            setErrorWithMessage('Il nome deve iniziare con una lettera maiuscola e contenere almeno 3 lettere.');
             scrollToMessage();
             return;
         }
         if (!nameRegex.test(lastName)) {
-            setErrorMessage('Il cognome deve iniziare con una lettera maiuscola e contenere almeno 3 lettere.');
+            setErrorWithMessage('Il cognome deve iniziare con una lettera maiuscola e contenere almeno 3 lettere.');
             scrollToMessage();
             return;
         }
 
         // Validazione email
         if (!emailRegex.test(email)) {
-            setErrorMessage('Formato email non valido.');
+            setErrorWithMessage('Formato email non valido.');
             scrollToMessage();
             return;
         }
 
         // Validazione telefono
         if (!phoneRegex.test(phone)) {
-            setErrorMessage('Formato telefono non valido.');
+            setErrorWithMessage('Formato telefono non valido.');
             scrollToMessage();
             return;
         }
 
         if (!secureUrlRegex.test(curriculum)) {
-            setErrorMessage('Il curriculum deve essere un URL sicuro.');
+            setErrorWithMessage('Il curriculum deve essere un URL sicuro.');
             scrollToMessage();
             return;
         }
@@ -83,7 +83,7 @@ export default function DoctorRegistration() {
         const emailInUse = await checkEmailExistence(email);
         checkEmailExistence(email).then(() => {
             if (emailInUse) {
-                setErrorMessage('L\'email è già in uso. Per favore, scegli un\'altra.');
+                setErrorWithMessage('L\'email è già in uso. Per favore, scegli un\'altra.');
                 scrollToMessage();
                 return;
             }
@@ -107,7 +107,7 @@ export default function DoctorRegistration() {
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    setSuccessMessage('Medico registrato con successo! Verrai reindirizzato alla homepage...');
+                    setErrorWithMessage('Medico registrato con successo! Verrai reindirizzato alla homepage...');
                     scrollToMessage();
 
                     setTimeout(() => {
@@ -137,6 +137,13 @@ export default function DoctorRegistration() {
         } else {
             setSelectedSpecializations([...selectedSpecializations, specId]);
         }
+    }
+
+    function setErrorWithMessage(message){
+        setErrorMessage(message);
+        setTimeout(() => {
+            setErrorMessage('');
+        }, 4000);
     }
 
     return (
