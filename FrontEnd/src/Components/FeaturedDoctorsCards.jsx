@@ -31,9 +31,17 @@ const FeaturedDoctorsCards = () => {
     }, [doctors, reviews]);
 
     const handleDoctorClick = (doctor) => {
-        setDoctor(doctor);
-        navigate("/DoctorPage");
+        setDoctor(doctor); // Aggiorna il contesto globale, se necessario
+
+        // Crea il nome completo per la URL
+        const fullName = `${doctor.first_name}${doctor.last_name}`
+            .replace(/\s+/g, '') // Rimuove spazi
+            .toLowerCase(); // Converte tutto in minuscolo
+
+        // Naviga alla rotta corretta
+        navigate(`/DoctorPage/${fullName}/${doctor.doctor_id}`);
     };
+
 
     return (
         <div className="container">
@@ -41,7 +49,7 @@ const FeaturedDoctorsCards = () => {
                 {topDoctors.map((doctor) => (
                     <div
                         key={doctor.doctor_id}
-                        className=" card col"
+                        className=" card col mb-5"
                         role="button"
                         onClick={() => handleDoctorClick(doctor)}
                     >
