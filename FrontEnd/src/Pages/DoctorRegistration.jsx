@@ -139,7 +139,7 @@ export default function DoctorRegistration() {
         }
     }
 
-    function setErrorWithMessage(message){
+    function setErrorWithMessage(message) {
         setErrorMessage(message);
         setTimeout(() => {
             setErrorMessage('');
@@ -171,7 +171,7 @@ export default function DoctorRegistration() {
                 {/* Campo per il telefono */}
                 <div className="mb-3">
                     <label htmlFor="phone">{t('Telefono')}*</label>
-                    <input type="tel" className="form-control" placeholder='es. +39 345 898 2724' value={phone} onChange={(e) => setPhone(e.target.value)} required />
+                    <input type="tel" className="form-control" placeholder='es. +39 345 898 2724' value={phone} onChange={(e) => setPhone(e.target.value)} required autoComplete='false' />
                 </div>
 
                 {/* Campo per l'indirizzo */}
