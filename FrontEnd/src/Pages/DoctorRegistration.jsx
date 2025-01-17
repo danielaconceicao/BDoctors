@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../i118";
@@ -127,31 +128,31 @@ export default function DoctorRegistration() {
                 {/* Campo per il nome */}
                 <div className="mb-3">
                     <label htmlFor="firstName">{t('Nome')}*</label>
-                    <input type="text" className="form-control" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
+                    <input type="text" className="form-control" placeholder='es. Raqueline' value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
                 </div>
 
                 {/* Campo per il cognome */}
                 <div className="mb-3">
                     <label htmlFor="lastName">{t('Cognome')}*</label>
-                    <input type="text" className="form-control" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
+                    <input type="text" className="form-control" placeholder='es. Rapariga' value={lastName} onChange={(e) => setLastName(e.target.value)} required />
                 </div>
 
                 {/* Campo per l'email */}
                 <div className="mb-3">
                     <label htmlFor="email">{t('Email')}*</label>
-                    <input type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    <input type="email" className="form-control" placeholder='es. raquelinerapariga@email.com' value={email} onChange={(e) => setEmail(e.target.value)} required />
                 </div>
 
                 {/* Campo per il telefono */}
                 <div className="mb-3">
                     <label htmlFor="phone">{t('Telefono')}*</label>
-                    <input type="tel" className="form-control" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+                    <input type="tel" className="form-control" placeholder='es. +39 345 898 2724' value={phone} onChange={(e) => setPhone(e.target.value)} required />
                 </div>
 
                 {/* Campo per l'indirizzo */}
                 <div className="mb-3">
                     <label htmlFor="address">{t('Indirizzo')}*</label>
-                    <input type="text" className="form-control" value={address} onChange={(e) => setAddress(e.target.value)} required />
+                    <input type="text" className="form-control" placeholder='es. vicolo della liberta, 6, MI' value={address} onChange={(e) => setAddress(e.target.value)} required />
                 </div>
 
                 {/* Sezione per la selezione delle specializzazioni */}
@@ -176,6 +177,7 @@ export default function DoctorRegistration() {
                     <input
                         type="text"
                         className="form-control"
+                        placeholder='es. https://www.seusite.com/curriculo/jose-silva'
                         value={curriculum}
                         onChange={(e) => setCurriculum(e.target.value)}
                         required

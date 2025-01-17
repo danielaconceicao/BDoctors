@@ -82,14 +82,14 @@ export default function AdvancedSearchPage() {
 
     // Funzione per filtrare i dottori in base all'opzione selezionata e al testo di ricerca
     function filterDoctors() {
-        if (filterSpecialization === "All") {
+        if (filterSpecialization === "Tutti") {
 
             return allDoctors.filter((doctor) => {
                 const searchTextLower = searchText.toLowerCase()
                 return doctor.first_name.toLowerCase().includes(searchTextLower) || doctor.last_name.toLowerCase().includes(searchTextLower)
             })
 
-        } else if (filterSpecialization !== "All") {
+        } else if (filterSpecialization !== "Tutti") {
             return filteredDoctors.filter((doctor) => {
                 const searchTextLower = searchText.toLowerCase()
                 return doctor.specializations.toLowerCase().includes(searchTextLower)
@@ -115,7 +115,7 @@ export default function AdvancedSearchPage() {
         // Recupera i rating dei dottori quando i dottori vengono filtrati o aggiornati
         const fetchRatings = async () => {
             const newRatings = {}
-            for (const doctor of filteredDoctors) {
+            for (const doctor of allDoctors) {
                 const rating = await getDoctorRating(doctor.doctor_id)
                 newRatings[doctor.doctor_id] = rating
             }
@@ -125,7 +125,7 @@ export default function AdvancedSearchPage() {
         if (filteredDoctors.length > 0) {
             fetchRatings()
         }
-    }, [filteredDoctors]) // Ricarica i rating ogni volta che i dottori vengono aggiornati
+    }, [filteredDoctors, allDoctors]) // Ricarica i rating ogni volta che i dottori vengono aggiornati
 
     function starRating(rating) {
         if (rating) {
@@ -158,7 +158,7 @@ export default function AdvancedSearchPage() {
                     value={filterSpecialization}
                 >
                     <option value="">Filtra per...</option>
-                    <option value="All">All</option>
+                    <option value="Tutti">Tutti</option>
                     <option value="Anesthesiology">Anestesiologia</option>
                     <option value="Cardiology">Cardiologia</option>
                     <option value="Dermatology">Dermatologia</option>
@@ -179,7 +179,7 @@ export default function AdvancedSearchPage() {
                 />
             </form>
 
-            <h4>{t(specialization)}</h4>
+            <h4>{t(filterSpecialization)}</h4>
 
             {filterDoctors().map((doctor, index) => (
                 <div
