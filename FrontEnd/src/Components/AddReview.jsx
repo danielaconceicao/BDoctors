@@ -10,6 +10,7 @@ const AddReview = () => {
         last_name: '',
         description: '',
         rating: '',
+        user_email: '',
     });
 
     const [alert, setAlert] = useState({ show: false, message: '', type: '' });
@@ -127,6 +128,19 @@ const AddReview = () => {
                         rows="4"
                         required
                     ></textarea>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="user_email">Email:</label>
+                    <input
+                        type="email"
+                        id="user_email"
+                        name="user_email"
+                        value={formData.user_email}
+                        onChange={handleChange}
+                        className="form-control"
+                        placeholder="Inserisci la tua email"
+                        required
+                    />
                 </div>
                 <div className="form-group">
                     <label htmlFor="rating">Voto:</label>
