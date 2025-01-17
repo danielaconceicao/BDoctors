@@ -15,15 +15,34 @@ export default function AdvancedSearchPage() {
 
     // Stati per selezione del filtro e input di ricerca
     const [searchText, setSearchText] = useState('')
-    const [filterOption, setFilterOption] = useState('')
+    const [filterOption, setFilterOption] = useState("1")
     const [ratings, setRatings] = useState({}) // Stato per i rating dei dottori
+    const [allDoctors, setAllDoctors] = useState([])
+    const [filterSpecialization, setFilterSpecialization] = useState(specialization)
+
+    console.log(filterSpecialization);
+
+
 
     // Funzione per recuperare i dottori per specializzazione
+    async function getAllDoctors() {
+        try {
+            const response = await fetch(`http://localhost:3000/doctors/`)
+            const data = await response.json()
+            setAllDoctors(data)
+            console.log(data);
+
+        } catch (error) {
+            console.error("Errore nel recupero dei dati", error)
+        }
+    }
     async function getDoctorBySpecializations() {
         try {
-            const response = await fetch(`http://localhost:3000/doctors/specializations/${specialization}`)
+            const response = await fetch(`http://localhost:3000/doctors/specializations/${filterSpecialization}`)
             const data = await response.json()
             setFilteredDoctors(data)
+            console.log(data);
+
         } catch (error) {
             console.error("Errore nel recupero dei dati", error)
         }
@@ -53,6 +72,7 @@ export default function AdvancedSearchPage() {
     // Funzione per gestire la selezione del filtro
     function handleFilterChange(e) {
         setFilterOption(e.target.value)
+        setFilterSpecialization(e.target.value) //
     }
 
     // Funzione per gestire il cambio del testo nella barra di ricerca
@@ -62,28 +82,34 @@ export default function AdvancedSearchPage() {
 
     // Funzione per filtrare i dottori in base all'opzione selezionata e al testo di ricerca
     function filterDoctors() {
-        if (!filterOption || !searchText) {
-            return filteredDoctors
+        if (filterSpecialization === "All") {
+
+            return allDoctors.filter((doctor) => {
+                const searchTextLower = searchText.toLowerCase()
+                return doctor.first_name.toLowerCase().includes(searchTextLower) || doctor.last_name.toLowerCase().includes(searchTextLower)
+            })
+
+        } else if (filterSpecialization !== "All") {
+            return filteredDoctors.filter((doctor) => {
+                const searchTextLower = searchText.toLowerCase()
+                return doctor.specializations.toLowerCase().includes(searchTextLower)
+            })
+
         }
-
-        return filteredDoctors.filter((doctor) => {
-            const searchTextLower = searchText.toLowerCase()
-
-            switch (filterOption) {
-                case '1':
-                    return doctor.first_name.toLowerCase().includes(searchTextLower) || doctor.last_name.toLowerCase().includes(searchTextLower)
-                case '2':
-                    return doctor.specializations.toLowerCase().includes(searchTextLower);
-                default:
-                    return true;
-            }
-        });
+        return true
     }
+
+
 
     // Effettua il recupero dei dottori e dei loro rating
     useEffect(() => {
         getDoctorBySpecializations()
-    }, [specialization])
+        getAllDoctors()
+    }, [specialization, filterOption])
+
+    useEffect(() => {
+        filterDoctors()
+    }, [filterOption])
 
     useEffect(() => {
         // Recupera i rating dei dottori quando i dottori vengono filtrati o aggiornati
@@ -122,10 +148,27 @@ export default function AdvancedSearchPage() {
                     onChange={handleFilterChange}
                     value={filterOption}
                 >
-                    <option value="">Filtra per...</option>
                     <option value="1">Nome e cognome</option>
-                    <option value="2">Specializzazione</option>
+                </select>
 
+                <select
+                    className="form-select mx-2"
+                    aria-label="Default select example"
+                    onChange={handleFilterChange}
+                    value={filterSpecialization}
+                >
+                    <option value="">Filtra per...</option>
+                    <option value="All">All</option>
+                    <option value="Anesthesiology">Anestesiologia</option>
+                    <option value="Cardiology">Cardiologia</option>
+                    <option value="Dermatology">Dermatologia</option>
+                    <option value="Neurology">Neurologia</option>
+                    <option value="Oncologia">Oncologia</option>
+                    <option value="Ophthalmology">Oftalmologia</option>
+                    <option value="Orthopedics">Ortopedia</option>
+                    <option value="Pediatrics">Pediatria</option>
+                    <option value="Psychiatry">Psichiatria</option>
+                    <option value="Radiology">Radiologia</option>
                 </select>
                 <input
                     type="text"
@@ -134,7 +177,6 @@ export default function AdvancedSearchPage() {
                     value={searchText}
                     onChange={handleSearchTextChange}
                 />
-
             </form>
 
             <h4>{t(specialization)}</h4>
@@ -152,6 +194,7 @@ export default function AdvancedSearchPage() {
                     <p><strong>Nome: </strong> {doctor.first_name}</p>
                     <p><strong>Cognome: </strong> {doctor.last_name}</p>
                     <p><strong>Rating: </strong> {ratings[doctor.doctor_id] ? starRating(ratings[doctor.doctor_id]) : 'No rating'}</p>
+                    <p><strong>Specializzazione: </strong> {t(filterSpecialization)}</p>
                 </div>
             ))}
         </div>
