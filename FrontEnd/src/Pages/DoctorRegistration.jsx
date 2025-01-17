@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../i118";
 import { useTranslation } from "react-i18next";
@@ -17,75 +17,74 @@ export default function DoctorRegistration() {
     const [curriculum, setCurriculum] = useState(''); // Nuovo stato per curriculum
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
-    const [emailExists, setEmailExists] = useState(false);
     const navigate = useNavigate();
+    const messageRef = useRef(null);
 
-    // Fetch delle specializzazioni dal server
-    useEffect(() => {
-        fetch('http://localhost:3000/specializations')
-            .then(res => res.json())
-            .then(data => setSpecializations(data))
-            .catch(error => console.error(error));
-    }, []);
-
-    // Funzione per gestire la selezione delle specializzazioni
-    function handleCheckboxChange(specId) {
-        if (selectedSpecializations.includes(specId)) {
-            setSelectedSpecializations(selectedSpecializations.filter((id) => id !== specId));
-        } else {
-            setSelectedSpecializations([...selectedSpecializations, specId]);
-        }
-    }
 
     // Funzione per verificare se l'email è già in uso
     async function checkEmailExistence(email) {
         const response = await fetch('http://localhost:3000/doctors');
         const doctors = await response.json();
-        const emailInUse = doctors.some(doctor => doctor.email === email);
-        setEmailExists(emailInUse);
+        return doctors.some(doctor => doctor.email === email);
+    }
+
+    function scrollToMessage() {
+        setTimeout(() => {
+            if (messageRef.current) {
+                messageRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 100);
     }
 
     // Funzione per gestire l'invio del form
-    function handleFormSubmit(e) {
+    async function handleFormSubmit(e) {
         e.preventDefault();
 
         // Verifica se tutti i campi obbligatori sono compilati
         if (!firstName || !lastName || !email || !phone || !address || selectedSpecializations.length === 0 || !curriculum) {
             setErrorMessage('Tutti i campi sono obbligatori.');
+            scrollToMessage();
             return;
         }
 
         // Validazione nome e cognome
         if (!nameRegex.test(firstName)) {
             setErrorMessage('Il nome deve iniziare con una lettera maiuscola e contenere almeno 3 lettere.');
+            scrollToMessage();
             return;
         }
         if (!nameRegex.test(lastName)) {
             setErrorMessage('Il cognome deve iniziare con una lettera maiuscola e contenere almeno 3 lettere.');
+            scrollToMessage();
             return;
         }
 
         // Validazione email
         if (!emailRegex.test(email)) {
             setErrorMessage('Formato email non valido.');
+            scrollToMessage();
             return;
         }
 
         // Validazione telefono
         if (!phoneRegex.test(phone)) {
             setErrorMessage('Formato telefono non valido.');
+            scrollToMessage();
             return;
         }
 
         if (!secureUrlRegex.test(curriculum)) {
             setErrorMessage('Il curriculum deve essere un URL sicuro.');
+            scrollToMessage();
             return;
         }
 
         // Verifica che l'email non sia già in uso
+        const emailInUse = await checkEmailExistence(email);
         checkEmailExistence(email).then(() => {
-            if (emailExists) {
+            if (emailInUse) {
                 setErrorMessage('L\'email è già in uso. Per favore, scegli un\'altra.');
+                scrollToMessage();
                 return;
             }
 
@@ -109,16 +108,35 @@ export default function DoctorRegistration() {
                 .then((res) => res.json())
                 .then((data) => {
                     setSuccessMessage('Medico registrato con successo! Verrai reindirizzato alla homepage...');
+                    scrollToMessage();
+
                     setTimeout(() => {
                         setSuccessMessage('');
                         navigate('/');
-                    }, 2000);
+                    }, 4000);
                 })
                 .catch((error) => {
                     console.error('Errore durante la registrazione:', error);
                     setErrorMessage('Errore durante la registrazione del medico.');
                 });
-        });
+        })
+    }
+
+    // Fetch delle specializzazioni dal server
+    useEffect(() => {
+        fetch('http://localhost:3000/specializations')
+            .then(res => res.json())
+            .then(data => setSpecializations(data))
+            .catch(error => console.error(error));
+    }, []);
+
+    // Funzione per gestire la selezione delle specializzazioni
+    function handleCheckboxChange(specId) {
+        if (selectedSpecializations.includes(specId)) {
+            setSelectedSpecializations(selectedSpecializations.filter((id) => id !== specId));
+        } else {
+            setSelectedSpecializations([...selectedSpecializations, specId]);
+        }
     }
 
     return (
@@ -188,9 +206,14 @@ export default function DoctorRegistration() {
                 <button type="submit" className="btn btn-primary mb-5">{t('Registrati')}</button>
             </form>
 
-            {/* Messaggi di errore e successo */}
-            {errorMessage && <div className="alert alert-danger mb-5">{errorMessage}</div>}
-            {successMessage && <div className="alert alert-success mb-5">{successMessage}</div>}
+            <div ref={messageRef}>
+                {/* Messaggi di errore e successo */}
+                {errorMessage && <div className="alert alert-danger mb-5">{errorMessage}</div>}
+                {successMessage && <div className="alert alert-success mb-5">{successMessage}</div>}
+            </div>
         </div>
     );
+
 }
+
+
