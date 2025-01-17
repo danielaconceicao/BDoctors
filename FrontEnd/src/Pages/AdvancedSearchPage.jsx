@@ -67,7 +67,8 @@ export default function AdvancedSearchPage() {
     // Funzione per gestire la selezione del filtro
     function handleFilterChange(e) {
         setFilterOption(e.target.value)
-        setFilterSpecialization(e.target.value) //
+        setFilterSpecialization(e.target.value)
+
     }
 
     // Funzione per gestire il cambio del testo nella barra di ricerca
@@ -107,20 +108,23 @@ export default function AdvancedSearchPage() {
     }, [filterOption])
 
     useEffect(() => {
-        // Recupera i rating dei dottori quando i dottori vengono filtrati o aggiornati
         const fetchRatings = async () => {
             const newRatings = {}
-            for (const doctor of filterDoctors()) {
-                const rating = await getDoctorRating(doctor.doctor_id)
-                newRatings[doctor.doctor_id] = rating
+            const doctorsToFetch = filterDoctors(); // Ottieni i dottori filtrati
+            if (doctorsToFetch.length === 0) return; // Se non ci sono dottori filtrati, esci
+
+            for (const doctor of doctorsToFetch) {
+                const rating = await getDoctorRating(doctor.doctor_id);
+                newRatings[doctor.doctor_id] = rating;
             }
-            setRatings(newRatings)
+
+            setRatings(newRatings);
         }
 
-        if (filteredDoctors.length > 0) {
-            fetchRatings()
+        if (filteredDoctors.length > 0 || allDoctors.length > 0) {
+            fetchRatings(); // Avvia il recupero dei rating solo se ci sono dottori
         }
-    }, [filteredDoctors, allDoctors, filterDoctors]) // Ricarica i rating ogni volta che i dottori vengono aggiornati
+    }, [filteredDoctors, allDoctors, filterOption, searchText]);// Ricarica i rating ogni volta che i dottori vengono aggiornati
 
     function starRating(rating) {
         if (rating) {
@@ -132,6 +136,8 @@ export default function AdvancedSearchPage() {
             return starArray
         }
     }
+
+
 
     return (
         <div className={`container-sm container-md container-lg container-xl container-xxl ${style.dev_container}`}>
@@ -189,7 +195,8 @@ export default function AdvancedSearchPage() {
                     <p><strong>Nome: </strong> {doctor.first_name}</p>
                     <p><strong>Cognome: </strong> {doctor.last_name}</p>
                     <p><strong>Rating: </strong> {ratings[doctor.doctor_id] ? starRating(ratings[doctor.doctor_id]) : 'No rating'}</p>
-                    <p><strong>Specializzazione: </strong> {t(filterSpecialization)}</p>
+                    <p><strong>Specializzazione: </strong><br /> {filterSpecialization === "Tutti" ? (t(doctor.specializations.split(",").map((spec) => t(spec.trim())).join(", ").substring(0, 20)) + "...") : t(filterSpecialization)}</p>
+
                 </div>
             ))}
         </div>
