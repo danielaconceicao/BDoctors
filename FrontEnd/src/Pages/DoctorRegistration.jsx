@@ -116,8 +116,8 @@ export default function DoctorRegistration() {
     }
 
     return (
-        <div className="container">
-            <h1 className='py-3'>{t('doctor_registration')}</h1>
+        <div className="container prova">
+            <h1 className='py-3'>{t('Registrazione')}</h1>
             <form onSubmit={handleFormSubmit}>
                 {/* Campo per il nome */}
                 <div className="mb-3">
@@ -178,12 +178,12 @@ export default function DoctorRegistration() {
                 </div>
 
                 {/* Bottone di submit */}
-                <button type="submit" className="btn btn-primary">{t('register')}</button>
+                <button type="submit" className="btn btn-primary mb-5">{t('Registrati')}</button>
             </form>
 
             {/* Messaggi di errore e successo */}
-            {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
-            {successMessage && <div className="alert alert-success">{successMessage}</div>}
+            {errorMessage && <div className="alert alert-danger mb-5">{errorMessage}</div>}
+            {successMessage && <div className="alert alert-success mb-5">{successMessage}</div>}
         </div>
     );
 }
