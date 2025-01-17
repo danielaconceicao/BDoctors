@@ -90,7 +90,7 @@ const AddReview = () => {
     return (
         <div className="container border border-1 border-secondary rounded p-4 mt-4 shadow-lg ">
             <h2 className="mt-3 mb-4 text-center">Lascia una recensione</h2>
-            <form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
+            <form onSubmit={handleSubmit} className="d-flex flex-column gap-3" autoComplete='off'>
                 <div className="form-group">
                     <label htmlFor="first_name">Nome:</label>
                     <input

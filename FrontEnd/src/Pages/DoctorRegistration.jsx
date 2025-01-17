@@ -149,7 +149,7 @@ export default function DoctorRegistration() {
     return (
         <div className="container prova">
             <h1 className='py-3'>{t('Registrazione')}</h1>
-            <form onSubmit={handleFormSubmit}>
+            <form onSubmit={handleFormSubmit} autoComplete='off'>
                 {/* Campo per il nome */}
                 <div className="mb-3">
                     <label htmlFor="firstName">{t('Nome')}*</label>
@@ -171,7 +171,7 @@ export default function DoctorRegistration() {
                 {/* Campo per il telefono */}
                 <div className="mb-3">
                     <label htmlFor="phone">{t('Telefono')}*</label>
-                    <input type="tel" className="form-control" placeholder='es. +39 345 898 2724' value={phone} onChange={(e) => setPhone(e.target.value)} required autoComplete='false' />
+                    <input type="tel" className="form-control" placeholder='es. +39 345 898 2724' value={phone} onChange={(e) => setPhone(e.target.value)} required />
                 </div>
 
                 {/* Campo per l'indirizzo */}
