@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useGlobalContext } from "../Context/GlobalContext";
+import starRating from "../utils/helper.jsx";
 
 export default function ShowReviewsByDoctorId() {
     const { doctor, doctorReviews, setDoctorReviews, setAverageRating } = useGlobalContext();
@@ -42,18 +43,6 @@ export default function ShowReviewsByDoctorId() {
         }
     }, [doctor]);
 
-    // Funzione per generare le stelle
-    function starRating(rating) {
-        if (rating) {
-            const starArray = [];
-            for (let i = 0; i < Math.round(rating); i++) {
-                const star = <span key={i} className="bi bi-star-fill text-warning"></span>;
-                starArray.push(star);
-            }
-            return starArray;
-        }
-        return null;
-    }
 
     // Ordina le recensioni dalla più recente alla meno recente
     const sortedReviews = [...doctorReviews].sort((a, b) => new Date(b.date) - new Date(a.date));
