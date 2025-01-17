@@ -20,17 +20,12 @@ export default function AdvancedSearchPage() {
     const [allDoctors, setAllDoctors] = useState([])
     const [filterSpecialization, setFilterSpecialization] = useState(specialization)
 
-    console.log(filterSpecialization);
-
-
-
     // Funzione per recuperare i dottori per specializzazione
     async function getAllDoctors() {
         try {
             const response = await fetch(`http://localhost:3000/doctors/`)
             const data = await response.json()
             setAllDoctors(data)
-            console.log(data);
 
         } catch (error) {
             console.error("Errore nel recupero dei dati", error)
@@ -41,7 +36,7 @@ export default function AdvancedSearchPage() {
             const response = await fetch(`http://localhost:3000/doctors/specializations/${filterSpecialization}`)
             const data = await response.json()
             setFilteredDoctors(data)
-            console.log(data);
+
 
         } catch (error) {
             console.error("Errore nel recupero dei dati", error)
