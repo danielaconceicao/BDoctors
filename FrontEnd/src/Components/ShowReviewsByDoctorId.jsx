@@ -57,10 +57,10 @@ export default function ShowReviewsByDoctorId() {
     }
 
     return (
-        <div className="container-sm mt-4 mb-5 p-0">
+        <div className="container-sm mt-4 mb-5 p-0 ">
             <h1 className="text-center mb-4">Recensioni</h1>
             {doctorReviews && doctorReviews.length > 0 ? (
-                <ul className="list-group gap-3">
+                <ul className="list-group gap-3 shadow-lg">
                     {doctorReviews.map((review) => {
                         const formattedDate = new Date(review.date).toLocaleDateString("it-IT");
                         return (
