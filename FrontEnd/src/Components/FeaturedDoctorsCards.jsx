@@ -44,28 +44,31 @@ const FeaturedDoctorsCards = () => {
 
 
     return (
-        <div className="container">
-            <div className="row row-cols-1 row-cols-lg-5 gap-2 gap-lg-3">
+        <div className="container-fluid">
+            <div className="row row-cols-1 row-cols-lg-5">
                 {topDoctors.map((doctor) => (
-                    <div
-                        key={doctor.doctor_id}
-                        className=" card col mb-5"
-                        role="button"
-                        onClick={() => handleDoctorClick(doctor)}
-                    >
-                        <h3>{doctor.first_name} {doctor.last_name}</h3>
-                        <p>Media voti: {isNaN(doctor.averageRating) ? "N/A" : doctor.averageRating.toFixed(1)}</p>
-                        <p>
-                            Specializzazioni:{" "}
-                            {doctor.specializations
-                                .split(",")
-                                .map((spec) => t(spec.trim()))
-                                .join(", ")}
-                        </p>
-                        <p>Contatto: {doctor.phone_number}</p>
-                        <p>Email: {doctor.email}</p>
+                    <div className="col p-2 mb-5">
+                        <div
+                            key={doctor.doctor_id}
+                            className=" card h-100"
+                            role="button"
+                            onClick={() => handleDoctorClick(doctor)}
+                        >
+                            <h3>{doctor.first_name} {doctor.last_name}</h3>
+                            <p>Media voti: {isNaN(doctor.averageRating) ? "N/A" : doctor.averageRating.toFixed(1)}</p>
+                            <p>
+                                Specializzazioni:{" "}
+                                {doctor.specializations
+                                    .split(",")
+                                    .map((spec) => t(spec.trim()))
+                                    .join(", ")}
+                            </p>
+                            <p>Contatto: {doctor.phone_number}</p>
+                            <p>Email: {doctor.email}</p>
+                        </div>
                     </div>
                 ))}
+
 
             </div>
         </div>
