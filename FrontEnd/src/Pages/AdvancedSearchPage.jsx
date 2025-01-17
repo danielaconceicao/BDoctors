@@ -115,7 +115,7 @@ export default function AdvancedSearchPage() {
         // Recupera i rating dei dottori quando i dottori vengono filtrati o aggiornati
         const fetchRatings = async () => {
             const newRatings = {}
-            for (const doctor of filteredDoctors) {
+            for (const doctor of allDoctors) {
                 const rating = await getDoctorRating(doctor.doctor_id)
                 newRatings[doctor.doctor_id] = rating
             }
@@ -125,7 +125,7 @@ export default function AdvancedSearchPage() {
         if (filteredDoctors.length > 0) {
             fetchRatings()
         }
-    }, [filteredDoctors]) // Ricarica i rating ogni volta che i dottori vengono aggiornati
+    }, [filteredDoctors, allDoctors]) // Ricarica i rating ogni volta che i dottori vengono aggiornati
 
     function starRating(rating) {
         if (rating) {
