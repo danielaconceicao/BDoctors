@@ -35,7 +35,6 @@ export default function ShowReviewsByDoctorId() {
         }
     };
 
-    // Effettua entrambe le chiamate all'API quando il componente è montato o quando il dottore cambia
     useEffect(() => {
         if (doctor?.doctor_id) {
             fetchReviewByDoctorId();
@@ -56,12 +55,15 @@ export default function ShowReviewsByDoctorId() {
         return null;
     }
 
+    // Ordina le recensioni dalla più recente alla meno recente
+    const sortedReviews = [...doctorReviews].sort((a, b) => new Date(b.date) - new Date(a.date));
+
     return (
         <div className="container-sm mt-4 mb-5 p-0 ">
             <h1 className="text-center mb-4">Recensioni</h1>
-            {doctorReviews && doctorReviews.length > 0 ? (
+            {sortedReviews && sortedReviews.length > 0 ? (
                 <ul className="list-group gap-3">
-                    {doctorReviews.map((review) => {
+                    {sortedReviews.map((review) => {
                         const formattedDate = new Date(review.date).toLocaleDateString("it-IT");
                         return (
                             <li key={review.id} className="list-group-item border border-1 border-secondary rounded p-3 shadow-lg">
