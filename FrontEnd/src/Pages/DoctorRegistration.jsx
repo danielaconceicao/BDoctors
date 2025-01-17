@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../i118";
 import { useTranslation } from "react-i18next";
-import { emailRegex, phoneRegex, nameRegex, secureUrlRegex } from "../utils/helper";
+import { emailRegex, phoneRegex, nameRegex, secureUrlRegex } from "../utils/helper.jsx";
 
 export default function DoctorRegistration() {
     const { t } = useTranslation();
