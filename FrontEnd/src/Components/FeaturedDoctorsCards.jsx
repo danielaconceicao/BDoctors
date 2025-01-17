@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useGlobalContext } from "../Context/GlobalContext";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import starRating from "../utils/helper";
 
 
 const FeaturedDoctorsCards = () => {
@@ -47,15 +48,21 @@ const FeaturedDoctorsCards = () => {
         <div className="container-fluid">
             <div className="row row-cols-1 row-cols-lg-5">
                 {topDoctors.map((doctor) => (
-                    <div className="col p-2 mb-5">
+                    <div key={doctor.doctor_id} className="col p-2 mb-5">
                         <div
-                            key={doctor.doctor_id}
-                            className=" card h-100"
+                            className="card h-100 p-2"
                             role="button"
                             onClick={() => handleDoctorClick(doctor)}
                         >
                             <h3>{doctor.first_name} {doctor.last_name}</h3>
-                            <p>Media voti: {isNaN(doctor.averageRating) ? "N/A" : doctor.averageRating.toFixed(1)}</p>
+                            <div>
+                                {isNaN(doctor.averageRating)
+                                    ? <p>Media voti: N/A</p>
+                                    : <div className="d-flex align-items-center">
+                                        <span className="me-2">Media voti:</span>
+                                        {starRating(doctor.averageRating)}
+                                    </div>}
+                            </div>
                             <p>
                                 Specializzazioni:{" "}
                                 {doctor.specializations
@@ -68,7 +75,6 @@ const FeaturedDoctorsCards = () => {
                         </div>
                     </div>
                 ))}
-
 
             </div>
         </div>
