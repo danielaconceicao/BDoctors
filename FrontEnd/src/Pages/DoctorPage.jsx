@@ -20,7 +20,7 @@ export default function DoctorPage() {
             const response = await fetch(`http://localhost:3000/doctors`);
             const data = await response.json();
             setDoctors(data);
-            console.log(data);
+            //console.log(data);
 
         } catch (error) {
             console.error("Errore nel recupero dei dati", error);
