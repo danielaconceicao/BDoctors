@@ -43,6 +43,19 @@ export default function ShowReviewsByDoctorId() {
         }
     }, [doctor]);
 
+    // Funzione per generare le stelle
+    function starRating(rating) {
+        if (rating) {
+            const starArray = [];
+            for (let i = 0; i < Math.round(rating); i++) {
+                const star = <span key={i} className="bi bi-star-fill text-warning"></span>;
+                starArray.push(star);
+            }
+            return starArray;
+        }
+        return null;
+    }
+
     return (
         <div className="container-sm mt-4 mb-5">
             <h1 className="text-center mb-4">Recensioni</h1>
@@ -63,11 +76,7 @@ export default function ShowReviewsByDoctorId() {
                                         <p className="mb-0 me-2">
                                             <strong>Voto:</strong>
                                         </p>
-                                        {[...Array(5)].map((_, index) => (
-                                            <span key={index} style={{ color: "#f39c12", fontSize: "20px" }}>
-                                                {index < review.rating ? "★" : "☆"}
-                                            </span>
-                                        ))}
+                                        {starRating(review.rating)}
                                     </li>
                                     <li><strong>Data:</strong> {formattedDate}</li>
                                 </ul>
