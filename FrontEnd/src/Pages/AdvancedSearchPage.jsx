@@ -71,11 +71,9 @@ export default function AdvancedSearchPage() {
 
             switch (filterOption) {
                 case '1':
-                    return doctor.first_name.toLowerCase().includes(searchTextLower);
+                    return doctor.first_name.toLowerCase().includes(searchTextLower) || doctor.last_name.toLowerCase().includes(searchTextLower)
                 case '2':
-                    return doctor.last_name.toLowerCase().includes(searchTextLower);
-                case '3':
-                    return doctor.address.toLowerCase().includes(searchTextLower);
+                    return doctor.specializations.toLowerCase().includes(searchTextLower);
                 default:
                     return true;
             }
@@ -114,9 +112,9 @@ export default function AdvancedSearchPage() {
                     value={filterOption}
                 >
                     <option value="">Filtra per...</option>
-                    <option value="1">Nome</option>
-                    <option value="2">Cognome</option>
-                    <option value="3">Indirizzo</option>
+                    <option value="1">Nome e cognome</option>
+                    <option value="2">Specializzazione</option>
+
                 </select>
                 <input
                     type="text"
@@ -125,6 +123,7 @@ export default function AdvancedSearchPage() {
                     value={searchText}
                     onChange={handleSearchTextChange}
                 />
+
             </form>
 
             <h4>{t(specialization)}</h4>
