@@ -101,7 +101,7 @@ export default function AdvancedSearchPage() {
     useEffect(() => {
         getDoctorBySpecializations()
         getAllDoctors()
-    }, [specialization, filterOption])
+    }, [specialization])
 
     useEffect(() => {
         filterDoctors()
@@ -114,8 +114,10 @@ export default function AdvancedSearchPage() {
             if (doctorsToFetch.length === 0) return; // Se non ci sono dottori filtrati, esci
 
             for (const doctor of doctorsToFetch) {
-                const rating = await getDoctorRating(doctor.doctor_id);
-                newRatings[doctor.doctor_id] = rating;
+                if (!newRatings[doctor.doctor_id]) {
+                    const rating = await getDoctorRating(doctor.doctor_id);
+                    newRatings[doctor.doctor_id] = rating;
+                }
             }
 
             setRatings(newRatings);
