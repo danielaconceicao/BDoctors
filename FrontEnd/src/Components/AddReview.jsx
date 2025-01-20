@@ -81,7 +81,7 @@ const AddReview = () => {
                 // Ricarica la pagina dopo 2 secondi
                 setTimeout(() => {
                     location.reload();
-                }, 2000);
+                }, 1200);
             })
             .catch((error) => {
                 showAlert(`Errore durante l'invio della recensione: ${error.message}`, 'danger');
@@ -91,8 +91,8 @@ const AddReview = () => {
         <div className="container border border-1 border-secondary rounded p-4 mt-4 shadow-lg add_reviews ">
             <h2 className="mt-3 mb-4 text-center fw-bold">Lascia una recensione</h2>
             <form onSubmit={handleSubmit} className="d-flex flex-column gap-3" autoComplete='off'>
-                <div className="form-group">
-                    <label htmlFor="first_name">Nome:</label>
+                <div className="form-group fw-bold">
+                    <label htmlFor="first_name fw-bold">Nome:</label>
                     <input
                         type="text"
                         id="first_name"
@@ -104,7 +104,7 @@ const AddReview = () => {
                         required
                     />
                 </div>
-                <div className="form-group">
+                <div className="form-group fw-bold">
                     <label htmlFor="last_name">Cognome:</label>
                     <input
                         type="text"
@@ -117,7 +117,7 @@ const AddReview = () => {
                         required
                     />
                 </div>
-                <div className="form-group">
+                <div className="form-group fw-bold">
                     <label htmlFor="description">Descrizione:</label>
                     <textarea
                         id="description"
@@ -129,7 +129,7 @@ const AddReview = () => {
                         required
                     ></textarea>
                 </div>
-                <div className="form-group">
+                <div className="form-group fw-bold">
                     <label htmlFor="user_email">Email:</label>
                     <input
                         type="email"
@@ -142,7 +142,7 @@ const AddReview = () => {
                         required
                     />
                 </div>
-                <div className="form-group">
+                <div className="form-group fw-bold">
                     <label htmlFor="rating">Voto:</label>
                     <input
                         type="number"
