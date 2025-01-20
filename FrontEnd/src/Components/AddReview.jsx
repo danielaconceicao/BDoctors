@@ -171,7 +171,7 @@ const AddReview = () => {
                     </div>
                 )}
 
-                <button type="submit" className="btn btn-primary mt-3 ">Invia Recensione</button>
+                <button type="submit" className="btn mt-3 ">Invia Recensione</button>
             </form>
         </div>
     );

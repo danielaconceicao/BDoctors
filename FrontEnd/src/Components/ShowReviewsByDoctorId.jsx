@@ -48,35 +48,38 @@ export default function ShowReviewsByDoctorId() {
     const sortedReviews = [...doctorReviews].sort((a, b) => new Date(b.date) - new Date(a.date));
 
     return (
-        <div className="container-sm mt-4 mb-5 p-0 ">
-            <h1 className="text-center mb-4 fw-bold">Recensioni</h1>
+        <div className="container-sm mt-4 mb-5 p-3 rounded show_reviews border border-1 border-secondary ">
+            <h1 className="text-center mb-4 fw-bold mt-2">Recensioni</h1>
             {sortedReviews && sortedReviews.length > 0 ? (
-                <ul className="list-group gap-3 ">
+                <ul className="list-unstyled">
                     {sortedReviews.map((review) => {
                         const formattedDate = new Date(review.date).toLocaleDateString("it-IT");
                         return (
-                            <li key={review.id} className="list-group-item border border-1 border-secondary rounded p-3 shadow-lg show_reviews">
+                            <li key={review.id} className=" border border-1 border-secondary rounded p-2 m-3 show_reviews ">
                                 <div className="d-flex justify-content-between">
-                                    <h4 className="mb-0">
+                                    <h4>
                                         <strong>
-                                            {review.first_name} {review.last_name}
+                                            Utente: {review.first_name} {review.last_name}
                                         </strong>
                                     </h4>
-                                    <p className="mb-0"><strong>{formattedDate}</strong></p>
+                                    <p ><strong>Data: {formattedDate}</strong></p>
                                 </div>
                                 <div className="mt-4">
-                                    <div className="mb-2">
-                                        {starRating(review.rating)}
+                                    <div className="mb-2 fw-bold">
+                                        Voto: {starRating(review.rating)}
                                     </div>
                                     <hr />
-                                    <p className="review-description">{review.description}</p>
+                                    <p className="review-description">
+                                        <strong>Recensione:</strong> <em>{review.description}</em>
+                                    </p>
+
                                 </div>
                             </li>
                         );
                     })}
                 </ul>
             ) : (
-                <p className="text-center">Nessuna recensione disponibile per questo dottore.</p>
+                <p className="text-center mt-5 fw-bold">Nessuna recensione disponibile per questo dottore.</p>
             )}
         </div>
     );

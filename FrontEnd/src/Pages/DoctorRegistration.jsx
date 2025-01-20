@@ -204,7 +204,7 @@ export default function DoctorRegistration() {
                         />
                     </div>
                     {/* Bottone di submit */}
-                    <button type="submit" className="btn btn-primary mb-5">{t('Registrati')}</button>
+                    <button type="submit" className="btn mb-5">{t('Registrati')}</button>
                 </div>
             </form>
 

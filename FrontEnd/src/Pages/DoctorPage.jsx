@@ -123,7 +123,7 @@ export default function DoctorPage() {
                                             href={doctorid.curriculum}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="btn btn-sm btn-primary mt-2"
+                                            className="btn btn-sm  mt-2"
                                         >
                                             Visualizza CV del dottore
                                         </a>
