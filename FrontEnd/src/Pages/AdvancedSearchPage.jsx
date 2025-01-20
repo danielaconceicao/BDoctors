@@ -88,7 +88,7 @@ export default function AdvancedSearchPage() {
         } else if (filterSpecialization !== "Tutti") {
             return filteredDoctors.filter((doctor) => {
                 const searchTextLower = searchText.toLowerCase()
-                return doctor.specializations.toLowerCase().includes(searchTextLower)
+                return doctor.first_name.toLowerCase().includes(searchTextLower) || doctor.last_name.toLowerCase().includes(searchTextLower)
             })
 
         }
