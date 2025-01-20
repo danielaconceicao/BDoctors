@@ -1,6 +1,6 @@
 .doctor {
     display: flex;
-
+    background-color: rgba(255, 255, 255, 0.875);
     align-items: center;
     margin: 1rem 0rem;
     border: 2px solid rgb(183, 183, 184);

@@ -51,11 +51,11 @@ export default function ShowReviewsByDoctorId() {
         <div className="container-sm mt-4 mb-5 p-0 ">
             <h1 className="text-center mb-4">Recensioni</h1>
             {sortedReviews && sortedReviews.length > 0 ? (
-                <ul className="list-group gap-3">
+                <ul className="list-group gap-3 ">
                     {sortedReviews.map((review) => {
                         const formattedDate = new Date(review.date).toLocaleDateString("it-IT");
                         return (
-                            <li key={review.id} className="list-group-item border border-1 border-secondary rounded p-3 shadow-lg">
+                            <li key={review.id} className="list-group-item border border-1 border-secondary rounded p-3 shadow-lg show_reviews">
                                 <div className="d-flex justify-content-between">
                                     <h4 className="mb-0">
                                         <strong>

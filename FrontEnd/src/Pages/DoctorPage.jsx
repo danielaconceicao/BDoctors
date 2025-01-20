@@ -74,10 +74,10 @@ export default function DoctorPage() {
 
     return (
         <section className="doctor-page d-flex justify-content-center align-items-center min-vh-100">
-            <div className="container-sm">
+            <div className="container">
                 <h1 className="text-center mb-4">Dottore</h1>
                 <div className="container d-flex justify-content-center mt-4">
-                    <div className="card border border-1 border-secondary rounded p-3 shadow-lg" style={{ maxWidth: "40%", width: "100%" }}>
+                    <div className="card border border-1 border-secondary rounded shadow-lg" >
                         <div className="card-body">
                             <h4 className="card-title ">
                                 <strong>

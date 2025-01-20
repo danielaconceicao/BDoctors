@@ -50,7 +50,7 @@ const FeaturedDoctorsCards = () => {
                 {topDoctors.map((doctor) => (
                     <div key={doctor.doctor_id} className="col p-2 mb-5">
                         <div
-                            className="card h-100 p-2"
+                            className="card card_custom h-100 p-2"
                             role="button"
                             onClick={() => handleDoctorClick(doctor)}
                         >
