@@ -18,7 +18,7 @@ export default function Home() {
         <div>
             <div className="container">
                 <div className="d-flex justify-content-between">
-                    <h1>Specializzazioni</h1>
+                    <h1 className="fw-bold">Specializzazioni</h1>
                     <NavLink to="/DoctorRegistration" className="register_btn d-none d-md-block">
                         SEI UN DOTTORE? REGISTRATI QUI
                     </NavLink>
@@ -48,7 +48,7 @@ export default function Home() {
                         </div>
                     )}
                 </div>
-                <h2 className="mt-3 mb-3">I Nostri 5 Dottori in Evidenza</h2>
+                <h2 className="mt-3 mb-3 fw-bold">I Nostri 5 Dottori in Evidenza</h2>
                 <FeaturedDoctorsCards />
             </div>
         </div>
