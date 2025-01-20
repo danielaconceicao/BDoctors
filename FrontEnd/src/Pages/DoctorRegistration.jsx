@@ -150,67 +150,62 @@ export default function DoctorRegistration() {
         <div className="container prova">
             <h1 className='py-3'>{t('Registrazione')}</h1>
             <form onSubmit={handleFormSubmit} autoComplete='off'>
-                {/* Campo per il nome */}
-                <div className="mb-3">
-                    <label htmlFor="firstName">{t('Nome')}*</label>
-                    <input type="text" className="form-control" placeholder='es. Raqueline' value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
+                <div className='bg-light p-4'>
+                    {/* Campo per il nome */}
+                    <div className="mb-3">
+                        <label htmlFor="firstName">{t('Nome')}*</label>
+                        <input type="text" className="form-control" placeholder='es. Raqueline' value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
+                    </div>
+                    {/* Campo per il cognome */}
+                    <div className="mb-3">
+                        <label htmlFor="lastName">{t('Cognome')}*</label>
+                        <input type="text" className="form-control" placeholder='es. Rapariga' value={lastName} onChange={(e) => setLastName(e.target.value)} required />
+                    </div>
+                    {/* Campo per l'email */}
+                    <div className="mb-3">
+                        <label htmlFor="email">{t('Email')}*</label>
+                        <input type="email" className="form-control" placeholder='es. raquelinerapariga@email.com' value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    </div>
+                    {/* Campo per il telefono */}
+                    <div className="mb-3">
+                        <label htmlFor="phone">{t('Telefono')}*</label>
+                        <input type="tel" className="form-control" placeholder='es. +39 345 898 2724' value={phone} onChange={(e) => setPhone(e.target.value)} required />
+                    </div>
+                    {/* Campo per l'indirizzo */}
+                    <div className="mb-3">
+                        <label htmlFor="address">{t('Indirizzo')}*</label>
+                        <input type="text" className="form-control" placeholder='es. vicolo della liberta, 6, MI' value={address} onChange={(e) => setAddress(e.target.value)} required />
+                    </div>
+                    {/* Sezione per la selezione delle specializzazioni */}
+                    <div className="mb-3">
+                        <label>{t('specializations')}*</label>
+                        {specializations.map(spec => (
+                            <div key={spec.id}>
+                                <input
+                                    type="checkbox"
+                                    id={spec.id}
+                                    checked={selectedSpecializations.includes(spec.id)}
+                                    onChange={() => handleCheckboxChange(spec.id)}
+                                />
+                                <label htmlFor={spec.id} className='p-2'>{t(spec.specialization_name)}</label> {/* Tradurre il nome della specializzazione */}
+                            </div>
+                        ))}
+                    </div>
+                    {/* Campo per il curriculum */}
+                    <div className="mb-3">
+                        <label htmlFor="curriculum">{t('Curriculum')}*</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder='es. https://www.seusite.com/curriculo/jose-silva'
+                            value={curriculum}
+                            onChange={(e) => setCurriculum(e.target.value)}
+                            required
+                        />
+                    </div>
+                    {/* Bottone di submit */}
+                    <button type="submit" className="btn btn-primary mb-5">{t('Registrati')}</button>
                 </div>
-
-                {/* Campo per il cognome */}
-                <div className="mb-3">
-                    <label htmlFor="lastName">{t('Cognome')}*</label>
-                    <input type="text" className="form-control" placeholder='es. Rapariga' value={lastName} onChange={(e) => setLastName(e.target.value)} required />
-                </div>
-
-                {/* Campo per l'email */}
-                <div className="mb-3">
-                    <label htmlFor="email">{t('Email')}*</label>
-                    <input type="email" className="form-control" placeholder='es. raquelinerapariga@email.com' value={email} onChange={(e) => setEmail(e.target.value)} required />
-                </div>
-
-                {/* Campo per il telefono */}
-                <div className="mb-3">
-                    <label htmlFor="phone">{t('Telefono')}*</label>
-                    <input type="tel" className="form-control" placeholder='es. +39 345 898 2724' value={phone} onChange={(e) => setPhone(e.target.value)} required />
-                </div>
-
-                {/* Campo per l'indirizzo */}
-                <div className="mb-3">
-                    <label htmlFor="address">{t('Indirizzo')}*</label>
-                    <input type="text" className="form-control" placeholder='es. vicolo della liberta, 6, MI' value={address} onChange={(e) => setAddress(e.target.value)} required />
-                </div>
-
-                {/* Sezione per la selezione delle specializzazioni */}
-                <div className="mb-3">
-                    <label>{t('specializations')}*</label>
-                    {specializations.map(spec => (
-                        <div key={spec.id}>
-                            <input
-                                type="checkbox"
-                                id={spec.id}
-                                checked={selectedSpecializations.includes(spec.id)}
-                                onChange={() => handleCheckboxChange(spec.id)}
-                            />
-                            <label htmlFor={spec.id}>{t(spec.specialization_name)}</label> {/* Tradurre il nome della specializzazione */}
-                        </div>
-                    ))}
-                </div>
-
-                {/* Campo per il curriculum */}
-                <div className="mb-3">
-                    <label htmlFor="curriculum">{t('Curriculum')}*</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder='es. https://www.seusite.com/curriculo/jose-silva'
-                        value={curriculum}
-                        onChange={(e) => setCurriculum(e.target.value)}
-                        required
-                    />
-                </div>
-
-                {/* Bottone di submit */}
-                <button type="submit" className="btn btn-primary mb-5">{t('Registrati')}</button>
             </form>
 
             <div ref={messageRef}>
