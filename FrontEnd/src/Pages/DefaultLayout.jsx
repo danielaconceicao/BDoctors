@@ -10,7 +10,7 @@ export default function DefaultLayout() {
             <header className="d-flex justify-content-between align-items-center px-4 py-2 ">
                 <div className="d-flex align-items-center">
                     <NavLink className={style.logo} to="/">
-                        <img src="Logo.png" alt="" />
+                        <img src="/Logo.png" alt="" />
                     </NavLink>
                     <h1>BDoctors</h1>
 
