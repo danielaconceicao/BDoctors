@@ -101,10 +101,12 @@ export default function DoctorPage() {
                                     <p className="mb-0 me-2">
                                         <strong>Media Voti:</strong>
                                     </p>
-                                    {starRating(rating)}
-                                    {rating === null && <span>No rating</span>}
+                                    {rating ? (
+                                        starRating(rating)
+                                    ) : (
+                                        <span>No Rating</span>
+                                    )}
                                 </li>
-
                                 <li>
                                     <strong>{t('Specializzazioni')}:</strong>
                                     <ul>
