@@ -78,7 +78,7 @@ const AddReview = () => {
                 fetchReviews();
                 showAlert('Recensione inviata con successo!', 'success');
 
-                // Ricarica la pagina dopo 2 secondi
+                // Ricarica la pagina dopo 1 secondo
                 setTimeout(() => {
                     location.reload();
                 }, 1200);
