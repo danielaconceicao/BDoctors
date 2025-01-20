@@ -78,7 +78,7 @@ export default function DoctorPage() {
                 <h1 className="text-center mb-4">Dottore</h1>
                 <div className="container d-flex justify-content-center mt-4">
                     <div className="card border border-1 border-secondary rounded shadow-lg" >
-                        <div className="card-body">
+                        <div className="card-body show_doctor">
                             <h4 className="card-title ">
                                 <strong>
                                     Dott. {doctorid?.first_name} {doctorid?.last_name}
