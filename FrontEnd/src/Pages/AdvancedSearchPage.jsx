@@ -101,7 +101,7 @@ export default function AdvancedSearchPage() {
     useEffect(() => {
         getDoctorBySpecializations()
         getAllDoctors()
-    }, [specialization])
+    }, [specialization, filterSpecialization])
 
     useEffect(() => {
         filterDoctors()
