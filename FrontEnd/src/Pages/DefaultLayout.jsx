@@ -22,8 +22,19 @@ export default function DefaultLayout() {
             <main className="py-4">
                 <Outlet />
             </main>
-            <footer className="d-flex justify-content-between align-items-center text-white p-4 mt-3">
-                <h2>Bdoctors Footer</h2>
+            <footer className="d-flex flex-column justify-content-center align-items-center text-white mt-3">
+                <div>
+                    <i className="bi bi-telephone"></i>
+                    <i className="bi bi-whatsapp px-5"></i>
+                    <i className="bi bi-instagram"></i>
+                </div>
+                <div className="py-2">
+                    <span>Terms of Use <i style={{ fontSize: '4px', verticalAlign: 'middle' }} className="bi bi-circle"></i> Privacy Policy</span>
+                </div>
+                <div>
+                    <span>&copy; 2025 Created by group 6</span>
+                </div>
+
             </footer>
         </>
     )
