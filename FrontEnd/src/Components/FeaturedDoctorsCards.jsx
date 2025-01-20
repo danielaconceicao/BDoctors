@@ -18,15 +18,17 @@ const FeaturedDoctorsCards = () => {
                 const doctorReviews = reviews.filter(
                     (review) => review.doctor_id === doctor.doctor_id
                 );
+                const reviewsCount = doctorReviews.length; // Conteggio recensioni
                 const averageRating =
                     doctorReviews.reduce((sum, review) => sum + review.rating, 0) /
-                    (doctorReviews.length || 1); // Evita divisioni per 0
-                return { ...doctor, averageRating };
+                    (reviewsCount || 1); // Evita divisioni per 0
+                return { ...doctor, averageRating, reviewsCount };
             });
 
             const sortedDoctors = doctorRatings.sort((a, b) => b.averageRating - a.averageRating);
             setTopDoctors(sortedDoctors.slice(0, 5));
         };
+
 
         calculateTopDoctors();
     }, [doctors, reviews]);
@@ -56,13 +58,14 @@ const FeaturedDoctorsCards = () => {
                         >
                             <h3>{doctor.first_name} {doctor.last_name}</h3>
                             <div>
-                                {isNaN(doctor.averageRating)
-                                    ? <p>Media voti: N/A</p>
+                                {doctor.reviewsCount === 0 || !doctor.reviewsCount
+                                    ? <p>Media voti: Nessun voto</p>
                                     : <div className="d-flex align-items-center">
                                         <span className="me-2">Media voti:</span>
                                         {starRating(doctor.averageRating)}
                                     </div>}
                             </div>
+
                             <p>
                                 Specializzazioni:{" "}
                                 {doctor.specializations
