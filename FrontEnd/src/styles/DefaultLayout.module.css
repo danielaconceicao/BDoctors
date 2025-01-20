@@ -35,7 +35,7 @@ header {
 main {
     height: 80vh;
     overflow-y: auto;
-    background-image: url("dottore.png");
+    background-image: url("/dottore.png");
     background-repeat: no-repeat;
     background-size: cover;
 }
