@@ -143,7 +143,7 @@ export default function AdvancedSearchPage() {
 
     return (
         <div className={`container-sm container-md container-lg container-xl container-xxl ${style.dev_container}`}>
-            <h3>Filtra la ricerca</h3>
+            <h3 className='fw-bold'>Filtra la ricerca</h3>
             <form className='d-flex' onSubmit={(e) => e.preventDefault()}>
                 <select
                     className="form-select mx-2"
@@ -182,7 +182,7 @@ export default function AdvancedSearchPage() {
                 />
             </form>
 
-            <h4>{t(filterSpecialization)}</h4>
+            <h4 className='fw-bold mt-2'>{t(filterSpecialization)}</h4>
 
             {filterDoctors().map((doctor, index) => (
                 <div

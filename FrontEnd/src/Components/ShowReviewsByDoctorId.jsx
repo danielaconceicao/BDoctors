@@ -49,7 +49,7 @@ export default function ShowReviewsByDoctorId() {
 
     return (
         <div className="container-sm mt-4 mb-5 p-0 ">
-            <h1 className="text-center mb-4">Recensioni</h1>
+            <h1 className="text-center mb-4 fw-bold">Recensioni</h1>
             {sortedReviews && sortedReviews.length > 0 ? (
                 <ul className="list-group gap-3 ">
                     {sortedReviews.map((review) => {
