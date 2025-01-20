@@ -44,9 +44,10 @@ main {
 
 /* Footer style */
 footer {
-    height: 10vh;
+    /* height: 10vh; */
     position: fixed;
     bottom: 0;
+   padding: 1rem; 
     width: 100%;
     background-color: black;
 }
